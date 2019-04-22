@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#EEEEEE"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_margin="20dp"
+        android:background="@drawable/linearlayoutbackground"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="46dp">
+            <TextView
+                android:text="点名："
+                android:layout_marginLeft="20dp"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+            <EditText
+                android:id="@+id/etext1"
+                android:layout_marginRight="20dp"
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <View
+            android:background="#EEEEEE"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="46dp">
+            <TextView
+                android:layout_marginLeft="20dp"
+                android:text="代码："
+                android:textSize="16sp"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+            <EditText
+                android:id="@+id/etext3"
+                android:layout_marginRight="20dp"
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <View
+            android:background="#EEEEEE"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="46dp">
+            <TextView
+                android:layout_marginLeft="20dp"
+                android:text="描述："
+                android:textSize="16sp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+            <EditText
+                android:layout_marginRight="20dp"
+                android:id="@+id/etext2"
+                android:layout_weight="4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+            <!--<RelativeLayout
+                android:layout_weight="4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/ig"
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>-->
+        </LinearLayout>
+    </LinearLayout>
+   <!-- <GridView
+        android:columnWidth="50dp"
+        android:numColumns="auto_fit"
+        android:id="@+id/gridView"
+        android:gravity="center"
+        android:layout_margin="20dp"
+        android:stretchMode="columnWidth"
+        android:scrollbars="none"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
+        android:background="@drawable/linearlayoutbackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </GridView>-->
+</LinearLayout>

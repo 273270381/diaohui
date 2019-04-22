@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.arcgis.mymap">
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:hardwareAccelerated="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/appname"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="j5oPGom3d8RzkFqUaQQwOPAsVAiMgX4t" />
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="mymap.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+        <receiver
+            android:name=".adapter.RightlistAdapter$MyBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.example.broadcast" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".adapter.LeftListAdapter$MyBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.example.broadcast" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".adapter.GeoRightLineAdapter$MyBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.exampleline.broadcast" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".adapter.RightLineAdapter$MyBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.exampleline.broadcast" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".adapter.GeoLeftListLineAdapter$MyBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.exampleline.broadcast" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".adapter.GeoLeftSurfaceAdapter$MyBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.examplesurface.broadcast" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".adapter.GeoRightSurfaceAdapter$MyBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.examplesurface.broadcast" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".adapter.LeftListLineAdapter$MyBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.exampleline.broadcast" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".MainActivity$LocalReceiver1"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.arcgisline1.broadcasttest" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".MainActivity$LocalReceiver2"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.arcgisline2.broadcasttest" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".MainActivity$LocalReceiver3"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.arcgisline3.broadcasttest" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".Geological.GeologicalMapActivity$ShowAllReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.showall.broadcasttest" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".Geological.GeologicalMapActivity$ShowPointReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.showpoint.broadcasttest" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".Geological.GeologicalMapActivity$ShowLineReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.showline.broadcasttest" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".Geological.GeologicalMapActivity$ShowSurfaceReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.showsurface.broadcasttest" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".adapter.ComBoxListAdapter$MyBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.checkbox.broadcaster"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".adapter.ComBoxLineAdapter$MyBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            >
+            <intent-filter>
+                <action android:name="com.checkbox_line.broadcaster"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".adapter.ComBoxSurfaceAdapter$MyBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.checkbox_surface.broadcaster"/>
+            </intent-filter>
+        </receiver>
+        <activity
+            android:name=".WelcomeActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".InportPointActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".InportLineActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".Geological.GeoInportPointActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".Geological.GeoInportLineActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".Geological.GeoInportSurfaceActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".DataPlusExportActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".DataPlusLineExportActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name=".ProjectManagementActivity"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".Geological.GeoprojectActivity"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".MainMenuActivity" />
+        <activity android:name=".Geological.GeoMenuActivity" />
+        <activity android:name=".UpdateActivity" />
+        <activity android:name=".utils.DataManagerExportActivity" />
+        <activity android:name=".Geological.GeoDataManagerExportActivity" />
+        <activity
+            android:name=".utils.DataManagerActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".Geological.GeoDataManagerActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTask" />
+        <activity android:name=".DataLineExportActivity" />
+        <activity
+            android:name=".DataLineActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".Geological.GeoDataLineActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".Geological.GeoDataSurfaceActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".ProjectAttributes"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".Geological.GeoProjectAttributes"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".ConvertTools"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|keyboardHidden" />
+        <activity
+            android:name=".Geological.GeologicalMapActivity"
+            android:configChanges="orientation|keyboardHidden" />
+        <activity
+            android:name=".BaiduMapActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden">
+            <intent-filter>
+                <action android:name="newbaidumap" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".NewDataActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity
+            android:name=".Geological.GeoDataPointActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity
+            android:name=".PhotoPointActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity
+            android:name=".Geological.GeoPhotoActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity
+            android:name=".Alert_dialogActivity"
+            android:windowSoftInputMode="stateVisible" />
+        <activity
+            android:name=".DataExportActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity
+            android:name=".Geological.GeoExportPointActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity
+            android:name=".Geological.GeoExportLineActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity
+            android:name=".Geological.GeoExportSurfaceActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity
+            android:name=".Geological.GeoExportExcelPointActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity
+            android:name=".Geological.GeoExportExcelLineActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity
+            android:name=".Geological.GeoExportExcelSurfaceActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity
+            android:name=".PhotoExportActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity
+            android:name=".Geological.GeoPhotoExportActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity android:name=".ProjectActivity"/>
+        <activity
+            android:name="com.ipaulpro.afilechooser.FileChooserActivity"
+            android:exported="true"
+            android:icon="@drawable/ic_chooser"
+            android:label="@string/choose_file">
+            <intent-filter>
+                <action android:name="android.intent.action.GET_CONTENT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.OPENABLE" />
+
+                <data android:mimeType="*/*" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".dialogActivity.DizhixinxiActivity"
+            android:theme="@style/MyDialogActivityTheme"
+            />
+        <activity
+            android:name=".dialogActivity.Shuiwendizhi"
+            android:theme="@style/MyDialogActivityTheme"
+            />
+        <activity
+            android:name=".dialogActivity.Gouzhuwudian"
+            android:theme="@style/MyDialogActivityTheme"
+            />
+        <activity
+            android:name=".dialogActivity.Dizhigouzhao"
+            android:theme="@style/MyDialogActivityTheme"
+            />
+        <activity
+            android:name=".dialogActivity.Dixingdimao"
+            android:theme="@style/MyDialogActivityTheme"
+            />
+        <activity
+            android:name=".dialogActivity.Teshuxingtu"
+            android:theme="@style/MyDialogActivityTheme"
+            />
+        <activity
+            android:name=".dialogActivity.Buliangdizhi"
+            android:theme="@style/MyDialogActivityTheme"
+            />
+        <activity android:name=".Geological.GeodataDXDMPointActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity android:name=".Geological.GeodataDCYXPointActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity android:name=".Geological.GeodataSWDZPointActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity android:name=".Geological.GeodataGZWDPointActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
+        <!--
+ ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+    </application>
+
+</manifest>

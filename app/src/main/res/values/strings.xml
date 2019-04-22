@@ -1,0 +1,16 @@
+<resources>
+    <string name="appname">调绘助手</string>
+    <string name="shijing">实景调绘</string>
+    <string name="erwei">二维地图</string>
+    <string name="shujv">数据管理</string>
+    <string name="gongju">工具</string>
+    <string name="xiangmu">项目属性</string>
+    <string name="daoru">数据导入</string>
+    <string name="daochu">数据导出</string>
+    <string name="gengxin">更新</string>
+    <string name="shouye">首页</string>
+    <string name="shangcheng">商城</string>
+    <string name="shezhi">设置</string>
+    <string name="wode">我</string>
+    <string name="title_activity_maps">Map</string>
+</resources>

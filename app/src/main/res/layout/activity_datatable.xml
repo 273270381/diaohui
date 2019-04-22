@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/topral2"
+        android:background="@color/color15"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageButton
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/novel_title_btnback"
+            android:id="@+id/back"
+            android:layout_marginTop="5dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+        <View
+            android:background="#A7C0DC"
+            android:layout_toRightOf="@+id/back"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:textSize="23sp"
+            android:textColor="@color/color2"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:text="数据表"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+    </RelativeLayout>
+    <ListView
+        android:layout_marginBottom="50dp"
+        android:layout_below="@+id/topral2"
+        android:id="@+id/listtable"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <Button
+            android:text="详细"
+            android:background="@drawable/radiobutton_backgroundclick"
+            android:textColor="@color/color16"
+            android:button="@null"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:id="@+id/bt1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp" />
+        <Button
+            android:text="打开"
+            android:background="@drawable/radiobutton_backgroundclick"
+            android:textColor="@color/color16"
+            android:button="@null"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:id="@+id/bt2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp" />
+        <Button
+            android:text="删除"
+            android:background="@drawable/radiobutton_backgroundclick"
+            android:textColor="@color/color16"
+            android:button="@null"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:id="@+id/bt3"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp" />
+        <Button
+            android:text="关闭"
+            android:background="@drawable/radiobutton_backgroundclick"
+            android:textColor="@color/color16"
+            android:button="@null"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:id="@+id/bt4"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp" />
+    </LinearLayout>
+</RelativeLayout>

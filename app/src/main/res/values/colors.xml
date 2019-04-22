@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#C1E9F7</color>
+    <color name="color1">#ffffff</color>
+    <color name="color2">#000000</color>
+    <color name="color14">#0147A8</color>
+    <color name="color15">#3399FF</color>
+    <color name="color16">#E1F0FF</color>
+    <color name="color17">#31AC75</color>
+    <color name="color18">#F0F0F0</color>
+    <color name="color19">#C1E9F7</color>
+    <color name="color20">#66E1F0FF</color>
+    <color name="color21">#FF6600</color>
+    <color name="color22">#A7C0DC</color>
+    <color name="color23">#FFFF00</color>
+    <color name="color24">#00ffffff</color>
+    <color name="color25">#3399FF</color>
+    <color name="color26">#71ABE7</color>
+    <color name="color27">#3C7BBC</color>
+    <color name="color28">#EEEEEE</color>
+    <color name="color29">#2B2B2B</color>
+
+    <!--ProgressWheel-->
+    <color name="ProgressWheel_color">#489df3</color>
+    <!-- 透明 -->
+    <color name="transparent">#00000000</color>
+</resources>

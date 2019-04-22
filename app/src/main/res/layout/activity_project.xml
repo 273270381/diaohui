@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_weight="3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <com.bigkoo.convenientbanner.ConvenientBanner
+            android:id="@+id/convenientBanner"
+            app:canLoop="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.bigkoo.convenientbanner.ConvenientBanner>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_weight="7"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <GridView
+            android:layout_marginTop="20dp"
+            android:columnWidth="80dp"
+            android:numColumns="auto_fit"
+            android:id="@+id/gridView"
+            android:scrollbars="none"
+            android:verticalSpacing="10dp"
+            android:stretchMode="spacingWidthUniform"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </GridView>
+    </RelativeLayout>
+</LinearLayout>

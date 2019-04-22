@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:id="@+id/merge_sales"
+       xmlns:android="http://schemas.android.com/apk/res/android"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+    <View
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:background="@color/color22"/>
+    <TextView android:id="@+id/tv_table_title_0"
+              style="@style/TextView_Table_Right"
+        android:layout_width="80dp"
+              android:text="点名"/>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:background="@color/color22"/>
+    <TextView android:id="@+id/tv_table_title_4"
+        style="@style/TextView_Table_Right"
+        android:layout_width="140dp"
+        android:text="地貌类型"/>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:background="@color/color22"/>
+    <TextView android:id="@+id/tv_table_title_5"
+        style="@style/TextView_Table_Right"
+        android:layout_width="140dp"
+        android:text="植被发育"/>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:background="@color/color22"/>
+    <TextView android:id="@+id/tv_table_title_6"
+              style="@style/TextView_Table_Right"
+        android:layout_width="140dp"
+        android:text="描述"/>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:background="@color/color22"/>
+</merge>

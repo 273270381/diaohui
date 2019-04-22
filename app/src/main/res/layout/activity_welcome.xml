@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/imageView"
+        android:scaleType="fitXY"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/qidong"/>
+    <!--android src属性指定imageView里面要显示的资源文件的来源路径，也就是在欢迎界面显示的图片，在这里我已经预先上传了一张图片了-->
+
+    <LinearLayout
+        android:layout_marginTop="200dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="@color/color18"
+            android:id="@+id/et_login_username"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginLeft="33dp"
+            android:layout_marginRight="30dp"
+            android:textIsSelectable="true"
+            android:ems="10" />
+        <EditText
+            android:hint="请输入授权码"
+            android:textColor="@color/color18"
+            android:id="@+id/et_login_password"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:ems="10" />
+        <Button
+            android:layout_marginTop="10dp"
+            android:text="登录"
+            android:id="@+id/login"
+            android:textSize="13sp"
+            android:textColor="@color/color19"
+            android:background="@drawable/loginbutton"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="38dp" />
+    </LinearLayout>
+
+</RelativeLayout>

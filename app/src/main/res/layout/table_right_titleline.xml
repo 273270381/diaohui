@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:id="@+id/merge_sales"
+       xmlns:android="http://schemas.android.com/apk/res/android"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+    <View
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:background="@color/color22"/>
+    <TextView android:id="@+id/tv_table_title_1"
+              style="@style/TextView_Table_Right"
+        android:layout_width="100dp"
+              android:text="代码"/>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:background="@color/color22"/>
+    <TextView android:id="@+id/tv_table_title_8"
+        style="@style/TextView_Table_Right"
+        android:layout_width="100dp"
+        android:text="编码"/>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:background="@color/color22"/>
+    <TextView android:id="@+id/tv_table_title_2"
+              style="@style/TextView_Table_Right"
+        android:layout_width="140dp"
+              android:text="X经度"/>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:background="@color/color22"/>
+    <TextView android:id="@+id/tv_table_title_3"
+              style="@style/TextView_Table_Right"
+        android:layout_width="140dp"
+        android:text="X纬度"/>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:background="@color/color22"/>
+    <TextView android:id="@+id/tv_table_title_4"
+              style="@style/TextView_Table_Right"
+        android:layout_width="140dp"
+              android:text="Y经度"/>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:background="@color/color22"/>
+    <TextView android:id="@+id/tv_table_title_5"
+              style="@style/TextView_Table_Right"
+        android:layout_width="140dp"
+        android:text="Y纬度"/>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:background="@color/color22"/>
+    <TextView android:id="@+id/tv_table_title_6"
+        style="@style/TextView_Table_Right"
+        android:layout_width="140dp"
+        android:text="日期"/>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:background="@color/color22"/>
+    <TextView android:id="@+id/tv_table_title_7"
+              style="@style/TextView_Table_Right"
+        android:layout_width="140dp"
+        android:text="描述"/>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:background="@color/color22"/>
+</merge>
