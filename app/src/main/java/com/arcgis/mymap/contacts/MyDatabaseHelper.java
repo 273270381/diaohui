@@ -703,13 +703,14 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String CREATE_NEWTIMES="create table Newtimes("+"id integer primary key autoincrement,"+"time text)";
     public static final String CREATE_NEWPOSITION="create table Newposition("+"id integer primary key autoincrement,"+"position text)";
     public static final String CREATE_NEWPPPOSITION="create table Newppposition("+"id integer primary key autoincrement,"+"position text)";
-    public static final String CREATE_NEWPROJECT="create table Newproject("+"id integer primary key autoincrement,"+"pname text,"+"name text,"+"sname text,"
-            +"timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,"+"position text,"+"description text)";
+    public static final String CREATE_NEWPROJECT="create table Newproject("+"id integer primary key autoincrement,"+"exportpath text,"+"pname text,"+"name text,"+"sname text,"
+            +"timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,"+"position text,"+"description text,"+"layercolor text,"+"width text,"+"c3xzpy text,"+"c3yzpy text,"+"c3zzpy text,"
+            +"c3xzxz text,"+"c3yzxz text,"+"c3zzxz text,"+"c3bl text,"+"c2zyzwx text,"+"c2djcs text,"+"c1cbz text,"+"c1plds text,"+"c1code text)";
 
     public static final String CREATE_GEONEWPOSITION="create table Geonewposition("+"id integer primary key autoincrement,"+"gposition text)";
     public static final String CREATE_GEONEWPPPOSITION="create table Geonewppposition("+"id integer primary key autoincrement,"+"gposition text)";
-    public static final String CREATE_GEONEWPROJECT="create table Geonewproject("+"id integer primary key autoincrement,"+"gpname text,"+"name text,"+"gsname text,"
-            +"pnum text,"+"timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,"+"gposition text,"+"gdescription text)";
+    public static final String CREATE_GEONEWPROJECT="create table Geonewproject("+"id integer primary key autoincrement,"+"gpname text,"+"layercolor text,"+"width text,"+"exportpath text,"+"name text,"+"gsname text,"
+            +"pnum text,"+"c3xzpy text,"+"c3yzpy text,"+"c3zzpy text,"+"c3xzxz text,"+"c3yzxz text,"+"c3zzxz text,"+"c3bl text,"+"c2zyzwx text,"+"c2djcs text,"+"c1cbz text,"+"c1plds text,"+"c1code text,"+"timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,"+"gposition text,"+"gdescription text)";
 
     private Context mcontext;
     public MyDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {

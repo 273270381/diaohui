@@ -30,6 +30,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.BackStackEntry;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -68,6 +69,8 @@ public class FileChooserActivity extends FragmentActivity implements
 
         mFragmentManager = getSupportFragmentManager();
         mFragmentManager.addOnBackStackChangedListener(this);
+        setTitle(mPath);
+
 
         if (savedInstanceState == null) {
             mPath = EXTERNAL_BASE_PATH;
@@ -75,8 +78,6 @@ public class FileChooserActivity extends FragmentActivity implements
         } else {
             mPath = savedInstanceState.getString(PATH);
         }
-
-        setTitle(mPath);
     }
 
     @Override
@@ -145,8 +146,7 @@ public class FileChooserActivity extends FragmentActivity implements
      */
     private void addFragment() {
         FileListFragment fragment = FileListFragment.newInstance(mPath);
-        mFragmentManager.beginTransaction()
-                .add(android.R.id.content, fragment).commit();
+        mFragmentManager.beginTransaction().add(android.R.id.content, fragment).commit();
     }
 
     /**
@@ -195,8 +195,18 @@ public class FileChooserActivity extends FragmentActivity implements
                 finishWithResult(file);
             }
         } else {
-            Toast.makeText(FileChooserActivity.this, R.string.error_selecting_file,
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(FileChooserActivity.this, R.string.error_selecting_file, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onFilePathSelected(File file) {
+        if (file !=null){
+            if (file.isDirectory()){
+                finishWithResult(file);
+            }
+        }else{
+            Toast.makeText(FileChooserActivity.this, R.string.error_selecting_file, Toast.LENGTH_SHORT).show();
         }
     }
 

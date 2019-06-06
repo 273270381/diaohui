@@ -53,7 +53,7 @@ public class ShowPointUtils {
                             String description=msg.getData().getString("description");
                             if (Arrays.asList(titles).contains(classification)){
                                 int index=newDataActivity.printArrayto(titles,classification);
-                                final Point showpoint=new Point(la,ln,high, SpatialReferences.getWgs84());
+                                final Point showpoint=new Point(la,ln,high);
                                 final GraphicsOverlay graphicsOverlayshow=new GraphicsOverlay();
                                 mMapView.getGraphicsOverlays().add(graphicsOverlayshow);
                                 BitmapDrawable bitmapDrawable = (BitmapDrawable)context. getResources().getDrawable(imager[index]);
@@ -69,7 +69,7 @@ public class ShowPointUtils {
                                 TextSymbol textSymbolh = new TextSymbol(12f, classification, Color.GREEN, TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.TOP  );
                                 graphicsOverlayshow.getGraphics().add(new Graphic(showpoint,textSymbolh));
                             }else {
-                                final Point showpoint=new Point(la,ln,high, SpatialReferences.getWgs84());
+                                final Point showpoint=new Point(la,ln,high);
                                 final GraphicsOverlay graphicsOverlayshow=new GraphicsOverlay();
                                 mMapView.getGraphicsOverlays().add(graphicsOverlayshow);
                                 if (classification.indexOf("檐")!=-1){
@@ -137,7 +137,7 @@ public class ShowPointUtils {
                             mMapView.getGraphicsOverlays().add(graphicsOverlayshowH);
                             if (clas.equals("10kv")||clas.equals("220v")||clas.equals("35kv")){
                                 SimpleLineSymbol simpleLineSymbolH = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.YELLOW, 2);
-                                final PointCollection pointCollection=new PointCollection(SpatialReferences.getWgs84());
+                                final PointCollection pointCollection=new PointCollection(mMapView.getSpatialReference());
                                 for (int a = 0 ; a<= xla.size()-1 ; a++){
                                     pointCollection.add(Double.parseDouble(xla.get(a)),Double.parseDouble(xln.get(a)));
                                 }
@@ -151,14 +151,14 @@ public class ShowPointUtils {
                                         }
                                     }
                                 });
-                                Polyline polyline=new Polyline(pointCollection,SpatialReferences.getWgs84());
+                                Polyline polyline=new Polyline(pointCollection);
                                 Graphic line = new Graphic(polyline, simpleLineSymbolH);
                                 graphicsOverlayshowH.getGraphics().add(line);
                                 TextSymbol textSymbolh2 = new TextSymbol(12f, clas, Color.GREEN, TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.TOP  );
                                 graphicsOverlayshowH.getGraphics().add(new Graphic(polyline,textSymbolh2));
                             }else if (clas.equals("通讯")){
                                 SimpleLineSymbol simpleLineSymbolH = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 2);
-                                final PointCollection pointCollection=new PointCollection(SpatialReferences.getWgs84());
+                                final PointCollection pointCollection=new PointCollection(mMapView.getSpatialReference());
                                 for (int a = 0 ; a<= xla.size()-1 ; a++){
                                     pointCollection.add(Double.parseDouble(xla.get(a)),Double.parseDouble(xln.get(a)));
                                 }
@@ -172,14 +172,14 @@ public class ShowPointUtils {
                                         }
                                     }
                                 });
-                                Polyline polyline=new Polyline(pointCollection,SpatialReferences.getWgs84());
+                                Polyline polyline=new Polyline(pointCollection);
                                 Graphic line = new Graphic(polyline, simpleLineSymbolH);
                                 graphicsOverlayshowH.getGraphics().add(line);
                                 TextSymbol textSymbolh2 = new TextSymbol(12f, clas, Color.GREEN, TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.TOP  );
                                 graphicsOverlayshowH.getGraphics().add(new Graphic(polyline,textSymbolh2));
                             }else if (clas.equals("单渠")||clas.equals("双渠")||clas.equals("单沟")||clas.equals("双沟")){
                                 SimpleLineSymbol simpleLineSymbolH = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH_DOT, Color.CYAN, 2);
-                                final PointCollection pointCollection=new PointCollection(SpatialReferences.getWgs84());
+                                final PointCollection pointCollection=new PointCollection(mMapView.getSpatialReference());
                                 for (int a = 0 ; a<= xla.size()-1 ; a++){
                                     pointCollection.add(Double.parseDouble(xla.get(a)),Double.parseDouble(xln.get(a)));
                                 }
@@ -193,18 +193,20 @@ public class ShowPointUtils {
                                         }
                                     }
                                 });
-                                Polyline polyline=new Polyline(pointCollection,SpatialReferences.getWgs84());
+                                Polyline polyline=new Polyline(pointCollection);
                                 Graphic line = new Graphic(polyline, simpleLineSymbolH);
                                 graphicsOverlayshowH.getGraphics().add(line);
                                 TextSymbol textSymbolh2 = new TextSymbol(12f, clas, Color.GREEN, TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.TOP  );
                                 graphicsOverlayshowH.getGraphics().add(new Graphic(polyline,textSymbolh2));
                             } else {
-                                SimpleLineSymbol simpleLineSymbolH = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, Color.YELLOW, 2);
-                                final PointCollection pointCollection=new PointCollection(SpatialReferences.getWgs84());
+                                SimpleLineSymbol simpleLineSymbolH = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.YELLOW, 1);
+                                final PointCollection pointCollection=new PointCollection(mMapView.getSpatialReference());
                                 for (int a = 0 ; a<= xla.size()-1 ; a++){
                                     pointCollection.add(Double.parseDouble(xla.get(a)),Double.parseDouble(xln.get(a)));
                                 }
-                                pictureMarkerSymbol.loadAsync();
+                                if (xla.size()<=4){
+                                    pictureMarkerSymbol.loadAsync();
+                                }
                                 pictureMarkerSymbol.addDoneLoadingListener(new Runnable() {
                                     @Override
                                     public void run() {
@@ -214,7 +216,7 @@ public class ShowPointUtils {
                                         }
                                     }
                                 });
-                                Polyline polyline=new Polyline(pointCollection,SpatialReferences.getWgs84());
+                                Polyline polyline=new Polyline(pointCollection);
                                 Graphic line = new Graphic(polyline, simpleLineSymbolH);
                                 graphicsOverlayshowH.getGraphics().add(line);
                                 TextSymbol textSymbolh2 = new TextSymbol(12f, clas, Color.GREEN, TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.TOP  );

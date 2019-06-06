@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/activity_bg"
+    android:orientation="vertical"
+    android:splitMotionEvents="false">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/color27"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/changeBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/back"/>
+        <TextView
+            android:textColor="@color/color2"
+            android:textSize="23sp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical"
+            android:text="坐标转换"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/roadmethnod"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/linearlayoutbackground"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="转换方式"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textPoint"
+                android:layout_width="12dp"
+                android:layout_height="match_parent"
+                android:gravity="left|center_vertical"
+                android:text=":"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:id="@+id/sp_trans_type"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
+                android:entries="@array/sptranstype"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/color2"
+            android:text="转换前坐标"
+            android:textSize="20dp" />
+
+
+        <com.arcgis.mymap.utils.EditTextView
+            android:id="@+id/et_src_x"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="7dp"
+            android:textColor="@color/z_black" />
+
+
+        <com.arcgis.mymap.utils.EditTextView
+            android:id="@+id/et_src_y"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="7dp" />
+
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.arcgis.mymap.utils.EditTextView
+                android:id="@+id/et_src_z"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="7dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="6dp"
+                android:gravity="center_vertical"
+                android:text="m"
+                android:textColor="@color/z_black"
+                android:textSize="@dimen/text_size" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:text="转换后坐标"
+            android:textColor="@color/z_black"
+            android:textSize="20dp" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.arcgis.mymap.utils.EditTextView
+                android:id="@+id/tv_dst_x"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="7dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="6dp"
+                android:gravity="center_vertical"
+                android:text="m"
+                android:textColor="@color/z_black"
+                android:textSize="@dimen/text_size" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.arcgis.mymap.utils.EditTextView
+                android:id="@+id/tv_dst_y"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="7dp"
+                android:digits="1234567890." />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="6dp"
+                android:gravity="center_vertical"
+                android:text="m"
+                android:textColor="@color/z_black"
+                android:textSize="@dimen/text_size" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.arcgis.mymap.utils.EditTextView
+                android:id="@+id/tv_dst_z"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="7dp"
+                android:digits="1234567890." />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="6dp"
+                android:gravity="center_vertical"
+                android:text="m"
+                android:textColor="@color/z_black"
+                android:textSize="@dimen/text_size" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/btntransition"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="26dp"
+                android:background="@drawable/btn_side_sure_style"
+                android:onClick="OnClickCalc"
+                android:text="计算"
+                android:textColor="@color/color1"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

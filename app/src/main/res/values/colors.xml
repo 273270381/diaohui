@@ -5,6 +5,9 @@
     <color name="colorAccent">#C1E9F7</color>
     <color name="color1">#ffffff</color>
     <color name="color2">#000000</color>
+    <color name="color3">#FF4A4A4A</color>
+    <color name="color4">#FF282828</color>
+    <color name="color5">#FFFFE0</color>
     <color name="color14">#0147A8</color>
     <color name="color15">#3399FF</color>
     <color name="color16">#E1F0FF</color>
@@ -21,6 +24,13 @@
     <color name="color27">#3C7BBC</color>
     <color name="color28">#EEEEEE</color>
     <color name="color29">#2B2B2B</color>
+    <color name="textColor">#333333</color>
+    <color name="default_tab_view_selected_color">#4dbce8</color>
+    <color name="default_tab_view_unselected_color">#A7A7A9</color>
+    <color name="z_black">#000000</color>
+    <color name="bottom_four_normal">#84d7f8</color>
+    <color name="bottom_four_press">#0f71a2</color>
+    <color name="bottom_grey_light">#f8f7f7</color>
 
     <!--ProgressWheel-->
     <color name="ProgressWheel_color">#489df3</color>

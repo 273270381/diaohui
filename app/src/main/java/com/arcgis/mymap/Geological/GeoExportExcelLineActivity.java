@@ -178,7 +178,7 @@ public class GeoExportExcelLineActivity extends Activity{
                                     }
                                     if (bt4.isChecked()){
                                         try{
-                                            GeoExportLineUtils.writelineExcel(GeoExportExcelLineActivity.this,listExport,filename);
+                                            //GeoExportLineUtils.writelineExcel(GeoExportExcelLineActivity.this,listExport,filename);
                                             ToastNotRepeat.show(GeoExportExcelLineActivity.this,"导出成功！");
                                         }catch(Exception e){
                                             e.printStackTrace();
@@ -189,7 +189,7 @@ public class GeoExportExcelLineActivity extends Activity{
                                             SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                             Date curDate =  new Date(System.currentTimeMillis());
                                             String  str  =  formatter.format(curDate);
-                                            wirteLineGpx.createlineGpx(filename,listExport,str);
+                                            //wirteLineGpx.createlineGpx(filename,listExport,str);
                                             ToastNotRepeat.show(GeoExportExcelLineActivity.this,"导出成功！");
                                         }catch(Exception e){
                                             e.printStackTrace();
@@ -197,7 +197,7 @@ public class GeoExportExcelLineActivity extends Activity{
                                     }else if (bt2.isChecked()){
                                         GeoWriteLineKml writeLineKml = new GeoWriteLineKml();
                                         try{
-                                            writeLineKml.createKml(filename,listExport);
+                                            //writeLineKml.createKml(filename,listExport);
                                             ToastNotRepeat.show(GeoExportExcelLineActivity.this,"导出成功！");
                                         }catch(Exception e){
                                             e.printStackTrace();
@@ -215,7 +215,7 @@ public class GeoExportExcelLineActivity extends Activity{
                                                         if (radioButton1.isChecked()){
                                                             GeoWriteLineCass writeLineCass = new GeoWriteLineCass();
                                                             try{
-                                                                writeLineCass.creatWgs84(finalFilename,listExport);
+                                                                //writeLineCass.creatWgs84(finalFilename,listExport);
                                                                 ToastNotRepeat.show(GeoExportExcelLineActivity.this,"导出成功！");
                                                             }catch(Exception e){
                                                                 e.printStackTrace();
@@ -223,7 +223,7 @@ public class GeoExportExcelLineActivity extends Activity{
                                                         }else if (radioButton2.isChecked()){
                                                             GeoWriteLineCass writeLineCass = new GeoWriteLineCass();
                                                             try{
-                                                                writeLineCass.createbeijing54(finalFilename,listExport);
+                                                                //writeLineCass.createbeijing54(finalFilename,listExport);
                                                                 ToastNotRepeat.show(GeoExportExcelLineActivity.this,"导出成功！");
                                                             }catch(Exception e){
                                                                 e.printStackTrace();
@@ -231,7 +231,7 @@ public class GeoExportExcelLineActivity extends Activity{
                                                         }else if (radioButton3.isChecked()){
                                                             GeoWriteLineCass writeLineCass = new GeoWriteLineCass();
                                                             try{
-                                                                writeLineCass.createxian80(finalFilename,listExport);
+                                                                //writeLineCass.createxian80(finalFilename,listExport);
                                                                 ToastNotRepeat.show(GeoExportExcelLineActivity.this,"导出成功！");
                                                             }catch(Exception e){
                                                                 e.printStackTrace();
@@ -239,7 +239,7 @@ public class GeoExportExcelLineActivity extends Activity{
                                                         }else {
                                                             GeoWriteLineCass writeLineCass = new GeoWriteLineCass();
                                                             try{
-                                                                writeLineCass.createguojia2000(finalFilename,listExport);
+                                                                //writeLineCass.createguojia2000(finalFilename,listExport);
                                                                 ToastNotRepeat.show(GeoExportExcelLineActivity.this,"导出成功！");
                                                             }catch(Exception e){
                                                                 e.printStackTrace();

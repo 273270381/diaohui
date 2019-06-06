@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -29,6 +30,7 @@ import android.widget.TextView;
 
 import com.arcgis.mymap.Alert_dialogActivity;
 import com.arcgis.mymap.NewDataActivity;
+import com.arcgis.mymap.PhotoPointActivity;
 import com.arcgis.mymap.R;
 import com.arcgis.mymap.adapter.LeftListAdapter;
 import com.arcgis.mymap.adapter.RightlistAdapter3;
@@ -37,7 +39,10 @@ import com.arcgis.mymap.contacts.MyDatabaseHelper;
 import com.arcgis.mymap.contacts.NewProject;
 import com.arcgis.mymap.utils.SyncHorizontalScrollView;
 import com.arcgis.mymap.utils.ToastNotRepeat;
+import com.ipaulpro.afilechooser.FileChooserActivity;
+import com.ipaulpro.afilechooser.utils.FileUtils;
 
+import java.io.File;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -59,6 +64,7 @@ public class GeoPhotoActivity extends Activity{
     public SQLiteDatabase db;
     public String pposition;
     public List<NewProject> projects=new ArrayList<>();
+    private String projectname;
     public List<LitepalPoints> pointsList;
     private LeftListAdapter leftAdapter;
     private RightlistAdapter3 rightAdapter;
@@ -69,6 +75,7 @@ public class GeoPhotoActivity extends Activity{
     public Button delate,findall,close,detailed,edit;
     public String name,des,classification,la,ln,high;
     public int id,p;
+    private String path;
     public boolean b = false;
     public InputMethodManager imm;
     public String[] titles;
@@ -76,6 +83,7 @@ public class GeoPhotoActivity extends Activity{
     public Alert_dialogActivity alert_dialogActivity;
     public NewDataActivity.PictureAdapter adapter;
     private List<String> listLa=new ArrayList<>();
+    private static final int REQUEST_CHOOSER = 1;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +113,7 @@ public class GeoPhotoActivity extends Activity{
         delate.setOnLongClickListener(longClickLister);
         search.setOnClickListener(listener);
         findall.setOnClickListener(listener);
+        str.setOnClickListener(listener);
     }
     //初始化控件
     public void findByid() throws ParseException {
@@ -126,7 +135,8 @@ public class GeoPhotoActivity extends Activity{
         GeoGetTable getTable=new GeoGetTable();
         pposition=getTable.getTableposition(GeoPhotoActivity.this,db,dbHelper,projects);
         int sposition=Integer.parseInt(getTable.getPpposition(GeoPhotoActivity.this,db,dbHelper));
-        String projectname=projects.get(sposition).getProjectname();
+        projectname=projects.get(sposition).getProjectname();
+        path = projects.get(Integer.parseInt(pposition)).getPath();
         back = (ImageButton) findViewById(R.id.back);
         search = (ImageButton) findViewById(R.id.search);
         text = (EditText) findViewById(R.id.editText);
@@ -136,7 +146,7 @@ public class GeoPhotoActivity extends Activity{
         edit = (Button) findViewById(R.id.bt2);
         detailed= (Button) findViewById(R.id.bt1);
         str= (TextView) findViewById(R.id.stringstr);
-        str.setText("/MyMap/地勘/Pictrue/"+projectname);
+        str.setText(path+"/地勘/Pictrue/"+projectname);
         initTableView();
     }
     private void initTableView() throws ParseException {
@@ -266,21 +276,12 @@ public class GeoPhotoActivity extends Activity{
                             for (int i=0;i<listLa.size();i++){
                                 db.delete("Geophotopoints"+pposition, "la=?", new String[]{listLa.get(i)});
                             }
-                            Cursor cursor = db.query("Geophotopoints"+pposition, null, null, null, null, null, null);
-                            List<LitepalPoints> pointsList2 = new ArrayList<>();
-                            try {
-                                pointsList2=getData(pointsList2, cursor);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            final List<LitepalPoints> finalPointsList = pointsList2;
+
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    leftAdapter=new LeftListAdapter(finalPointsList,resource,GeoPhotoActivity.this);
-                                    rightAdapter=new RightlistAdapter3(finalPointsList,resource2,GeoPhotoActivity.this);
-                                    leftlistView.setAdapter(leftAdapter);
-                                    rightlistView.setAdapter(rightAdapter);
+                                    leftAdapter.notifyDataSetChanged();
+                                    rightAdapter.notifyDataSetChanged();
                                 }
                             }, 400);
                             Intent a=new Intent();
@@ -304,6 +305,11 @@ public class GeoPhotoActivity extends Activity{
                 case R.id.back:
                     finish();
                     break;
+                case R.id.stringstr:
+                    FileUtils.mFileFileterBySuffixs.acceptSuffixs("");
+                    Intent f=new Intent(GeoPhotoActivity.this,FileChooserActivity.class);
+                    startActivityForResult(f, REQUEST_CHOOSER);
+                    break;
                 case R.id.bt5:
                     Intent i=new Intent(GeoPhotoActivity.this,GeologicalMapActivity.class);
                     i.putExtra("list1", (Serializable) pointsList);
@@ -314,7 +320,7 @@ public class GeoPhotoActivity extends Activity{
                     break;
                 case R.id.bt1:
                     if (b){
-                        LinearLayout linearLayout2 = (LinearLayout) getLayoutInflater().inflate(R.layout.detaildata_data_dcyx, null);
+                        LinearLayout linearLayout2 = (LinearLayout) getLayoutInflater().inflate(R.layout.detaildata_data_dxdm, null);
                         AlertDialog dialog1 = new AlertDialog.Builder(GeoPhotoActivity.this)
                                 .setTitle("详细：")
                                 .setView(linearLayout2)
@@ -557,6 +563,30 @@ public class GeoPhotoActivity extends Activity{
         }
         public String getTitled() {
             return titled;
+        }
+    }
+    /**
+     *更新项目路径
+     */
+    private void UpdatePath(String str){
+        ContentValues values = new ContentValues();
+        values.put("exportpath",str);
+        db.update("Geonewproject",values,"gposition = ?",new String[]{String.valueOf(pposition)});
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CHOOSER:
+                if (resultCode == RESULT_OK) {
+                    final Uri uri = data.getData();
+                    String path = FileUtils.getPath(this, uri);
+                    if (path != null && FileUtils.isLocal(path)) {
+                        File file = new File(path);
+                        String string = file.toString();
+                        UpdatePath(string);
+                        str.setText(string+"/地勘/Pictrue/"+projectname);
+                    }
+                }
+                break;
         }
     }
 }

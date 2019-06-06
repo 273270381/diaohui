@@ -27,6 +27,7 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Buliangdizhi extends Activity implements View.OnClickListener{
     private Button bt1,bt2,cancel,sure;
@@ -37,6 +38,7 @@ public class Buliangdizhi extends Activity implements View.OnClickListener{
     private String pposition;
     private MyDatabaseHelper dbHelper;
     private SQLiteDatabase db;
+    private List<String> list = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,13 +60,29 @@ public class Buliangdizhi extends Activity implements View.OnClickListener{
         bt2.setOnClickListener(this);
         dbHelper=new MyDatabaseHelper(this,"pointsStore.db",null,5);
         db=dbHelper.getWritableDatabase();
+        list.add("岩溶");
+        list.add("滑坡");
+        list.add("围岩、崩塌与岩堆");
+        list.add("泥石流");
+        list.add("积雪");
+        list.add("雪崩");
+        list.add("风沙");
+        list.add("采空区");
+        list.add("水库坍岸");
+        list.add("强震区");
+        list.add("地震液化");
+        list.add("涎流冰");
+
 
         Intent intent = getIntent();
         pposition = intent.getStringExtra("position");
         Cursor utc=db.query("Geosurface"+pposition,null,"name != ? and name != ? and name != ? and name != ? and name != ? and name != ? and name != ?",
                 new String[]{"H","Z","J","P","T","R","FY"},null,null,null);
-        String str = FirstNameUtils.getName(utc,"g");
+        Cursor cursor = db.query("Geosurface"+pposition,null,null,null,null,null,null);
+        String str = FirstNameUtils.getName(utc,"BL");
+        String classification = FirstNameUtils.getClassification4(cursor,"岩溶",list);
         et.setText(str);
+        bt1.setText(classification);
     }
     @Override
     public void onClick(View v) {

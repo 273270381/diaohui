@@ -27,6 +27,7 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Teshuxingtu extends Activity implements View.OnClickListener{
     private Button bt1,bt2,cancel,sure;
@@ -34,6 +35,7 @@ public class Teshuxingtu extends Activity implements View.OnClickListener{
     public ArrayList<JsonBean> options1Items = new ArrayList<>();//省;
     public ArrayList<ArrayList<String>> options2Items = new ArrayList<>();//市;
     public ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();//区;
+    private List<String> list = new ArrayList<>();
     private String pposition;
     private MyDatabaseHelper dbHelper;
     private SQLiteDatabase db;
@@ -58,13 +60,24 @@ public class Teshuxingtu extends Activity implements View.OnClickListener{
         sure.setOnClickListener(this);
         dbHelper=new MyDatabaseHelper(this,"pointsStore.db",null,5);
         db=dbHelper.getWritableDatabase();
+        list.add("黄土");
+        list.add("冻土");
+        list.add("膨胀性岩土");
+        list.add("盐渍土");
+        list.add("软土");
+        list.add("花岗岩残积土");
+        list.add("填土");
+        list.add("红黏土");
 
         Intent intent = getIntent();
         pposition = intent.getStringExtra("position");
         Cursor utc=db.query("Geosurface"+pposition,null,"name != ? and name != ? and name != ? and name != ? and name != ? and name != ? and name != ?",
                 new String[]{"H","Z","J","P","T","R","FY"},null,null,null);
-        String str = FirstNameUtils.getName(utc,"f");
+        Cursor cursor = db.query("Geosurface"+pposition,null,null,null,null,null,null);
+        String str = FirstNameUtils.getName(utc,"TS");
         et.setText(str);
+        String classification = FirstNameUtils.getClassification4(cursor,"黄土",list);
+        bt1.setText(classification);
     }
     @Override
     public void onClick(View v) {

@@ -62,8 +62,11 @@ public class Dizhigouzhao extends Activity implements View.OnClickListener{
         pposition = intent.getStringExtra("position");
         Cursor utc=db.query("Geomorelines"+pposition,null,"name != ? and name != ? and name != ? and name != ? and name != ? and name != ? and name != ?",
                 new String[]{"H","Z","J","P","T","R","FY"},null,null,null);
-        String str = FirstNameUtils.getName(utc,"e");
+        Cursor cursor = db.query("Geomorelines"+pposition,null,null,null,null,null,null);
+        String str = FirstNameUtils.getName(utc,"DZ");
+        String classification = FirstNameUtils.getClassification2(cursor,"背斜褶皱");
         et.setText(str);
+        bt1.setText(classification);
     }
     @Override
     public void onClick(View v) {

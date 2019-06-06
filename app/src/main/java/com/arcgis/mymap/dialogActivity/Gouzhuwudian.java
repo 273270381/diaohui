@@ -64,9 +64,11 @@ public class Gouzhuwudian extends Activity implements View.OnClickListener{
       pposition = intent.getStringExtra("position");
       Cursor utc=db.query("Geogzwdpoints"+pposition,null,"name != ? and name != ? and name != ? and name != ? and name != ? and name != ? and name != ?",
                 new String[]{"H","Z","J","P","T","R","FY"},null,null,null);
-      String str = FirstNameUtils.getName(utc,"d");
+      Cursor cursor = db.query("Geogzwdpoints"+pposition,null,null,null,null,null,null);
+      String str = FirstNameUtils.getName(utc,"GZW");
       et.setText(str);
-
+      String classification = FirstNameUtils.getClassification(cursor,"桥台");
+      bt1.setText(classification);
     }
     @Override
     public void onClick(View v) {

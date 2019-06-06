@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -39,7 +40,12 @@ import com.arcgis.mymap.contacts.MyDatabaseHelper;
 import com.arcgis.mymap.contacts.NewProject;
 import com.arcgis.mymap.utils.SyncHorizontalScrollView;
 import com.arcgis.mymap.utils.ToastNotRepeat;
+import com.ipaulpro.afilechooser.FileChooserActivity;
+import com.ipaulpro.afilechooser.utils.FileUtils;
+
 import org.apache.commons.lang3.StringUtils;
+
+import java.io.File;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -63,6 +69,9 @@ public class GeoDataLineActivity extends Activity{
     private MyDatabaseHelper dbHelper;
     public SQLiteDatabase db;
     public String pposition;
+    private TextView exportpath;
+    private String path;
+    private static final int REQUEST_CHOOSER = 1;
     private CheckBox checkBox;
     public List<NewProject> projects=new ArrayList<>();
     public List<MoreLines> linesList,lineExport;
@@ -296,22 +305,12 @@ public class GeoDataLineActivity extends Activity{
                             for (int i=0;i<listLa.size();i++){
                                 db.delete("Geomorelines"+pposition, "gla=?", new String[]{listLa.get(i)});
                             }
-
-                            Cursor cursor = db.query("Geomorelines"+pposition, null, null, null, null, null, null);
-                            List<MoreLines> lineslist2=new ArrayList<>();
-                            try {
-                                lineslist2=getData(lineslist2,cursor);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            final List<MoreLines> finallinelist=lineslist2;
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    leftlineAdapter=new GeoLeftListLineAdapter(finallinelist,resource,GeoDataLineActivity.this);
-                                    rightLineAdapter=new GeoRightLineAdapter(finallinelist,resource2,GeoDataLineActivity.this);
-                                    leftlistView.setAdapter(leftlineAdapter);
-                                    rightlistView.setAdapter(rightLineAdapter);
+                                    leftlineAdapter.notifyDataSetChanged();
+                                    rightLineAdapter.notifyDataSetChanged();
+                                    comBoxLineAdapter.notifyDataSetChanged();
                                     ToastNotRepeat.show(GeoDataLineActivity.this,"删除成功");
                                 }
                             },400);
@@ -361,7 +360,7 @@ public class GeoDataLineActivity extends Activity{
                                     }
                                     if (bt4.isChecked()){
                                         try{
-                                            GeoExportLineUtils.writelineExcel(GeoDataLineActivity.this,lineExport,filename);
+                                            GeoExportLineUtils.writelineExcel(GeoDataLineActivity.this,lineExport,filename,path);
                                             ToastNotRepeat.show(GeoDataLineActivity.this,"导出成功！");
                                         }catch(Exception e){
                                             e.printStackTrace();
@@ -372,7 +371,7 @@ public class GeoDataLineActivity extends Activity{
                                             SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                             Date curDate =  new Date(System.currentTimeMillis());
                                             String  str  =  formatter.format(curDate);
-                                            wirteLineGpx.createlineGpx(filename,lineExport,str);
+                                            wirteLineGpx.createlineGpx(filename,lineExport,str,path);
                                             ToastNotRepeat.show(GeoDataLineActivity.this,"导出成功！");
                                         }catch(Exception e){
                                             e.printStackTrace();
@@ -380,7 +379,7 @@ public class GeoDataLineActivity extends Activity{
                                     }else if (bt2.isChecked()){
                                         GeoWriteLineKml writeLineKml = new GeoWriteLineKml();
                                         try{
-                                            writeLineKml.createKml(filename,lineExport);
+                                            writeLineKml.createKml(filename,lineExport,path);
                                             ToastNotRepeat.show(GeoDataLineActivity.this,"导出成功！");
                                         }catch(Exception e){
                                             e.printStackTrace();
@@ -398,7 +397,7 @@ public class GeoDataLineActivity extends Activity{
                                                         if (radioButton1.isChecked()){
                                                             GeoWriteLineCass writeLineCass = new GeoWriteLineCass();
                                                             try{
-                                                                writeLineCass.creatWgs84(finalFilename,lineExport);
+                                                                writeLineCass.creatWgs84(finalFilename,lineExport,path);
                                                                 ToastNotRepeat.show(GeoDataLineActivity.this,"导出成功！");
                                                             }catch(Exception e){
                                                                 e.printStackTrace();
@@ -406,7 +405,7 @@ public class GeoDataLineActivity extends Activity{
                                                         }else if (radioButton2.isChecked()){
                                                             GeoWriteLineCass writeLineCass = new GeoWriteLineCass();
                                                             try{
-                                                                writeLineCass.createbeijing54(finalFilename,lineExport);
+                                                                writeLineCass.createbeijing54(finalFilename,lineExport,path);
                                                                 ToastNotRepeat.show(GeoDataLineActivity.this,"导出成功！");
                                                             }catch(Exception e){
                                                                 e.printStackTrace();
@@ -414,15 +413,23 @@ public class GeoDataLineActivity extends Activity{
                                                         }else if (radioButton3.isChecked()){
                                                             GeoWriteLineCass writeLineCass = new GeoWriteLineCass();
                                                             try{
-                                                                writeLineCass.createxian80(finalFilename,lineExport);
+                                                                writeLineCass.createxian80(finalFilename,lineExport,path);
                                                                 ToastNotRepeat.show(GeoDataLineActivity.this,"导出成功！");
                                                             }catch(Exception e){
                                                                 e.printStackTrace();
                                                             }
-                                                        }else {
+                                                        }else if(radioButton4.isChecked()){
                                                             GeoWriteLineCass writeLineCass = new GeoWriteLineCass();
                                                             try{
-                                                                writeLineCass.createguojia2000(finalFilename,lineExport);
+                                                                writeLineCass.createguojia2000(finalFilename,lineExport,path);
+                                                                ToastNotRepeat.show(GeoDataLineActivity.this,"导出成功！");
+                                                            }catch(Exception e){
+                                                                e.printStackTrace();
+                                                            }
+                                                        }else{
+                                                            GeoWriteLineCass writeLineCass = new GeoWriteLineCass();
+                                                            try{
+                                                                writeLineCass.create(finalFilename,lineExport,path);
                                                                 ToastNotRepeat.show(GeoDataLineActivity.this,"导出成功！");
                                                             }catch(Exception e){
                                                                 e.printStackTrace();
@@ -448,10 +455,22 @@ public class GeoDataLineActivity extends Activity{
                     bt2= (RadioButton) dialog3.findViewById(R.id.kml);
                     bt3= (RadioButton) dialog3.findViewById(R.id.cass);
                     bt4= (RadioButton) dialog3.findViewById(R.id.excel);
+                    exportpath = (TextView) dialog3.findViewById(R.id.export_path);
+                    path = projects.get(Integer.parseInt(pposition)).getPath();
+                    exportpath.setText("导出目录:"+path);
+
                     Button btnpositive1=dialog3.getButton(AlertDialog.BUTTON_POSITIVE);
                     Button btnnegative1=dialog3.getButton(AlertDialog.BUTTON_NEGATIVE);
                     btnpositive1.setTextColor(getResources().getColor(R.color.color29));
                     btnnegative1.setTextColor(getResources().getColor(R.color.color29));
+                    exportpath.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            FileUtils.mFileFileterBySuffixs.acceptSuffixs("");
+                            Intent f=new Intent(GeoDataLineActivity.this,FileChooserActivity.class);
+                            startActivityForResult(f, REQUEST_CHOOSER);
+                        }
+                    });
                     break;
                 case R.id.bt1:
                     if (b){
@@ -623,5 +642,29 @@ public class GeoDataLineActivity extends Activity{
     public void onStop() {
         super.onStop();
     }
-
+    /**
+     *更新项目路径
+     */
+    private void UpdatePath(String str){
+        ContentValues values = new ContentValues();
+        values.put("exportpath",str);
+        db.update("Geonewproject",values,"gposition = ?",new String[]{String.valueOf(pposition)});
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CHOOSER:
+                if (resultCode == RESULT_OK) {
+                    final Uri uri = data.getData();
+                    String path = FileUtils.getPath(this, uri);
+                    if (path != null && FileUtils.isLocal(path)) {
+                        File file = new File(path);
+                        String str = file.toString();
+                        UpdatePath(str);
+                        exportpath.setText("导出目录:"+str);
+                    }
+                }
+                break;
+        }
+    }
 }

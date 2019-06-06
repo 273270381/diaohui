@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.arcgis.mymap"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -33,15 +33,24 @@ android {
             dirs 'libs'
         }
     }
+    compileOptions {
+
+        sourceCompatibility JavaVersion.VERSION_1_8
+
+        targetCompatibility JavaVersion.VERSION_1_8
+
+    }
 }
 
 dependencies {
     implementation 'com.android.support:appcompat-v7:24.2.1'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
-    implementation(name: 'arcgis-android-100.1.0', ext: 'aar')
+    implementation(name: 'arcgis-android-100.5.0', ext: 'aar')
     implementation project(':aFileChooser')
     implementation 'com.google.android.gms:play-services-appindexing:8.1.0'
     implementation 'com.bigkoo:convenientbanner:2.0.5'
     implementation 'com.contrarywind:Android-PickerView:4.1.7'
+    implementation files('libs/gson-2.8.5.jar')
+    implementation 'com.android.support:recyclerview-v7:23.4.0'
 }

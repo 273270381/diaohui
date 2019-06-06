@@ -50,17 +50,8 @@
             android:text="中国公路咨询集团(武汉)勘察分公司"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="90dp"
-            android:textSize="15sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/gs"
-            android:textSize="15sp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
             android:layout_marginBottom="70dp"
-            android:text="武汉天疆测绘科技有限公司版权所有"
+            android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView

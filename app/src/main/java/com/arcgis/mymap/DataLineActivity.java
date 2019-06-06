@@ -70,7 +70,7 @@ public class DataLineActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dataline);
+        setContentView(R.layout.activity_dataline_hangce);
         try {
             intview();
             listener();

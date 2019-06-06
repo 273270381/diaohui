@@ -16,4 +16,8 @@
         <item>7</item>
         <item>...</item>
     </string-array>
+    <string-array name="sptranstype">
+        <item>转换到地方坐标</item>
+        <item>转换到WGS84大地坐标</item>
+    </string-array>
 </resources>

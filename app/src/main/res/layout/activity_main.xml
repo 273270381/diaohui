@@ -70,8 +70,30 @@
                     android:textColor="@color/color16"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="返回"
-                    android:id="@+id/backdelate"
+                    android:text="回退"
+                    android:id="@+id/draw_back"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp" />
+                <RadioButton
+                    android:background="@drawable/radiobutton_backgroundclick"
+                    android:textSize="14sp"
+                    android:textColor="@color/color16"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="图层"
+                    android:id="@+id/laymanager"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp" />
+                <RadioButton
+                    android:background="@drawable/radiobutton_backgroundclick"
+                    android:textSize="14sp"
+                    android:textColor="@color/color16"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="绘图"
+                    android:id="@+id/drawing"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="50dp" />
@@ -98,6 +120,7 @@
                     android:layout_width="0dp"
                     android:layout_height="50dp" />
         </RadioGroup>
+
         <ImageButton
             android:id="@+id/measure"
             android:background="@drawable/imagebutton_background"
@@ -407,4 +430,20 @@
                 android:layout_height="34dp" />
         </RelativeLayout>
     </LinearLayout>
+    <ListView
+        android:visibility="gone"
+        android:id="@+id/layoutlist"
+        android:layout_above="@+id/radioGroup2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
+    <android.support.v7.widget.RecyclerView
+        android:visibility="gone"
+        android:layout_above="@+id/radioGroup2"
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+    </android.support.v7.widget.RecyclerView>
+
 </RelativeLayout>

@@ -22,7 +22,7 @@ import java.util.List;
 public class WriteLineGpx {
     boolean mExternalStorageAvailable = false;
     boolean mExternalStorageWriteable = false;
-    public void createlineGpx (String dirName, List<MoreLines> list, String time)throws Exception{
+    public void createlineGpx (String dirName, List<MoreLines> list, String time,String exportpath)throws Exception{
         Element root= DocumentHelper.createElement("gpx");
         Document document=DocumentHelper.createDocument(root);
         //给根节点gpx添加属性
@@ -64,11 +64,11 @@ public class WriteLineGpx {
         format.setEncoding("utf-8");//设置编码格式
         format.setNewlines(true);//设置换行
         //将doc.kml写入到/mnt/sdcard/Mymap/doc.kml目录
-        File file=new File(Environment.getExternalStorageDirectory()+"/MyMap/航测/Export");
+        File file=new File(exportpath+"/航测/Export");
         if (!file.exists()) {
             file.mkdirs();
         }
-        String path=Environment.getExternalStorageDirectory()+"/Mymap/航测/Export/"+dirName+".gpx";
+        String path=exportpath+"/航测/Export/"+dirName+".gpx";
         File file1=new File(path);
         if (file1.exists()){
             file1.delete();

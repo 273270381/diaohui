@@ -29,14 +29,14 @@ public class GeoDcyxUtils {
     //内存地址
     public static String root = Environment.getExternalStorageDirectory()
             .getPath();
-    public static void writeExcel(Context context, List<DicengyanxingPoint> list, String fileName) throws IOException, WriteException {
+    public static void writeExcel(Context context, List<DicengyanxingPoint> list, String fileName,String path) throws IOException, WriteException {
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)&&getAvailableStorage()>1000000) {
             Toast.makeText(context, "SD卡不可用", Toast.LENGTH_LONG).show();
             return;
         }
         String[] title = { "点名","编码", "经度", "纬度","地质年代","岩土名称","成因类型","分化程度","产状","节理裂隙","描述" };
         File file;
-        File dir=new File(Environment.getExternalStorageDirectory()+"/MyMap/地勘/Export");
+        File dir=new File(path+"/地勘/Export");
         file = new File(dir, fileName + ".xls");
         if (!dir.exists()) {
             dir.mkdirs();

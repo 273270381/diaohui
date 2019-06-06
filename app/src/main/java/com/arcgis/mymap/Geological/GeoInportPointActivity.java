@@ -548,7 +548,7 @@ public class GeoInportPointActivity extends Activity{
                                             SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                             Date curDate =  new Date(System.currentTimeMillis());
                                             String  str  =  formatter.format(curDate);
-                                            writeGpx.createGpx(filename,listExport,str);
+                                            //writeGpx.createGpx(filename,listExport,str);
                                             ToastNotRepeat.show(GeoInportPointActivity.this,"导出成功！");
                                         }catch(Exception e){
                                             e.printStackTrace();
@@ -556,7 +556,7 @@ public class GeoInportPointActivity extends Activity{
                                     }else if (bt2.isChecked()){
                                         GeoWritekml writekml = new GeoWritekml();
                                         try {
-                                            writekml.createKml(filename,listExport);
+                                            //writekml.createKml(filename,listExport);
                                             ToastNotRepeat.show(GeoInportPointActivity.this,"导出成功！");
                                         } catch (Exception e) {
                                             e.printStackTrace();

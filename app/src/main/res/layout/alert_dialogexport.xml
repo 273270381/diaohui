@@ -4,8 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
+        android:id="@+id/export_path"
         android:layout_marginLeft="20dp"
-        android:text="导出目录：/MyMap/Export"
+        android:textColor="@color/textview_color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <LinearLayout

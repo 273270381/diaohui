@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -48,9 +49,12 @@ import com.arcgis.mymap.contacts.NewProject;
 import com.arcgis.mymap.contacts.SurFace;
 import com.arcgis.mymap.utils.SyncHorizontalScrollView;
 import com.arcgis.mymap.utils.ToastNotRepeat;
+import com.ipaulpro.afilechooser.FileChooserActivity;
+import com.ipaulpro.afilechooser.utils.FileUtils;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -74,6 +78,9 @@ public class GeoDataSurfaceActivity extends Activity{
     private MyDatabaseHelper dbHelper;
     public SQLiteDatabase db;
     public String pposition;
+    private TextView exportpath;
+    private String path;
+    private static final int REQUEST_CHOOSER = 1;
     public List<NewProject> projects=new ArrayList<>();
     public List<SurFace> surFaces,surFaceExport;
     public SurFace surFace;
@@ -309,21 +316,12 @@ public class GeoDataSurfaceActivity extends Activity{
                                 db.delete("Geosurface"+pposition, "gla=?", new String[]{listLa.get(i)});
                             }
 
-                            Cursor cursor = db.query("Geosurface"+pposition, null, null, null, null, null, null);
-                            List<SurFace> lineslist2=new ArrayList<>();
-                            try {
-                                lineslist2=getData(lineslist2,cursor);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            final List<SurFace> finallinelist=lineslist2;
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    leftlineAdapter=new GeoLeftSurfaceAdapter(finallinelist,resource,GeoDataSurfaceActivity.this);
-                                    rightLineAdapter=new GeoRightSurfaceAdapter(finallinelist,resource2,GeoDataSurfaceActivity.this);
-                                    leftlistView.setAdapter(leftlineAdapter);
-                                    rightlistView.setAdapter(rightLineAdapter);
+                                    leftlineAdapter.notifyDataSetChanged();
+                                    rightLineAdapter.notifyDataSetChanged();
+                                    comBoxAdapter.notifyDataSetChanged();
                                     ToastNotRepeat.show(GeoDataSurfaceActivity.this,"删除成功");
                                 }
                             },400);
@@ -532,7 +530,7 @@ public class GeoDataSurfaceActivity extends Activity{
                                     }
                                     if (bt4.isChecked()){
                                         try{
-                                            GeoExportSurfaceUtils.writesurfaceExcel(GeoDataSurfaceActivity.this,surFaceExport,filename);
+                                            GeoExportSurfaceUtils.writesurfaceExcel(GeoDataSurfaceActivity.this,surFaceExport,filename,path);
                                             ToastNotRepeat.show(GeoDataSurfaceActivity.this,"导出成功！");
                                         }catch(Exception e){
                                             e.printStackTrace();
@@ -543,7 +541,7 @@ public class GeoDataSurfaceActivity extends Activity{
                                             SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                             Date curDate =  new Date(System.currentTimeMillis());
                                             String  str  =  formatter.format(curDate);
-                                            writeSurfaceGpx.createsurfaceGpx(filename,surFaceExport,str);
+                                            writeSurfaceGpx.createsurfaceGpx(filename,surFaceExport,str,path);
                                             ToastNotRepeat.show(GeoDataSurfaceActivity.this,"导出成功！");
                                         }catch(Exception e){
                                             e.printStackTrace();
@@ -551,7 +549,7 @@ public class GeoDataSurfaceActivity extends Activity{
                                     }else if (bt2.isChecked()){
                                         GeoWriteSurfaceKml writeSurfaceKml = new GeoWriteSurfaceKml();
                                         try{
-                                            writeSurfaceKml.createKml(filename,surFaceExport);
+                                            writeSurfaceKml.createKml(filename,surFaceExport,path);
                                             ToastNotRepeat.show(GeoDataSurfaceActivity.this,"导出成功！");
                                         }catch(Exception e){
                                             e.printStackTrace();
@@ -569,7 +567,7 @@ public class GeoDataSurfaceActivity extends Activity{
                                                         if (radioButton1.isChecked()){
                                                             GeoWriteSurfaceCass writeSurfaceCass = new GeoWriteSurfaceCass();
                                                             try{
-                                                                writeSurfaceCass.creatWgs84(finalFilename,surFaceExport);
+                                                                writeSurfaceCass.creatWgs84(finalFilename,surFaceExport,path);
                                                                 ToastNotRepeat.show(GeoDataSurfaceActivity.this,"导出成功！");
                                                             }catch(Exception e){
                                                                 e.printStackTrace();
@@ -577,7 +575,7 @@ public class GeoDataSurfaceActivity extends Activity{
                                                         }else if (radioButton2.isChecked()){
                                                             GeoWriteSurfaceCass writeSurfaceCass = new GeoWriteSurfaceCass();
                                                             try{
-                                                                writeSurfaceCass.createbeijing54(finalFilename,surFaceExport);
+                                                                writeSurfaceCass.createbeijing54(finalFilename,surFaceExport,path);
                                                                 ToastNotRepeat.show(GeoDataSurfaceActivity.this,"导出成功！");
                                                             }catch(Exception e){
                                                                 e.printStackTrace();
@@ -585,15 +583,23 @@ public class GeoDataSurfaceActivity extends Activity{
                                                         }else if (radioButton3.isChecked()){
                                                             GeoWriteSurfaceCass writeSurfaceCass = new GeoWriteSurfaceCass();
                                                             try{
-                                                                writeSurfaceCass.createxian80(finalFilename,surFaceExport);
+                                                                writeSurfaceCass.createxian80(finalFilename,surFaceExport,path);
                                                                 ToastNotRepeat.show(GeoDataSurfaceActivity.this,"导出成功！");
                                                             }catch(Exception e){
                                                                 e.printStackTrace();
                                                             }
-                                                        }else {
+                                                        }else if(radioButton4.isChecked()){
                                                             GeoWriteSurfaceCass writeSurfaceCass = new GeoWriteSurfaceCass();
                                                             try{
-                                                                writeSurfaceCass.createguojia2000(finalFilename,surFaceExport);
+                                                                writeSurfaceCass.createguojia2000(finalFilename,surFaceExport,path);
+                                                                ToastNotRepeat.show(GeoDataSurfaceActivity.this,"导出成功！");
+                                                            }catch(Exception e){
+                                                                e.printStackTrace();
+                                                            }
+                                                        }else{
+                                                            GeoWriteSurfaceCass writeSurfaceCass = new GeoWriteSurfaceCass();
+                                                            try{
+                                                                writeSurfaceCass.create(finalFilename,surFaceExport,path);
                                                                 ToastNotRepeat.show(GeoDataSurfaceActivity.this,"导出成功！");
                                                             }catch(Exception e){
                                                                 e.printStackTrace();
@@ -619,10 +625,23 @@ public class GeoDataSurfaceActivity extends Activity{
                     bt2= (RadioButton) dialog.findViewById(R.id.kml);
                     bt3= (RadioButton) dialog.findViewById(R.id.cass);
                     bt4= (RadioButton) dialog.findViewById(R.id.excel);
+                    exportpath = (TextView) dialog.findViewById(R.id.export_path);
+                    path = projects.get(Integer.parseInt(pposition)).getPath();
+                    exportpath.setText("导出目录:"+path);
+
                     Button btnpositive=dialog.getButton(AlertDialog.BUTTON_POSITIVE);
                     Button btnnegative=dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
                     btnpositive.setTextColor(getResources().getColor(R.color.color29));
                     btnnegative.setTextColor(getResources().getColor(R.color.color29));
+                    exportpath.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            FileUtils.mFileFileterBySuffixs.acceptSuffixs("");
+                            Intent f=new Intent(GeoDataSurfaceActivity.this,FileChooserActivity.class);
+                            startActivityForResult(f, REQUEST_CHOOSER);
+                        }
+                    });
+
                     break;
 
             }
@@ -635,5 +654,30 @@ public class GeoDataSurfaceActivity extends Activity{
     @Override
     public void onStop() {
         super.onStop();
+    }
+    /**
+     *更新项目路径
+     */
+    private void UpdatePath(String str){
+        ContentValues values = new ContentValues();
+        values.put("exportpath",str);
+        db.update("Geonewproject",values,"gposition = ?",new String[]{String.valueOf(pposition)});
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CHOOSER:
+                if (resultCode == RESULT_OK) {
+                    final Uri uri = data.getData();
+                    String path = FileUtils.getPath(this, uri);
+                    if (path != null && FileUtils.isLocal(path)) {
+                        File file = new File(path);
+                        String str = file.toString();
+                        UpdatePath(str);
+                        exportpath.setText("导出目录:"+str);
+                    }
+                }
+                break;
+        }
     }
 }

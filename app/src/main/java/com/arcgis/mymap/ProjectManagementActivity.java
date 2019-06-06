@@ -9,7 +9,9 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -24,6 +26,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -62,7 +65,8 @@ public class ProjectManagementActivity extends AppCompatActivity {
     private SimpleAdapter adapter;
     private EditText dt;
     private EditText name;
-    private TextView tv;
+    private EditText x,y,z,rx,rz,ry,ppm,zyzw;
+    private String String_x,String_y,String_z,String_rx,String_ry,String_rz,String_ppm,String_zyzw;
     public String f;
     public String  pposition;
     public int amount=0;
@@ -217,31 +221,42 @@ public class ProjectManagementActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 if (position==dataList.size()-1){
-                    LinearLayout linearLayout= (LinearLayout) getLayoutInflater().inflate(R.layout.alert_newproject,null);
+                    ScrollView scrollView= (ScrollView) getLayoutInflater().inflate(R.layout.alert_newproject,null);
                     AlertDialog dialog=new AlertDialog.Builder(ProjectManagementActivity.this)
                             .setTitle("新建项目：")
-                            .setView(linearLayout)
+                            .setView(scrollView)
                             .setNegativeButton("取消",null)
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     String pname=dt.getText().toString();
                                     String personname=name.getText().toString();
-                                    String mtv=tv.getText().toString();
                                     Map<String,Object> map=new HashMap<>();
                                     map.put("img",R.mipmap.dakai);
                                     map.put("text",pname);
                                     if (dataList.size()<20){
                                         if (!dataList.contains(map)){
-                                            if (!TextUtils.isEmpty(pname)&&!TextUtils.isEmpty(mtv)&&!TextUtils.isEmpty(personname)){
+                                            if (!TextUtils.isEmpty(pname)&&!TextUtils.isEmpty(personname)){
                                                 Map<String,Object> map1=new HashMap<>();
                                                 map1.put("img",R.mipmap.dakai);
                                                 map1.put("text",pname);
                                                 dataList.add(dataList.size()-1,map1);
                                                 values=new ContentValues();
                                                 values.put("pname",pname);
-                                                values.put("sname",mtv);
+                                                values.put("exportpath", Environment.getExternalStorageDirectory()+"/MyMap");//导出路径
                                                 values.put("name",personname);
+                                                values.put("c3xzpy",String_x);
+                                                values.put("c3yzpy",String_y);
+                                                values.put("c3zzpy",String_z);
+                                                values.put("c3xzxz",String_rx);
+                                                values.put("c3yzxz",String_ry);
+                                                values.put("c3zzxz",String_rz);
+                                                values.put("c3bl",String_ppm);
+                                                values.put("c2zyzwx",String_zyzw);
+                                                values.put("c2djcs","500000.0");
+                                                values.put("c1code","unknown");
+                                                values.put("c1cbz","6378137.0");
+                                                values.put("c1plds","298.257223563");
                                                 if (amount==0){
                                                     values.put("position",position);
                                                     db.insert("Newproject",null,values);
@@ -267,7 +282,7 @@ public class ProjectManagementActivity extends AppCompatActivity {
                                                     }
                                                 },300);
                                             }else {
-                                                ToastNotRepeat.show(ProjectManagementActivity.this,"请添加文件或项目名和测量人员！");
+                                                ToastNotRepeat.show(ProjectManagementActivity.this,"请添加项目名称和勘察人员！");
                                             }
                                         }else {
                                             ToastNotRepeat.show(ProjectManagementActivity.this,"已存在相同的项目名！");
@@ -281,20 +296,70 @@ public class ProjectManagementActivity extends AppCompatActivity {
                     Button btnnegative=dialog.getButton(android.app.AlertDialog.BUTTON_NEGATIVE);
                     btnpositive.setTextColor(getResources().getColor(R.color.color29));
                     btnnegative.setTextColor(getResources().getColor(R.color.color29));
+                    ImageButton imageButton_down = (ImageButton) dialog.findViewById(R.id.ci_down);
+                    ImageButton imageButton_up = (ImageButton) dialog.findViewById(R.id.ci_up);
+                    LinearLayout setting = (LinearLayout) dialog.findViewById(R.id.setting);
+                    x = (EditText) dialog.findViewById(R.id.x);
+                    y = (EditText) dialog.findViewById(R.id.y);
+                    z = (EditText) dialog.findViewById(R.id.z);
+                    rx = (EditText) dialog.findViewById(R.id.rx);
+                    ry = (EditText) dialog.findViewById(R.id.ry);
+                    rz = (EditText) dialog.findViewById(R.id.rz);
+                    ppm = (EditText) dialog.findViewById(R.id.ppm);
+                    zyzw = (EditText) dialog.findViewById(R.id.zyzw);
+                    String_x = x.getText().toString();
+                    String_y = y.getText().toString();
+                    String_z = z.getText().toString();
+                    String_rx = rx.getText().toString();
+                    String_ry = ry.getText().toString();
+                    String_rz = rz.getText().toString();
+                    String_ppm = ppm.getText().toString();
+                    String_zyzw = zyzw.getText().toString();
+                    if (String_x.equals("")){
+                        String_x = "0.0";
+                    }
+                    if (String_y.equals("")){
+                        String_y = "0.0";
+                    }
+                    if (String_z.equals("")){
+                        String_z = "0.0";
+                    }
+                    if (String_rx.equals("")){
+                        String_rx = "0.0";
+                    }
+                    if (String_ry.equals("")){
+                        String_ry = "0.0";
+                    }
+                    if (String_rz.equals("")){
+                        String_rz = "0.0";
+                    }
+                    if (String_ppm.equals("")){
+                        String_ppm = "0.0";
+                    }
+                    if (String_zyzw.equals("")){
+                        String_zyzw = "0.0";
+                    }
+                    imageButton_down.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            imageButton_down.setVisibility(View.GONE);
+                            imageButton_up.setVisibility(View.VISIBLE);
+                            setting.setVisibility(View.VISIBLE);
+                        }
+                    });
+                    imageButton_up.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            imageButton_down.setVisibility(View.VISIBLE);
+                            imageButton_up.setVisibility(View.GONE);
+                            setting.setVisibility(View.GONE);
+                        }
+                    });
+
                     Cursor c=db.rawQuery("select*from Newposition",null);
                     amount=c.getCount();//如果amount=0则表Newstr为空
                     dt= (EditText) dialog.findViewById(R.id.na);
                     name= (EditText) dialog.findViewById(R.id.name);
-                    tv= (TextView) dialog.findViewById(R.id.str);
-                    ImageButton iv= (ImageButton) dialog.findViewById(R.id.folder);
-                    iv.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            FileUtils.mFileFileterBySuffixs.acceptSuffixs("tpk");
-                            Intent intent=new Intent(ProjectManagementActivity.this,FileChooserActivity.class);
-                            startActivityForResult(intent, REQUEST_CHOOSER);
-                        }
-                    });
                 }else {
                     int a=0;
                     Cursor c=db.rawQuery("select*from Newppposition",null);
@@ -371,17 +436,17 @@ public class ProjectManagementActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch(requestCode){
-            case REQUEST_CHOOSER:
-                if (resultCode == RESULT_OK) {
-                    final Uri uri = data.getData();
-                    String path = FileUtils.getPath(this, uri);
-                    if (path != null && FileUtils.isLocal(path)) {
-                        File file = new File(path);
-                        f=file.toString();
-                        tv.setText(f);
-                    }
-                }
-            break;
+//            case REQUEST_CHOOSER:
+//                if (resultCode == RESULT_OK) {
+//                    final Uri uri = data.getData();
+//                    String path = FileUtils.getPath(this, uri);
+//                    if (path != null && FileUtils.isLocal(path)) {
+//                        File file = new File(path);
+//                        f=file.toString();
+//                        tv.setText(f);
+//                    }
+//                }
+//            break;
         }
     }
     //广播接收器接收之后数据处理

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/topral"
+        android:background="@color/color15"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageButton
+            android:layout_marginLeft="10dp"
+            android:background="@mipmap/novel_title_btnback"
+            android:id="@+id/back"
+            android:layout_marginTop="5dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+        <TextView
+            android:textSize="23sp"
+            android:textColor="@color/color2"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:text="数据管理"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
+    </RelativeLayout>
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
+
+</LinearLayout>

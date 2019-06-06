@@ -33,14 +33,15 @@ public class ExprotUtils {
     //内存地址
     public static String root = Environment.getExternalStorageDirectory()
             .getPath();
-    public static void writeExcel(Context context, List<LitepalPoints> list, String fileName) throws IOException, WriteException {
+    public static void writeExcel(Context context, List<LitepalPoints> list, String fileName,String path) throws IOException, WriteException {
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)&&getAvailableStorage()>1000000) {
             Toast.makeText(context, "SD卡不可用", Toast.LENGTH_LONG).show();
             return;
         }
         String[] title = { "点名", "代码","编码", "经度", "纬度", "高度","日期","备注" };
         File file;
-        File dir=new File(Environment.getExternalStorageDirectory()+"/MyMap/航测/Export");
+        //File dir=new File(Environment.getExternalStorageDirectory()+"/MyMap/航测/Export");
+        File dir=new File(path+"/航测/Export");
         file = new File(dir, fileName + ".xls");
         if (!dir.exists()) {
             dir.mkdirs();

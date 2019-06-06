@@ -20,7 +20,7 @@ import java.util.List;
 public class WriteLineKml {
     boolean mExternalStorageAvailable = false;
     boolean mExternalStorageWriteable = false;
-    public void  createKml(String dirName,List<MoreLines> list)throws Exception{
+    public void  createKml(String dirName,List<MoreLines> list,String exportpath)throws Exception{
         Element root= DocumentHelper.createElement("kml");
         Document document=DocumentHelper.createDocument(root);
         //给根节点kml添加属性
@@ -60,11 +60,11 @@ public class WriteLineKml {
         format.setEncoding("utf-8");//设置编码格式
         format.setNewlines(true);//设置换行
         //将doc.kml写入到/mnt/sdcard/Mymap/doc.kml目录
-        File file=new File(Environment.getExternalStorageDirectory()+"/MyMap/航测/Export");
+        File file=new File(exportpath+"/航测/Export");
         if (!file.exists()) {
             file.mkdirs();
         }
-        String path=Environment.getExternalStorageDirectory()+"/Mymap/航测/Export/"+dirName+".kml";
+        String path=exportpath+"/航测/Export/"+dirName+".kml";
         File file1=new File(path);
         if (file1.exists()){
             file1.delete();

@@ -267,7 +267,7 @@ public class GeoMenuActivity  extends AppCompatActivity {
         be.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(GeoMenuActivity.this,ConvertTools.class);
+                Intent i=new Intent(GeoMenuActivity.this,GeoCoorTransActivity.class);
                 startActivity(i);
             }
         });

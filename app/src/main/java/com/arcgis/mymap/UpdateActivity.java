@@ -50,7 +50,7 @@ public class UpdateActivity extends AppCompatActivity {
             String time2=time1.substring(0,time1.indexOf("日"));
             textView.setText("使用期限\t"+time2+"日");
             String time3=time1.substring(0,4);
-            copyright.setText("Copyright\t©\t2017-"+time3+"\tTianjiang.All\tRights\tReserved");
+            copyright.setText("Copyright\t©\t2017-"+time3+"\tChinaHighWay.All\tRights\tReserved");
         } catch (ParseException e) {
             e.printStackTrace();
         }

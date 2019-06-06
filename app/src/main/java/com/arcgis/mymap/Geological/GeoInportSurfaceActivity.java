@@ -482,7 +482,7 @@ public class GeoInportSurfaceActivity extends Activity {
                                     }
                                     if (bt4.isChecked()){
                                         try{
-                                            GeoExportSurfaceUtils.writesurfaceExcel(GeoInportSurfaceActivity.this,surFaceExport,filename);
+                                            //GeoExportSurfaceUtils.writesurfaceExcel(GeoInportSurfaceActivity.this,surFaceExport,filename);
                                             ToastNotRepeat.show(GeoInportSurfaceActivity.this,"导出成功！");
                                         }catch(Exception e){
                                             e.printStackTrace();
@@ -493,7 +493,7 @@ public class GeoInportSurfaceActivity extends Activity {
                                             SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                             Date curDate =  new Date(System.currentTimeMillis());
                                             String  str  =  formatter.format(curDate);
-                                            writeSurfaceGpx.createsurfaceGpx(filename,surFaceExport,str);
+                                            //writeSurfaceGpx.createsurfaceGpx(filename,surFaceExport,str);
                                             ToastNotRepeat.show(GeoInportSurfaceActivity.this,"导出成功！");
                                         }catch(Exception e){
                                             e.printStackTrace();
@@ -501,7 +501,7 @@ public class GeoInportSurfaceActivity extends Activity {
                                     }else if (bt2.isChecked()){
                                         GeoWriteSurfaceKml writeSurfaceKml = new GeoWriteSurfaceKml();
                                         try{
-                                            writeSurfaceKml.createKml(filename,surFaceExport);
+                                            //writeSurfaceKml.createKml(filename,surFaceExport);
                                             ToastNotRepeat.show(GeoInportSurfaceActivity.this,"导出成功！");
                                         }catch(Exception e){
                                             e.printStackTrace();
@@ -519,7 +519,7 @@ public class GeoInportSurfaceActivity extends Activity {
                                                         if (radioButton1.isChecked()){
                                                             GeoWriteSurfaceCass writeSurfaceCass = new GeoWriteSurfaceCass();
                                                             try{
-                                                                writeSurfaceCass.creatWgs84(finalFilename,surFaceExport);
+                                                                //writeSurfaceCass.creatWgs84(finalFilename,surFaceExport);
                                                                 ToastNotRepeat.show(GeoInportSurfaceActivity.this,"导出成功！");
                                                             }catch(Exception e){
                                                                 e.printStackTrace();
@@ -527,7 +527,7 @@ public class GeoInportSurfaceActivity extends Activity {
                                                         }else if (radioButton2.isChecked()){
                                                             GeoWriteSurfaceCass writeSurfaceCass = new GeoWriteSurfaceCass();
                                                             try{
-                                                                writeSurfaceCass.createbeijing54(finalFilename,surFaceExport);
+                                                                //writeSurfaceCass.createbeijing54(finalFilename,surFaceExport);
                                                                 ToastNotRepeat.show(GeoInportSurfaceActivity.this,"导出成功！");
                                                             }catch(Exception e){
                                                                 e.printStackTrace();
@@ -535,7 +535,7 @@ public class GeoInportSurfaceActivity extends Activity {
                                                         }else if (radioButton3.isChecked()){
                                                             GeoWriteSurfaceCass writeSurfaceCass = new GeoWriteSurfaceCass();
                                                             try{
-                                                                writeSurfaceCass.createxian80(finalFilename,surFaceExport);
+                                                                //writeSurfaceCass.createxian80(finalFilename,surFaceExport);
                                                                 ToastNotRepeat.show(GeoInportSurfaceActivity.this,"导出成功！");
                                                             }catch(Exception e){
                                                                 e.printStackTrace();
@@ -543,7 +543,7 @@ public class GeoInportSurfaceActivity extends Activity {
                                                         }else {
                                                             GeoWriteSurfaceCass writeSurfaceCass = new GeoWriteSurfaceCass();
                                                             try{
-                                                                writeSurfaceCass.createguojia2000(finalFilename,surFaceExport);
+                                                                //writeSurfaceCass.createguojia2000(finalFilename,surFaceExport);
                                                                 ToastNotRepeat.show(GeoInportSurfaceActivity.this,"导出成功！");
                                                             }catch(Exception e){
                                                                 e.printStackTrace();

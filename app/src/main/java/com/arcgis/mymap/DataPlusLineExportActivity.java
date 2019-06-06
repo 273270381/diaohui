@@ -2,10 +2,14 @@ package com.arcgis.mymap;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -16,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.arcgis.mymap.Export.ExprotLineUtils;
 import com.arcgis.mymap.Export.GeoWirteLineGpx;
@@ -34,7 +39,10 @@ import com.arcgis.mymap.contacts.MyDatabaseHelper;
 import com.arcgis.mymap.contacts.NewProject;
 import com.arcgis.mymap.utils.GetTable;
 import com.arcgis.mymap.utils.ToastNotRepeat;
+import com.ipaulpro.afilechooser.FileChooserActivity;
+import com.ipaulpro.afilechooser.utils.FileUtils;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,6 +57,8 @@ public class DataPlusLineExportActivity extends Activity {
     private ListView lv;
     public List<MoreLines> list,list2,listExport;
     public ExportLineAdapter adapter;
+    private TextView exportpath;
+    private static final int REQUEST_CHOOSER = 1;
     public MoreLines line;
     private Button bt_selectall,bt_cancel,bt_close,bt_export,bt_delate;
     private ImageButton back;
@@ -58,6 +68,7 @@ public class DataPlusLineExportActivity extends Activity {
     public List<NewProject> projects=new ArrayList<>();
     private DataLineActivity dataLineActivity;
     public EditText editText;
+    private String path;
     public RadioButton bt1,bt2,bt3,bt4,radioButton1,radioButton2,radioButton3,radioButton4;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -183,26 +194,26 @@ public class DataPlusLineExportActivity extends Activity {
                                     }
                                     if (bt4.isChecked()){
                                         try{
-                                            ExprotLineUtils.writelineExcel(DataPlusLineExportActivity.this,listExport,filename);
+                                            ExprotLineUtils.writelineExcel(DataPlusLineExportActivity.this,listExport,filename,path);
                                             ToastNotRepeat.show(DataPlusLineExportActivity.this,"导出成功！");
                                         }catch(Exception e){
                                             e.printStackTrace();
                                         }
                                     }else if (bt1.isChecked()){
-                                        GeoWirteLineGpx writeLineGpx=new GeoWirteLineGpx();
+                                        WriteLineGpx writeLineGpx = new WriteLineGpx();
                                         try{
                                             SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                             Date curDate =  new Date(System.currentTimeMillis());
                                             String  str  =  formatter.format(curDate);
-                                            writeLineGpx.createlineGpx(filename,listExport,str);
+                                            writeLineGpx.createlineGpx(filename,listExport,str,path);
                                             ToastNotRepeat.show(DataPlusLineExportActivity.this,"导出成功！");
                                         }catch(Exception e){
                                             e.printStackTrace();
                                         }
                                     }else if (bt2.isChecked()){
-                                        GeoWriteLineKml writeLineKml=new GeoWriteLineKml();
+                                        WriteLineKml writeLineKml=new WriteLineKml();
                                         try{
-                                            writeLineKml.createKml(filename,listExport);
+                                            writeLineKml.createKml(filename,listExport,path);
                                             ToastNotRepeat.show(DataPlusLineExportActivity.this,"导出成功！");
                                         }catch(Exception e){
                                             e.printStackTrace();
@@ -218,33 +229,41 @@ public class DataPlusLineExportActivity extends Activity {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
                                                         if (radioButton1.isChecked()){
-                                                            GeoWriteLineCass writeLineCass=new GeoWriteLineCass();
+                                                            WriteLineCass writeLineCass=new WriteLineCass();
                                                             try{
-                                                                writeLineCass.creatWgs84(finalFilename,listExport);
+                                                                writeLineCass.creatWgs84(finalFilename,listExport,path);
                                                                 ToastNotRepeat.show(DataPlusLineExportActivity.this,"导出成功！");
                                                             }catch(Exception e){
                                                                 e.printStackTrace();
                                                             }
                                                         }else if (radioButton2.isChecked()){
-                                                            GeoWriteLineCass writeLineCass=new GeoWriteLineCass();
+                                                            WriteLineCass writeLineCass=new WriteLineCass();
                                                             try{
-                                                                writeLineCass.createbeijing54(finalFilename,listExport);
+                                                                writeLineCass.createbeijing54(finalFilename,listExport,path);
                                                                 ToastNotRepeat.show(DataPlusLineExportActivity.this,"导出成功！");
                                                             }catch(Exception e){
                                                                 e.printStackTrace();
                                                             }
                                                         }else if (radioButton3.isChecked()){
-                                                            GeoWriteLineCass writeLineCass=new GeoWriteLineCass();
+                                                            WriteLineCass writeLineCass=new WriteLineCass();
                                                             try{
-                                                                writeLineCass.createxian80(finalFilename,listExport);
+                                                                writeLineCass.createxian80(finalFilename,listExport,path);
                                                                 ToastNotRepeat.show(DataPlusLineExportActivity.this,"导出成功！");
                                                             }catch(Exception e){
                                                                 e.printStackTrace();
                                                             }
-                                                        }else {
-                                                            GeoWriteLineCass writeLineCass=new GeoWriteLineCass();
+                                                        }else if(radioButton4.isChecked()){
+                                                            WriteLineCass writeLineCass=new WriteLineCass();
                                                             try{
-                                                                writeLineCass.createguojia2000(finalFilename,listExport);
+                                                                writeLineCass.createguojia2000(finalFilename,listExport,path);
+                                                                ToastNotRepeat.show(DataPlusLineExportActivity.this,"导出成功！");
+                                                            }catch(Exception e){
+                                                                e.printStackTrace();
+                                                            }
+                                                        }else{
+                                                            WriteLineCass writeLineCass=new WriteLineCass();
+                                                            try{
+                                                                writeLineCass.creat(finalFilename,listExport,path);
                                                                 ToastNotRepeat.show(DataPlusLineExportActivity.this,"导出成功！");
                                                             }catch(Exception e){
                                                                 e.printStackTrace();
@@ -270,12 +289,50 @@ public class DataPlusLineExportActivity extends Activity {
                     bt2= (RadioButton) dialog.findViewById(R.id.kml);
                     bt3= (RadioButton) dialog.findViewById(R.id.cass);
                     bt4= (RadioButton) dialog.findViewById(R.id.excel);
+                    exportpath = (TextView) dialog.findViewById(R.id.export_path);
+                    path = projects.get(Integer.parseInt(pposition)).getPath();
+                    exportpath.setText("导出目录:"+path);
+
                     Button btnpositive=dialog.getButton(AlertDialog.BUTTON_POSITIVE);
                     Button btnnegative=dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
                     btnpositive.setTextColor(getResources().getColor(R.color.color29));
                     btnnegative.setTextColor(getResources().getColor(R.color.color29));
+                    exportpath.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            FileUtils.mFileFileterBySuffixs.acceptSuffixs("");
+                            Intent f=new Intent(DataPlusLineExportActivity.this,FileChooserActivity.class);
+                            startActivityForResult(f, REQUEST_CHOOSER);
+                        }
+                    });
+
                     break;
             }
+        }
+    }
+    /**
+     *更新项目路径
+     */
+    private void UpdatePath(String str){
+        ContentValues values = new ContentValues();
+        values.put("exportpath",str);
+        db.update("Newproject",values,"position = ?",new String[]{String.valueOf(pposition)});
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CHOOSER:
+                if (resultCode == RESULT_OK) {
+                    final Uri uri = data.getData();
+                    String path = FileUtils.getPath(this, uri);
+                    if (path != null && FileUtils.isLocal(path)) {
+                        File file = new File(path);
+                        String str = file.toString();
+                        UpdatePath(str);
+                        exportpath.setText("导出目录:"+str);
+                    }
+                }
+                break;
         }
     }
 }

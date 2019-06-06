@@ -86,8 +86,11 @@ public class Dixingdimao extends Activity implements View.OnClickListener{
         pposition = intent.getStringExtra("position");
         Cursor utc=db.query("Geodxdmpoints"+pposition,null,"name != ? and name != ? and name != ? and name != ? and name != ? and name != ? and name != ?",
         new String[]{"H","Z","J","P","T","R","FY"},null,null,null);
-        String str = FirstNameUtils.getName(utc,"a");
+        Cursor cursor = db.query("Geodxdmpoints"+pposition,null,null,null,null,null,null);
+        String str = FirstNameUtils.getName(utc,"DM");
+        String classification = FirstNameUtils.getClassification2(cursor,"构造、剥蚀高山");
         editText3.setText(str);
+        bt1.setText(classification);
     }
     @Override
     public void onClick(View v) {

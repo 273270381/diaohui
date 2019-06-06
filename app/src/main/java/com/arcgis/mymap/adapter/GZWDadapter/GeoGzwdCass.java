@@ -15,8 +15,27 @@ import java.io.OutputStreamWriter;
 import java.util.List;
 
 public class GeoGzwdCass {
-    public void creatWgs84(String filename, List<GouzhuwuPoint> list){
-        String path=createFile(filename);
+    public void create(String filename, List<GouzhuwuPoint> list,String exportpath){
+        String path=createFile(filename,exportpath);
+        try {
+            OutputStreamWriter oStreamWriter = new OutputStreamWriter(new FileOutputStream(path), "GB2312");
+            for (int i=0;i<list.size();i++){
+                Point mp=new Point(Double.parseDouble(list.get(i).getLa()),Double.parseDouble(list.get(i).getLn()),Double.parseDouble(list.get(i).getHigh()));
+                String context = "";
+                if (list.get(i).getClassification().equals("地质时代")){
+                    context = ","+list.get(i).getCode()+","+String.valueOf(mp.getX()+","+mp.getY()+","+mp.getZ()+"\r\n");
+                }else {
+                    context=list.get(i).getName()+","+list.get(i).getCode()+","+String.valueOf(mp.getX()+","+mp.getY()+","+mp.getZ()+"\r\n");
+                }
+                oStreamWriter.append(context);
+            }
+            oStreamWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void creatWgs84(String filename, List<GouzhuwuPoint> list,String exportpath){
+        String path=createFile(filename,exportpath);
         try {
             OutputStreamWriter oStreamWriter = new OutputStreamWriter(new FileOutputStream(path), "GB2312");
             for (int i=0;i<list.size();i++){
@@ -35,8 +54,8 @@ public class GeoGzwdCass {
             e.printStackTrace();
         }
     }
-    public void createbeijing54(String filename, List<GouzhuwuPoint> list){
-        String path=createFile(filename);
+    public void createbeijing54(String filename, List<GouzhuwuPoint> list,String exportpath){
+        String path=createFile(filename,exportpath);
         try{
             OutputStreamWriter oStreamWriter = new OutputStreamWriter(new FileOutputStream(path), "GB2312");
             for (int i=0;i<list.size();i++){
@@ -56,8 +75,8 @@ public class GeoGzwdCass {
             e.printStackTrace();
         }
     }
-    public void createxian80(String filename,List<GouzhuwuPoint> list){
-        String path=createFile(filename);
+    public void createxian80(String filename,List<GouzhuwuPoint> list,String exportpath){
+        String path=createFile(filename,exportpath);
         try{
             OutputStreamWriter oStreamWriter = new OutputStreamWriter(new FileOutputStream(path), "GB2312");
             for (int i=0;i<list.size();i++){
@@ -77,8 +96,8 @@ public class GeoGzwdCass {
             e.printStackTrace();
         }
     }
-    public void createguojia2000(String filename,List<GouzhuwuPoint> list){
-        String path=createFile(filename);
+    public void createguojia2000(String filename,List<GouzhuwuPoint> list,String exportpath){
+        String path=createFile(filename,exportpath);
         try{
             OutputStreamWriter oStreamWriter = new OutputStreamWriter(new FileOutputStream(path), "GB2312");
             for (int i=0;i<list.size();i++){
@@ -98,12 +117,12 @@ public class GeoGzwdCass {
             e.printStackTrace();
         }
     }
-    public String createFile(String filename){
-        File file=new File(Environment.getExternalStorageDirectory()+"/MyMap/地勘/Export");
+    public String createFile(String filename,String exportpath){
+        File file=new File(exportpath+"/地勘/Export");
         if (!file.exists()){
             file.mkdirs();
         }
-        String path=Environment.getExternalStorageDirectory()+"/Mymap/地勘/Export/"+filename+".dat";
+        String path=exportpath+"/地勘/Export/"+filename+".dat";
         File file1=new File(path);
         if (file1.exists()){
             file1.delete();

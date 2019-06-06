@@ -44,6 +44,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static final int REQUEST_PHONE_STATE = 2;
     private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.CAMERA,
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -51,7 +52,8 @@ public class WelcomeActivity extends AppCompatActivity {
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,9 +107,9 @@ public class WelcomeActivity extends AppCompatActivity {
         }
         etUsername.setText("本机设备ID:"+Id+" (长按复制)");
         if (Id.indexOf("0")!=-1){
-            username="OpticsX"+Id.replace("0","a");
+            username="OpticsX_HE"+Id.replace("0","a");
         }else {
-            username="OpticsX"+Id;
+            username="OpticsX_HE"+Id;
         }
         confromPwd= MD5Utils.getStringMD5(username);
         LogUtils.i("TAG","word="+confromPwd);

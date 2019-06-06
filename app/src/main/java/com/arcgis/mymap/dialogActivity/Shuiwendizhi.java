@@ -81,8 +81,11 @@ public class Shuiwendizhi extends Activity implements View.OnClickListener{
         pposition = intent.getStringExtra("position");
         Cursor utc=db.query("Geoswdzpoints"+pposition,null,"name != ? and name != ? and name != ? and name != ? and name != ? and name != ? and name != ?",
                 new String[]{"H","Z","J","P","T","R","FY"},null,null,null);
-        String str = FirstNameUtils.getName(utc,"c");
+        Cursor cursor = db.query("Geoswdzpoints"+pposition,null,null,null,null,null,null);
+        String str = FirstNameUtils.getName(utc,"SW");
         et.setText(str);
+        String classification = FirstNameUtils.getClassification3(cursor,"泉水");
+        bt.setText(classification);
 
     }
     @Override

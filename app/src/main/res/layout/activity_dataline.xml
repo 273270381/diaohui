@@ -228,6 +228,7 @@
         android:layout_height="50dp">
         <Button
             android:text="查看"
+            android:visibility="gone"
             android:background="@drawable/radiobutton_backgroundclick"
             android:textColor="@color/color16"
             android:button="@null"

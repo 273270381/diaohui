@@ -23,12 +23,34 @@ public class Degree {
         return deree;
     }
     public static double getAngle1(double lat_a, double lng_a, double lat_b, double lng_b){
-        double y = Math.sin(lng_b - lng_a) * Math.cos(lat_b);
+        double y = Math.sin(lng_b - lng_a) * Math.cos(lat_b - lat_a);
         double x = Math.cos(lat_a) * Math.sin(lat_b) - Math.sin(lat_a) * Math.cos(lat_b) * Math.cos(lng_b - lng_a);
         double brng = Math.atan2(y, x);
         brng = Math.toDegrees(brng);
         if (brng < 0)
             brng = brng + 360;
         return brng;
+    }
+    public static int getRotationBetweenLines(double centerX, double centerY, double xInView, double yInView){
+        double rotation = 0;
+        double k1 = (double) (centerY - centerY) / (centerX * 2 - centerX);
+        double k2 = (double) (yInView - centerY) / (xInView - centerX);
+        double tmpDegree = Math.atan((Math.abs(k1 - k2)) / (1 + k1 * k2)) / Math.PI * 180;
+        if (xInView > centerX && yInView < centerY) {  //第一象限
+            rotation = 90 - tmpDegree;
+        } else if (xInView > centerX && yInView > centerY) //第二象限
+        {
+            rotation = 90 + tmpDegree;
+        } else if (xInView < centerX && yInView > centerY) { //第三象限
+            rotation = 270 - tmpDegree;
+        } else if (xInView < centerX && yInView < centerY) { //第四象限
+            rotation = 270 + tmpDegree;
+        } else if (xInView == centerX && yInView < centerY) {
+            rotation = 0;
+        } else if (xInView == centerX && yInView > centerY) {
+            rotation = 180;
+        }
+
+        return  (int) rotation;
     }
 }

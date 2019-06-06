@@ -6,11 +6,16 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.arcgis.mymap.Geological.GeologicalMapActivity;
 import com.arcgis.mymap.R;
+import com.arcgis.mymap.contacts.DicengyanxingPoint;
+import com.arcgis.mymap.contacts.DixingdimaoPoint;
+import com.arcgis.mymap.contacts.GouzhuwuPoint;
 import com.arcgis.mymap.contacts.LitepalPoints;
 import com.arcgis.mymap.contacts.MoreLines;
+import com.arcgis.mymap.contacts.ShuiwendizhiPoint;
 import com.arcgis.mymap.contacts.SurFace;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.PointCollection;
@@ -36,145 +41,176 @@ import java.util.concurrent.ExecutorService;
  */
 
 public class GeoShowPointUtils {
-    final static int CANSHUA= 1;
-    final static int CANSHUB= 2;
-    final static int CANSHUC= 3;
+    final static int DXDM= 1;
+    final static int DCYX= 2;
+    final static int SWDZ= 3;
+    final static int GZW= 4;
+    final static int CANSHUB= 5;
+    final static int CANSHUC= 6;
+    final static int POINT= 7;
 
-    public static void ShowAllPointsUtils(final Context context, ExecutorService threadpool, final List<LitepalPoints> pointsList,
-                                          final List<MoreLines> linesList, final List<SurFace> surFaces, final MapView mapView){
+    public static void ShowAllPointsUtils(final Context context, ExecutorService threadpool,final List<LitepalPoints> pointsList, final List<DixingdimaoPoint> list_dxdm,final List<DicengyanxingPoint> list_dcyx,
+            final List<ShuiwendizhiPoint> list_swdz,final List<GouzhuwuPoint> list_gzw, final List<MoreLines> linesList, final List<SurFace> surFaces, final MapView mapView){
          final String[] data3 = {"岩溶","滑坡","危岩崩塌与岩堆","泥石流","积雪","雪崩","风沙","采空区","水库坍岸","强震区","地震液化","涎流冰"};
         final  Handler phander = new Handler(){
             @Override
             public void handleMessage(Message msg) {
                 if (msg!=null){
                     switch (msg.what){
-                        case CANSHUA:
+                        case DXDM:
                             String name = msg.getData().getString("name");
                             double la= msg.getData().getDouble("la");
                             double ln = msg.getData().getDouble("ln");
                             double high = msg.getData().getDouble("high");
-                            String classification = msg.getData().getString("classification");
-                            String des = msg.getData().getString("description");
-                            final Point showpoint=new Point(la,ln,high, SpatialReferences.getWgs84());
+                            final Point showpoint=new Point(la,ln,high);
                             final GraphicsOverlay graphicsOverlayshow=new GraphicsOverlay();
                             mapView.getGraphicsOverlays().add(graphicsOverlayshow);
-                            if (classification.equals("地调点")){
-                                BitmapDrawable bitmapDrawable = (BitmapDrawable)context. getResources().getDrawable(R.mipmap.didiaodian);
-                                final PictureMarkerSymbol pictureMarkerSymbol2 = new PictureMarkerSymbol(bitmapDrawable);
-                                pictureMarkerSymbol2.loadAsync();
-                                pictureMarkerSymbol2.addDoneLoadingListener(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Graphic ph = new Graphic(showpoint, pictureMarkerSymbol2);
-                                        graphicsOverlayshow.getGraphics().add(ph);
-                                    }
-                                });
-                                TextSymbol textSymbolh = new TextSymbol(12f, name, Color.GREEN, TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.TOP  );
-                                graphicsOverlayshow.getGraphics().add(new Graphic(showpoint,textSymbolh));
-                            }
-                            if (classification.equals("产状")){
-                                BitmapDrawable bitmapDrawable = (BitmapDrawable)context. getResources().getDrawable(R.mipmap.cz);
-                                final PictureMarkerSymbol pictureMarkerSymbol2 = new PictureMarkerSymbol(bitmapDrawable);
-                                pictureMarkerSymbol2.loadAsync();
-                                pictureMarkerSymbol2.addDoneLoadingListener(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Graphic ph = new Graphic(showpoint, pictureMarkerSymbol2);
-                                        graphicsOverlayshow.getGraphics().add(ph);
-                                    }
-                                });
-                                TextSymbol textSymbolh = new TextSymbol(12f, name, Color.GREEN, TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.TOP  );
-                                graphicsOverlayshow.getGraphics().add(new Graphic(showpoint,textSymbolh));
-                            }
-                            if (classification.equals("节理")){
-                                BitmapDrawable bitmapDrawable = (BitmapDrawable)context. getResources().getDrawable(R.mipmap.jl);
-                                final PictureMarkerSymbol pictureMarkerSymbol2 = new PictureMarkerSymbol(bitmapDrawable);
-                                pictureMarkerSymbol2.loadAsync();
-                                pictureMarkerSymbol2.addDoneLoadingListener(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Graphic ph = new Graphic(showpoint, pictureMarkerSymbol2);
-                                        graphicsOverlayshow.getGraphics().add(ph);
-                                    }
-                                });
-                                TextSymbol textSymbolh = new TextSymbol(12f, name, Color.GREEN, TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.TOP  );
-                                graphicsOverlayshow.getGraphics().add(new Graphic(showpoint,textSymbolh));
-                            }
-                            if (classification.equals("地质时代")){
-                                BitmapDrawable bitmapDrawable = (BitmapDrawable)context. getResources().getDrawable(R.mipmap.point1);
-                                final PictureMarkerSymbol pictureMarkerSymbol2 = new PictureMarkerSymbol(bitmapDrawable);
-                                pictureMarkerSymbol2.loadAsync();
-                                pictureMarkerSymbol2.addDoneLoadingListener(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Graphic ph = new Graphic(showpoint, pictureMarkerSymbol2);
-                                        graphicsOverlayshow.getGraphics().add(ph);
-                                    }
-                                });
-                                TextSymbol textSymbolh = new TextSymbol(12f, name, Color.GREEN, TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.TOP  );
-                                graphicsOverlayshow.getGraphics().add(new Graphic(showpoint,textSymbolh));
-                            }
-                            if (classification.indexOf("p")!=-1){
-                                BitmapDrawable bitmapDrawable = (BitmapDrawable)context. getResources().getDrawable(R.mipmap.camera2);
-                                final PictureMarkerSymbol pictureMarkerSymbol2 = new PictureMarkerSymbol(bitmapDrawable);
-                                pictureMarkerSymbol2.loadAsync();
-                                pictureMarkerSymbol2.addDoneLoadingListener(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Graphic ph = new Graphic(showpoint, pictureMarkerSymbol2);
-                                        graphicsOverlayshow.getGraphics().add(ph);
-                                    }
-                                });
-                                TextSymbol textSymbolh = new TextSymbol(12f, name, Color.GREEN, TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.TOP  );
-                                graphicsOverlayshow.getGraphics().add(new Graphic(showpoint,textSymbolh));
-                            }
+                            BitmapDrawable bitmapDrawable = (BitmapDrawable)context. getResources().getDrawable(R.mipmap.didiaodian);
+                            final PictureMarkerSymbol pictureMarkerSymbol2 = new PictureMarkerSymbol(bitmapDrawable);
+                            pictureMarkerSymbol2.loadAsync();
+                            pictureMarkerSymbol2.addDoneLoadingListener(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Graphic ph = new Graphic(showpoint, pictureMarkerSymbol2);
+                                    graphicsOverlayshow.getGraphics().add(ph);
+                                }
+                            });
+                            TextSymbol textSymbolh = new TextSymbol(12f, name, Color.GREEN, TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.TOP  );
+                            graphicsOverlayshow.getGraphics().add(new Graphic(showpoint,textSymbolh));
+                            break;
+                        case DCYX:
+                            String name_dcyx = msg.getData().getString("name");
+                            double la_dcyx= msg.getData().getDouble("la");
+                            double ln_dcyx = msg.getData().getDouble("ln");
+                            double high_dcyx = msg.getData().getDouble("high");
+                            final Point showpoint_dcyx=new Point(la_dcyx,ln_dcyx,high_dcyx);
+                            final GraphicsOverlay graphicsOverlayshow_dcyx=new GraphicsOverlay();
+                            mapView.getGraphicsOverlays().add(graphicsOverlayshow_dcyx);
+                            BitmapDrawable bitmapDrawable_dcyx = (BitmapDrawable)context. getResources().getDrawable(R.mipmap.didiaodian);
+                            final PictureMarkerSymbol pictureMarkerSymbol_dcyx = new PictureMarkerSymbol(bitmapDrawable_dcyx);
+                            pictureMarkerSymbol_dcyx.loadAsync();
+                            pictureMarkerSymbol_dcyx.addDoneLoadingListener(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Graphic ph = new Graphic(showpoint_dcyx, pictureMarkerSymbol_dcyx);
+                                    graphicsOverlayshow_dcyx.getGraphics().add(ph);
+                                }
+                            });
+                            TextSymbol textSymbolh_dcyx = new TextSymbol(12f, name_dcyx, Color.GREEN, TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.TOP  );
+                            graphicsOverlayshow_dcyx.getGraphics().add(new Graphic(showpoint_dcyx,textSymbolh_dcyx));
+                            break;
+                        case SWDZ:
+                            String name_swdz = msg.getData().getString("name");
+                            double la_swdz= msg.getData().getDouble("la");
+                            double ln_swdz = msg.getData().getDouble("ln");
+                            double high_swdz = msg.getData().getDouble("high");
+                            final Point showpoint_swdz=new Point(la_swdz,ln_swdz,high_swdz);
+                            final GraphicsOverlay graphicsOverlayshow_swdz=new GraphicsOverlay();
+                            mapView.getGraphicsOverlays().add(graphicsOverlayshow_swdz);
+                            BitmapDrawable bitmapDrawable_swdz = (BitmapDrawable)context. getResources().getDrawable(R.mipmap.didiaodian);
+                            final PictureMarkerSymbol pictureMarkerSymbol_swdz = new PictureMarkerSymbol(bitmapDrawable_swdz);
+                            pictureMarkerSymbol_swdz.loadAsync();
+                            pictureMarkerSymbol_swdz.addDoneLoadingListener(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Graphic ph = new Graphic(showpoint_swdz, pictureMarkerSymbol_swdz);
+                                    graphicsOverlayshow_swdz.getGraphics().add(ph);
+                                }
+                            });
+                            TextSymbol textSymbolh_swdz = new TextSymbol(12f, name_swdz, Color.GREEN, TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.TOP  );
+                            graphicsOverlayshow_swdz.getGraphics().add(new Graphic(showpoint_swdz,textSymbolh_swdz));
+                            break;
+                        case GZW:
+                            String name_gzw = msg.getData().getString("name");
+                            double la_gzw= msg.getData().getDouble("la");
+                            double ln_gzw = msg.getData().getDouble("ln");
+                            double high_gzw = msg.getData().getDouble("high");
+                            final Point showpoint_gzw=new Point(la_gzw,ln_gzw,high_gzw);
+                            final GraphicsOverlay graphicsOverlayshow_gzw=new GraphicsOverlay();
+                            mapView.getGraphicsOverlays().add(graphicsOverlayshow_gzw);
+                            BitmapDrawable bitmapDrawable_gzw = (BitmapDrawable)context. getResources().getDrawable(R.mipmap.didiaodian);
+                            final PictureMarkerSymbol pictureMarkerSymbol_gzw = new PictureMarkerSymbol(bitmapDrawable_gzw);
+                            pictureMarkerSymbol_gzw.loadAsync();
+                            pictureMarkerSymbol_gzw.addDoneLoadingListener(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Graphic ph = new Graphic(showpoint_gzw, pictureMarkerSymbol_gzw);
+                                    graphicsOverlayshow_gzw.getGraphics().add(ph);
+                                }
+                            });
+                            TextSymbol textSymbolh_gzw = new TextSymbol(12f, name_gzw, Color.GREEN, TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.TOP  );
+                            graphicsOverlayshow_gzw.getGraphics().add(new Graphic(showpoint_gzw,textSymbolh_gzw));
+                            break;
+                        case POINT:
+                            String name_p = msg.getData().getString("name");
+                            double la_p= msg.getData().getDouble("la");
+                            double ln_p = msg.getData().getDouble("ln");
+                            double high_p = msg.getData().getDouble("high");
+                            final Point showpoint_p=new Point(la_p,ln_p,high_p);
+                            final GraphicsOverlay graphicsOverlayshow_p=new GraphicsOverlay();
+                            mapView.getGraphicsOverlays().add(graphicsOverlayshow_p);
+                            BitmapDrawable bitmapDrawable_p = (BitmapDrawable)context. getResources().getDrawable(R.mipmap.camera2);
+                            final PictureMarkerSymbol pictureMarkerSymbol_p = new PictureMarkerSymbol(bitmapDrawable_p);
+                            pictureMarkerSymbol_p.loadAsync();
+                            pictureMarkerSymbol_p.addDoneLoadingListener(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Graphic ph = new Graphic(showpoint_p, pictureMarkerSymbol_p);
+                                    graphicsOverlayshow_p.getGraphics().add(ph);
+                                }
+                            });
+                            TextSymbol textSymbolh_p = new TextSymbol(12f, name_p, Color.GREEN, TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.TOP  );
+                            graphicsOverlayshow_p.getGraphics().add(new Graphic(showpoint_p,textSymbolh_p));
                             break;
                         case CANSHUB:
                             List<String> gla = (List<String>) msg.getData().get("gla");
                             List<String> gln = (List<String>) msg.getData().get("gln");
                             String clas = msg.getData().getString("classification");
-                            if (!useList(data3,clas)){
+//                            if (!useList(data3,clas)){
+//                                final GraphicsOverlay graphicsOverlayshowH=new GraphicsOverlay();
+//                                mapView.getGraphicsOverlays().add(graphicsOverlayshowH);
+//                                SimpleLineSymbol simpleLineSymbolH = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH_DOT_DOT, Color.RED, 2);
+//                                PointCollection pointCollection=new PointCollection(mapView.getSpatialReference());
+//                                for (int a = 0 ; a<= gla.size()-1 ; a++){
+//                                    pointCollection.add(Double.parseDouble(gla.get(a)),Double.parseDouble(gln.get(a)));
+//                                }
+//                                Polyline polyline=new Polyline(pointCollection);
+//                                Graphic line = new Graphic(polyline, simpleLineSymbolH);
+//                                graphicsOverlayshowH.getGraphics().add(line);
+//                                TextSymbol textSymbol = new TextSymbol(12f, clas, Color.GREEN, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.TOP  );
+//                                graphicsOverlayshowH.getGraphics().add(new Graphic(pointCollection.get(0),textSymbol));
+//                                graphicsOverlayshowH.getGraphics().add(new Graphic(pointCollection.get(1),textSymbol));
+//                            }else {
                                 final GraphicsOverlay graphicsOverlayshowH=new GraphicsOverlay();
                                 mapView.getGraphicsOverlays().add(graphicsOverlayshowH);
-                                SimpleLineSymbol simpleLineSymbolH = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH_DOT_DOT, Color.RED, 2);
-                                PointCollection pointCollection=new PointCollection(SpatialReferences.getWgs84());
+                                SimpleLineSymbol simpleLineSymbolH = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.YELLOW, 1);
+                                PointCollection pointCollection=new PointCollection(mapView.getSpatialReference());
                                 for (int a = 0 ; a<= gla.size()-1 ; a++){
                                     pointCollection.add(Double.parseDouble(gla.get(a)),Double.parseDouble(gln.get(a)));
                                 }
-                                Polyline polyline=new Polyline(pointCollection,SpatialReferences.getWgs84());
-                                Graphic line = new Graphic(polyline, simpleLineSymbolH);
-                                graphicsOverlayshowH.getGraphics().add(line);
-                                TextSymbol textSymbol = new TextSymbol(12f, clas, Color.GREEN, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.TOP  );
-                                graphicsOverlayshowH.getGraphics().add(new Graphic(pointCollection.get(0),textSymbol));
-                                graphicsOverlayshowH.getGraphics().add(new Graphic(pointCollection.get(1),textSymbol));
-                            }else {
-                                final GraphicsOverlay graphicsOverlayshowH=new GraphicsOverlay();
-                                mapView.getGraphicsOverlays().add(graphicsOverlayshowH);
-                                SimpleLineSymbol simpleLineSymbolH = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.YELLOW, 2);
-                                PointCollection pointCollection=new PointCollection(SpatialReferences.getWgs84());
-                                for (int a = 0 ; a<= gla.size()-1 ; a++){
-                                    pointCollection.add(Double.parseDouble(gla.get(a)),Double.parseDouble(gln.get(a)));
-                                }
-                                Polyline polyline=new Polyline(pointCollection,SpatialReferences.getWgs84());
+                                Polyline polyline=new Polyline(pointCollection);
                                 Graphic line = new Graphic(polyline, simpleLineSymbolH);
                                 graphicsOverlayshowH.getGraphics().add(line);
                                 TextSymbol textSymbolh2 = new TextSymbol(12f, clas, Color.GREEN, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.TOP  );
                                 graphicsOverlayshowH.getGraphics().add(new Graphic(polyline,textSymbolh2));
-                            }
+                           // }
                             break;
                         case CANSHUC:
                             List<String> mgla = (List<String>) msg.getData().get("gla");
                             List<String> mgln = (List<String>) msg.getData().get("gln");
+                            Log.i("TAG","mgla="+mgla.toString());
+                            Log.i("TAG","mgln="+mgln.toString());
                             String mclas = msg.getData().getString("classification");
                             final GraphicsOverlay graphicsOverlayshowM=new GraphicsOverlay();
                             mapView.getGraphicsOverlays().add(graphicsOverlayshowM);
                             LineSymbol outline = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID,Color.BLUE,1);
                             SimpleFillSymbol simpleFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID,R.color.color29,outline);
-                            PointCollection pointCollectionM=new PointCollection(SpatialReferences.getWgs84());
+                            PointCollection pointCollectionM=new PointCollection(mapView.getSpatialReference());
                             for (int a = 0 ; a<= mgla.size()-1 ; a++){
                                 pointCollectionM.add(Double.parseDouble(mgla.get(a)),Double.parseDouble(mgln.get(a)));
                             }
-                            Polygon polygon=new Polygon(pointCollectionM,SpatialReferences.getWgs84());
+                            pointCollectionM = GeologicalMapActivity.OrderPoint(pointCollectionM);
+                            Polygon polygon=new Polygon(pointCollectionM);
                             Graphic fill = new Graphic(polygon, simpleFillSymbol);
                             graphicsOverlayshowM.getGraphics().add(fill);
                             TextSymbol textSymbolh3 = new TextSymbol(12f, mclas, Color.GREEN, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.TOP  );
@@ -196,7 +232,91 @@ public class GeoShowPointUtils {
                         String classification = pointsList.get(a).getClassification();
                         String des = pointsList.get(a).getDescription();
                         Message msg = new Message();
-                        msg.what = GeologicalMapActivity.CANSHUA;
+                        msg.what = GeoShowPointUtils.POINT;
+                        Bundle bundle = new Bundle();
+                        bundle.putString("name",name);
+                        bundle.putDouble("la",la);
+                        bundle.putDouble("ln",ln);
+                        bundle.putDouble("high",high);
+                        bundle.putString("classification",classification);
+                        bundle.putString("description",des);
+                        msg.setData(bundle);
+                        phander.sendMessage(msg);
+                    }
+                }
+                if (list_dxdm.size()!=0){
+                    for (int a = 0 ; a <= list_dxdm.size()-1 ; a ++ ){
+                        String name = list_dxdm.get(a).getName();
+                        double la = Double.parseDouble(list_dxdm.get(a).getLa());
+                        double ln = Double.parseDouble(list_dxdm.get(a).getLn());
+                        double high = Double.parseDouble(list_dxdm.get(a).getHigh());
+                        String classification = list_dxdm.get(a).getClassification();
+                        String des = list_dxdm.get(a).getDescription();
+                        Message msg = new Message();
+                        msg.what = GeoShowPointUtils.DXDM;
+                        Bundle bundle = new Bundle();
+                        bundle.putString("name",name);
+                        bundle.putDouble("la",la);
+                        bundle.putDouble("ln",ln);
+                        bundle.putDouble("high",high);
+                        bundle.putString("classification",classification);
+                        bundle.putString("description",des);
+                        msg.setData(bundle);
+                        phander.sendMessage(msg);
+                    }
+                }
+                if (list_dcyx.size()!=0){
+                    for (int a = 0 ; a <= list_dcyx.size()-1 ; a ++ ){
+                        String name = list_dcyx.get(a).getName();
+                        double la = Double.parseDouble(list_dcyx.get(a).getLa());
+                        double ln = Double.parseDouble(list_dcyx.get(a).getLn());
+                        double high = Double.parseDouble(list_dcyx.get(a).getHigh());
+                        String classification = list_dcyx.get(a).getClassification();
+                        String des = list_dcyx.get(a).getDescription();
+                        Message msg = new Message();
+                        msg.what = GeoShowPointUtils.DCYX;
+                        Bundle bundle = new Bundle();
+                        bundle.putString("name",name);
+                        bundle.putDouble("la",la);
+                        bundle.putDouble("ln",ln);
+                        bundle.putDouble("high",high);
+                        bundle.putString("classification",classification);
+                        bundle.putString("description",des);
+                        msg.setData(bundle);
+                        phander.sendMessage(msg);
+                    }
+                }
+                if (list_swdz.size()!=0){
+                    for (int a = 0 ; a <= list_swdz.size()-1 ; a ++ ){
+                        String name = list_swdz.get(a).getName();
+                        double la = Double.parseDouble(list_swdz.get(a).getLa());
+                        double ln = Double.parseDouble(list_swdz.get(a).getLn());
+                        double high = Double.parseDouble(list_swdz.get(a).getHigh());
+                        String classification = list_swdz.get(a).getSllx();
+                        String des = list_swdz.get(a).getDes();
+                        Message msg = new Message();
+                        msg.what = GeoShowPointUtils.SWDZ;
+                        Bundle bundle = new Bundle();
+                        bundle.putString("name",name);
+                        bundle.putDouble("la",la);
+                        bundle.putDouble("ln",ln);
+                        bundle.putDouble("high",high);
+                        bundle.putString("classification",classification);
+                        bundle.putString("description",des);
+                        msg.setData(bundle);
+                        phander.sendMessage(msg);
+                    }
+                }
+                if (list_gzw.size()!=0){
+                    for (int a = 0 ; a <= list_gzw.size()-1 ; a ++ ){
+                        String name = list_gzw.get(a).getName();
+                        double la = Double.parseDouble(list_gzw.get(a).getLa());
+                        double ln = Double.parseDouble(list_gzw.get(a).getLn());
+                        double high = Double.parseDouble(list_gzw.get(a).getHigh());
+                        String classification = list_gzw.get(a).getClassification();
+                        String des = list_gzw.get(a).getDescription();
+                        Message msg = new Message();
+                        msg.what = GeoShowPointUtils.GZW;
                         Bundle bundle = new Bundle();
                         bundle.putString("name",name);
                         bundle.putDouble("la",la);
@@ -215,7 +335,7 @@ public class GeoShowPointUtils {
                         String classification = linesList.get(a).getClassification();
                         String des = linesList.get(a).getDescription();
                         Message msg = new Message();
-                        msg.what = GeologicalMapActivity.CANSHUB;
+                        msg.what = GeoShowPointUtils.CANSHUB;
                         Bundle bundle = new Bundle();
                         bundle.putStringArrayList("gla", (ArrayList<String>) gla);
                         bundle.putStringArrayList("gln", (ArrayList<String>) gln);
@@ -232,7 +352,7 @@ public class GeoShowPointUtils {
                         String classification = surFaces.get(a).getClassification();
                         String des = surFaces.get(a).getDescription();
                         Message msg = new Message();
-                        msg.what = GeologicalMapActivity.CANSHUC;
+                        msg.what = GeoShowPointUtils.CANSHUC;
                         Bundle bundle = new Bundle();
                         bundle.putStringArrayList("gla", (ArrayList<String>) gla);
                         bundle.putStringArrayList("gln", (ArrayList<String>) gln);

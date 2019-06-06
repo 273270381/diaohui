@@ -1,5 +1,7 @@
 package com.arcgis.mymap.contacts;
 
+import com.esri.arcgisruntime.geometry.Point;
+
 import java.io.Serializable;
 
 public class DixingdimaoPoint implements Serializable{

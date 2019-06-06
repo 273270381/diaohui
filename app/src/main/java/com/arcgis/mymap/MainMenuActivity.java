@@ -22,6 +22,7 @@ import android.widget.RadioButton;
 
 import com.arcgis.mymap.contacts.MyDatabaseHelper;
 import com.arcgis.mymap.contacts.NewProject;
+import com.arcgis.mymap.utils.CoorTransActivity;
 import com.arcgis.mymap.utils.DataManagerActivity;
 import com.arcgis.mymap.utils.DataManagerExportActivity;
 import com.arcgis.mymap.utils.LogUtils;
@@ -74,24 +75,10 @@ public class MainMenuActivity extends AppCompatActivity {
     public RadioButton bt2;
     private static final int REQUEST_CHOOSER = 1234;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.WRITE_SETTINGS,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    public static void verifyStoragePermissions(Activity activity) {
-        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
-        }
-    }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainmenu);
-        verifyStoragePermissions(this);
         intView();
         setListenet();
         setConvenientBanner();
@@ -267,7 +254,7 @@ public class MainMenuActivity extends AppCompatActivity {
         bg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(MainMenuActivity.this,ConvertTools.class);
+                Intent i=new Intent(MainMenuActivity.this,CoorTransActivity.class);
                 startActivity(i);
             }
         });

@@ -5,4 +5,5 @@
     <dimen name="viewpoint_padding">20dp</dimen>
     <dimen name="shadow_width">5dp</dimen>
     <dimen name="slidingmenu_offset">50dp</dimen>
+    <dimen name="text_size">18dp</dimen>
 </resources>

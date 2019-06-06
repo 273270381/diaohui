@@ -27,6 +27,7 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DizhixinxiActivity extends Activity implements View.OnClickListener{
     private Button bt1;
@@ -47,6 +48,8 @@ public class DizhixinxiActivity extends Activity implements View.OnClickListener
     private EditText et6;
     private EditText et7;
     public ArrayList<JsonBean> options1Items = new ArrayList<>();//省;
+    private List<String> list = new ArrayList<>();
+    private List<String> listString = new ArrayList<>();
     public ArrayList<ArrayList<String>> options2Items = new ArrayList<>();//市;
     public ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();//区;
     private String pposition;
@@ -90,14 +93,19 @@ public class DizhixinxiActivity extends Activity implements View.OnClickListener
 
         dbHelper=new MyDatabaseHelper(this,"pointsStore.db",null,5);
         db=dbHelper.getWritableDatabase();
+        list.add("新生界第四系Q（上）晚更新统Q3");
+        list.add("耕植土zzt");
 
         Intent intent = getIntent();
         pposition = intent.getStringExtra("position");
         Cursor utc=db.query("Geodcyxpoints"+pposition,null,"name != ? and name != ? and name != ? and name != ? and name != ? and name != ? and name != ?",
                 new String[]{"H","Z","J","P","T","R","FY"},null,null,null);
-        String str = FirstNameUtils.getName(utc,"b");
+        Cursor cursor = db.query("Geodcyxpoints"+pposition,null,null,null,null,null,null);
+        String str = FirstNameUtils.getName(utc,"DY");
+        listString.addAll(FirstNameUtils.getList(cursor,list));
         et.setText(str);
-
+        bt1.setText(listString.get(0));
+        bt2.setText(listString.get(1));
     }
     @Override
     public void onClick(View v) {

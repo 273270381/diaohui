@@ -75,7 +75,7 @@ public class NewDataActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.newdata_manager);
+        setContentView(R.layout.newdata_manager_hangce);
         try {
             init();
         } catch (ParseException e) {
@@ -308,7 +308,7 @@ public class NewDataActivity extends Activity {
                 break;
                 case R.id.bt1:
                     if (b){
-                        LinearLayout linearLayout2 = (LinearLayout) getLayoutInflater().inflate(R.layout.detaildata_data_dcyx, null);
+                        LinearLayout linearLayout2 = (LinearLayout) getLayoutInflater().inflate(R.layout.detaildata_new_data, null);
                         AlertDialog dialog1 = new AlertDialog.Builder(NewDataActivity.this)
                                 .setTitle("详细：")
                                 .setView(linearLayout2)
@@ -333,14 +333,12 @@ public class NewDataActivity extends Activity {
                         TextView tv2 = (TextView) dialog1.findViewById(R.id.dianming);
                         TextView tv3 = (TextView) dialog1.findViewById(R.id.jingdu);
                         TextView tv4 = (TextView) dialog1.findViewById(R.id.weidu);
-                        TextView tv5 = (TextView) dialog1.findViewById(R.id.gaocheng);
-                        TextView tv6 = (TextView) dialog1.findViewById(R.id.leibie);
+                        TextView tv6 = (TextView) dialog1.findViewById(R.id.daima);
                         TextView tv7 = (TextView) dialog1.findViewById(R.id.miaoshu);
                         tv1.setText(String.valueOf(id));
                         tv2.setText(name);
                         tv3.setText(la);
                         tv4.setText(ln);
-                        tv5.setText(high);
                         tv6.setText(classification);
                         tv7.setText(des);
                         Button btnpositive=dialog1.getButton(AlertDialog.BUTTON_POSITIVE);

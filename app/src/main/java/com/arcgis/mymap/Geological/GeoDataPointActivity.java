@@ -259,32 +259,37 @@ public class GeoDataPointActivity extends Activity {
 
     //根据查询条件，查询数据库
     public List<LitepalPoints> getData(List<LitepalPoints> list, Cursor cursor) throws ParseException {
-        if (cursor.moveToFirst()) {
-            do {
-                //遍历cursor对象，取出数据
-                LitepalPoints litepalPoints = new LitepalPoints();
-                int id = cursor.getInt(cursor.getColumnIndex("id"));
-                String name = cursor.getString(cursor.getColumnIndex("name"));
-                String la = cursor.getString(cursor.getColumnIndex("la"));
-                String ln = cursor.getString(cursor.getColumnIndex("ln"));
-                String high = cursor.getString(cursor.getColumnIndex("high"));
-                String classification=cursor.getString(cursor.getColumnIndex("gclassification"));
-                //String datetime=cursor.getString(cursor.getColumnIndex("time"));
-                String code=cursor.getString(cursor.getColumnIndex("gcode"));
-                String description = cursor.getString(cursor.getColumnIndex("gdescription"));
-                litepalPoints.setId(id);
-                litepalPoints.setName(name);
-                litepalPoints.setLa(la);
-                litepalPoints.setLn(ln);
-                litepalPoints.setHigh(high);
-                litepalPoints.setClassification(classification);
-                //litepalPoints.setDatetime(datetime);
-                litepalPoints.setDescription(description);
-                litepalPoints.setCode(code);
-                list.add(litepalPoints);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (cursor.moveToFirst()) {
+                    do {
+                        //遍历cursor对象，取出数据
+                        LitepalPoints litepalPoints = new LitepalPoints();
+                        int id = cursor.getInt(cursor.getColumnIndex("id"));
+                        String name = cursor.getString(cursor.getColumnIndex("name"));
+                        String la = cursor.getString(cursor.getColumnIndex("la"));
+                        String ln = cursor.getString(cursor.getColumnIndex("ln"));
+                        String high = cursor.getString(cursor.getColumnIndex("high"));
+                        String classification=cursor.getString(cursor.getColumnIndex("gclassification"));
+                        //String datetime=cursor.getString(cursor.getColumnIndex("time"));
+                        String code=cursor.getString(cursor.getColumnIndex("gcode"));
+                        String description = cursor.getString(cursor.getColumnIndex("gdescription"));
+                        litepalPoints.setId(id);
+                        litepalPoints.setName(name);
+                        litepalPoints.setLa(la);
+                        litepalPoints.setLn(ln);
+                        litepalPoints.setHigh(high);
+                        litepalPoints.setClassification(classification);
+                        //litepalPoints.setDatetime(datetime);
+                        litepalPoints.setDescription(description);
+                        litepalPoints.setCode(code);
+                        list.add(litepalPoints);
+                    } while (cursor.moveToNext());
+                }
+                cursor.close();
+            }
+        }).start();
         return list;
     }
     /** 由时间戳转化为文本 */
@@ -558,7 +563,7 @@ public class GeoDataPointActivity extends Activity {
                                             SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                             Date curDate =  new Date(System.currentTimeMillis());
                                             String  str  =  formatter.format(curDate);
-                                            writeGpx.createGpx(filename,listExport,str);
+                                            //writeGpx.createGpx(filename,listExport,str);
                                             ToastNotRepeat.show(GeoDataPointActivity.this,"导出成功！");
                                         }catch(Exception e){
                                             e.printStackTrace();
@@ -566,7 +571,7 @@ public class GeoDataPointActivity extends Activity {
                                     }else if (bt2.isChecked()){
                                         GeoWritekml writekml = new GeoWritekml();
                                         try {
-                                            writekml.createKml(filename,listExport);
+                                            //writekml.createKml(filename,listExport);
                                             ToastNotRepeat.show(GeoDataPointActivity.this,"导出成功！");
                                         } catch (Exception e) {
                                             e.printStackTrace();

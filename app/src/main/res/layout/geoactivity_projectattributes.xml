@@ -1,190 +1,442 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:background="#EEEEEE"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <RelativeLayout
-        android:background="@color/color15"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-        <ImageButton
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:background="@mipmap/novel_title_btnback"
-            android:id="@+id/back"
-            android:layout_width="40dp"
-            android:layout_height="40dp" />
-        <TextView
-            android:textSize="23sp"
-            android:textColor="@color/color2"
-            android:gravity="center"
-            android:layout_centerHorizontal="true"
-            android:text="项目属性"
-            android:layout_width="match_parent"
-            android:layout_height="50dp" />
-    </RelativeLayout>
     <LinearLayout
-        android:layout_margin="20dp"
-        android:background="@drawable/linearlayoutbackground"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="60dp">
-            <TextView
-                android:text="项目名称："
-                android:textSize="16sp"
-                android:gravity="center"
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_height="match_parent" />
-            <EditText
-                android:background="@null"
-                android:gravity="center_vertical"
-                android:id="@+id/etext1"
-                android:layout_marginRight="20dp"
-                android:layout_width="0dp"
-                android:layout_weight="5"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-        <View
-            android:background="#EEEEEE"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="60dp">
-            <TextView
-                android:text="项目编号："
-                android:textSize="16sp"
-                android:gravity="center"
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_height="match_parent" />
-            <EditText
-                android:background="@null"
-                android:gravity="center_vertical"
-                android:id="@+id/pronum"
-                android:layout_marginRight="20dp"
-                android:layout_width="0dp"
-                android:layout_weight="5"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-        <View
-            android:background="#EEEEEE"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="60dp">
-            <TextView
-                android:text="测量人员："
-                android:textSize="16sp"
-                android:gravity="center"
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_height="match_parent" />
-            <TextView
-                android:background="@null"
-                android:gravity="center_vertical"
-                android:id="@+id/etext5"
-                android:layout_marginRight="20dp"
-                android:layout_width="0dp"
-                android:layout_weight="5"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-        <View
-            android:background="#EEEEEE"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="60dp">
-            <TextView
-                android:text="文件路径："
-                android:textSize="16sp"
-                android:gravity="center"
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_height="match_parent" />
-            <TextView
-                android:gravity="center_vertical"
-                android:id="@+id/etext2"
-                android:layout_marginRight="20dp"
-                android:layout_width="0dp"
-                android:layout_weight="5"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-        <View
-            android:background="#EEEEEE"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="60dp">
-            <TextView
-                android:text="创建时间："
-                android:textSize="16sp"
-                android:gravity="center"
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_height="match_parent" />
-            <TextView
-                android:gravity="center_vertical"
-                android:id="@+id/etext3"
-                android:layout_marginRight="20dp"
-                android:layout_width="0dp"
-                android:layout_weight="5"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-        <View
-            android:background="#EEEEEE"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="60dp">
-            <TextView
-                android:text="描述："
-                android:layout_gravity="center_vertical"
-                android:textSize="16sp"
-                android:gravity="center"
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_height="wrap_content" />
-            <EditText
-                android:layout_gravity="center_vertical"
-                android:background="@null"
-                android:gravity="center_vertical"
-                android:id="@+id/etext4"
-                android:layout_marginRight="20dp"
-                android:layout_width="0dp"
-                android:layout_weight="5"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/bt"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/savebutton"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_alignParentRight="true"
+            android:background="@color/color15"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <ImageButton
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@mipmap/novel_title_btnback"
+                android:id="@+id/back"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+            <TextView
+                android:textSize="23sp"
+                android:textColor="@color/color2"
                 android:gravity="center"
-                android:text="保存"
-                android:layout_width="60dp"
-                android:layout_height="30dp" />
+                android:layout_centerHorizontal="true"
+                android:text="项目属性"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
         </RelativeLayout>
+        <LinearLayout
+            android:layout_margin="20dp"
+            android:background="@drawable/linearlayoutbackground"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="46dp">
+                <TextView
+                    android:text="项目名称："
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="match_parent" />
+                <EditText
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:id="@+id/etext1"
+                    android:layout_marginRight="20dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <View
+                android:background="#EEEEEE"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="46dp">
+                <TextView
+                    android:text="项目编号："
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="match_parent" />
+                <EditText
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:id="@+id/pronum"
+                    android:layout_marginRight="20dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <View
+                android:background="#EEEEEE"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="46dp">
+                <TextView
+                    android:text="勘察人员："
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:id="@+id/etext5"
+                    android:layout_marginRight="20dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <View
+                android:background="#EEEEEE"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <LinearLayout
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="46dp">
+                <TextView
+                    android:text="文件路径："
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:gravity="center_vertical"
+                    android:id="@+id/etext2"
+                    android:layout_marginRight="20dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <View
+                android:background="#EEEEEE"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="46dp">
+                <TextView
+                    android:text="创建时间："
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:gravity="center_vertical"
+                    android:id="@+id/etext3"
+                    android:layout_marginRight="20dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <View
+                android:background="#EEEEEE"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="46dp">
+                <TextView
+                    android:text="七参数设置"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/color2"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+                <ImageButton
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/ci_down"
+                    android:layout_marginRight="20dp"
+                    android:layout_centerVertical="true"
+                    android:background="@mipmap/ic_down"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp" />
+                <ImageButton
+                    android:visibility="gone"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/ci_up"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:background="@mipmap/ic_up"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp" />
+            </RelativeLayout>
+            <View
+                android:background="#EEEEEE"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/setting"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp">
+                    <TextView
+                        android:text="X平移(米):"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                    <EditText
+                        android:inputType="numberSigned|numberDecimal"
+                        android:id="@+id/x"
+                        android:gravity="center_vertical"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="5"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp">
+                    <TextView
+                        android:text="Y平移(米):"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                    <EditText
+                        android:inputType="numberSigned|numberDecimal"
+                        android:id="@+id/y"
+                        android:gravity="center_vertical"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="5"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp">
+                    <TextView
+                        android:text="Z平移(米):"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                    <EditText
+                        android:inputType="numberSigned|numberDecimal"
+                        android:id="@+id/z"
+                        android:gravity="center_vertical"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="5"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp">
+                    <TextView
+                        android:text="X轴旋转(秒):"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                    <EditText
+                        android:inputType="numberSigned|numberDecimal"
+                        android:id="@+id/rx"
+                        android:gravity="center_vertical"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="5"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp">
+                    <TextView
+                        android:text="Y轴旋转(秒):"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                    <EditText
+                        android:inputType="numberSigned|numberDecimal"
+                        android:id="@+id/ry"
+                        android:gravity="center_vertical"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="5"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp">
+                    <TextView
+                        android:text="Z轴旋转(秒):"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                    <EditText
+                        android:inputType="numberSigned|numberDecimal"
+                        android:id="@+id/rz"
+                        android:gravity="center_vertical"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="5"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp">
+                    <TextView
+                        android:text="尺度(ppm):"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                    <EditText
+                        android:inputType="numberSigned|numberDecimal"
+                        android:id="@+id/ppm"
+                        android:gravity="center_vertical"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="5"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp">
+                    <TextView
+                        android:text="中央子午:"
+                        android:hint="度.分分秒秒"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                    <EditText
+                        android:inputType="numberSigned|numberDecimal"
+                        android:id="@+id/zyzw"
+                        android:gravity="center_vertical"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="5"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/l1"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp">
+                    <TextView
+                        android:text="长半轴:"
+                        android:hint="0.0"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                    <EditText
+                        android:inputType="numberSigned|numberDecimal"
+                        android:id="@+id/cbz"
+                        android:gravity="center_vertical"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="5"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/l2"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp">
+                    <TextView
+                        android:text="扁率倒数:"
+                        android:hint="0.0"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                    <EditText
+                        android:inputType="numberSigned|numberDecimal"
+                        android:id="@+id/ds"
+                        android:gravity="center_vertical"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="5"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="46dp">
+                <TextView
+                    android:text="描述："
+                    android:layout_gravity="center_vertical"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:id="@+id/etext4"
+                    android:layout_marginRight="20dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/bt"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/savebutton"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center"
+                    android:text="保存"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp" />
+            </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</ScrollView>

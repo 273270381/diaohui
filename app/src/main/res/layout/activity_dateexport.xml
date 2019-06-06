@@ -24,6 +24,19 @@
             android:text="数据导出"
             android:layout_width="match_parent"
             android:layout_height="50dp" />
+        <Button
+            android:text="全部导出"
+            android:layout_alignParentRight="true"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:id="@+id/export_all"
+            android:background="@drawable/button_backgrond"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/color1"
+            android:layout_width="68dp"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
     <ListView
         android:id="@+id/listview"

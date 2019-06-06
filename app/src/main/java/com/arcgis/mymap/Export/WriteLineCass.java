@@ -21,8 +21,8 @@ import java.util.List;
  */
 
 public class WriteLineCass {
-    public void creatWgs84(String filename, List<MoreLines> list){
-        String path=createFile(filename);
+    public void creat(String filename, List<MoreLines> list,String exportpath){
+        String path=createFile(filename,exportpath);
         try {
             OutputStreamWriter oStreamWriter = new OutputStreamWriter(new FileOutputStream(path), "GB2312");
             for (int i=0;i<list.size();i++){
@@ -37,8 +37,24 @@ public class WriteLineCass {
             e.printStackTrace();
         }
     }
-    public void createbeijing54(String filename, List<MoreLines> list){
-        String path=createFile(filename);
+    public void creatWgs84(String filename, List<MoreLines> list,String exportpath){
+        String path=createFile(filename,exportpath);
+        try {
+            OutputStreamWriter oStreamWriter = new OutputStreamWriter(new FileOutputStream(path), "GB2312");
+            for (int i=0;i<list.size();i++){
+                String context=list.get(i).getClassification()+","+list.get(i).getCode()+","+list.get(i).getListla().get(0)+","+list.get(i).getListln().get(0)+",0.0"+"\r\n";
+                for (int k = 1;k<list.get(i).getListla().size();k++){
+                    context = context+list.get(i).getClassification()+",+,"+list.get(i).getListla().get(k)+","+list.get(i).getListln().get(k)+",0.0"+"\r\n";
+                }
+                oStreamWriter.append(context);
+            }
+            oStreamWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void createbeijing54(String filename, List<MoreLines> list,String exportpath){
+        String path=createFile(filename,exportpath);
         try{
             OutputStreamWriter oStreamWriter = new OutputStreamWriter(new FileOutputStream(path), "GB2312");
             for (int i=0;i<list.size();i++){
@@ -59,8 +75,8 @@ public class WriteLineCass {
             e.printStackTrace();
         }
     }
-    public void createxian80(String filename,List<MoreLines> list){
-        String path=createFile(filename);
+    public void createxian80(String filename,List<MoreLines> list,String exportpath){
+        String path=createFile(filename,exportpath);
         try{
             OutputStreamWriter oStreamWriter = new OutputStreamWriter(new FileOutputStream(path), Charset.forName("GB2312"));
             for (int i=0;i<list.size();i++){
@@ -90,8 +106,8 @@ public class WriteLineCass {
             e.printStackTrace();
         }
     }
-    public void createguojia2000(String filename,List<MoreLines> list){
-        String path=createFile(filename);
+    public void createguojia2000(String filename,List<MoreLines> list,String exportpath){
+        String path=createFile(filename,exportpath);
         try{
             OutputStreamWriter oStreamWriter = new OutputStreamWriter(new FileOutputStream(path), "GB2312");
             for (int i=0;i<list.size();i++){
@@ -120,12 +136,12 @@ public class WriteLineCass {
             e.printStackTrace();
         }
     }
-    public String createFile(String filename){
-        File file=new File(Environment.getExternalStorageDirectory()+"/MyMap/航测/Export");
+    public String createFile(String filename,String exportpath){
+        File file=new File(exportpath+"/航测/Export");
         if (!file.exists()){
             file.mkdirs();
         }
-        String path=Environment.getExternalStorageDirectory()+"/Mymap/航测/Export/"+filename+".dat";
+        String path=exportpath+"/航测/Export/"+filename+".dat";
         File file1=new File(path);
         if (file1.exists()){
             file1.delete();

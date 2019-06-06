@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -49,7 +50,10 @@ import com.arcgis.mymap.contacts.ShuiwendizhiPoint;
 import com.arcgis.mymap.utils.LogUtils;
 import com.arcgis.mymap.utils.SyncHorizontalScrollView;
 import com.arcgis.mymap.utils.ToastNotRepeat;
+import com.ipaulpro.afilechooser.FileChooserActivity;
+import com.ipaulpro.afilechooser.utils.FileUtils;
 
+import java.io.File;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -65,6 +69,9 @@ public class GeodataSWDZPointActivity extends Activity{
     private MyDatabaseHelper dbHelper;
     public SQLiteDatabase db;
     public String pposition;
+    private TextView exportpath;
+    private String path;
+    private static final int REQUEST_CHOOSER = 1;
     public List<NewProject> projects=new ArrayList<>();
     public List<ShuiwendizhiPoint> pointsList,listExport;
     public ShuiwendizhiPoint point;
@@ -329,21 +336,12 @@ public class GeodataSWDZPointActivity extends Activity{
                             for (int i=0;i<listLa.size();i++){
                                 db.delete("Geoswdzpoints"+pposition, "la=?", new String[]{listLa.get(i)});
                             }
-                            Cursor cursor = db.query("Geoswdzpoints"+pposition, null, null, null, null, null, null);
-                            List<ShuiwendizhiPoint> pointsList2 = new ArrayList<>();
-                            try {
-                                pointsList2=getData(pointsList2, cursor);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            final List<ShuiwendizhiPoint> finalPointsList = pointsList2;
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    leftAdapter=new LeftSwdzAdapter(finalPointsList,resource,GeodataSWDZPointActivity.this);
-                                    rightAdapter=new RightSwdzAdapter(finalPointsList,resource2,GeodataSWDZPointActivity.this);
-                                    leftlistView.setAdapter(leftAdapter);
-                                    rightlistView.setAdapter(rightAdapter);
+                                    leftAdapter.notifyDataSetChanged();
+                                    rightAdapter.notifyDataSetChanged();
+                                    comBoxAdapter.notifyDataSetChanged();
                                 }
                             }, 400);
                             Intent a=new Intent();
@@ -388,13 +386,9 @@ public class GeodataSWDZPointActivity extends Activity{
                                     public void onClick(DialogInterface dialog, int which) {
                                         Intent i=new Intent(GeodataSWDZPointActivity.this,GeologicalMapActivity.class);
                                         i.putExtra("name",name);
-                                        i.putExtra("sllx",sllx);
-                                        i.putExtra("smkd",smkd);
-                                        i.putExtra("ss",ss);
-                                        i.putExtra("ls",ls);
-                                        i.putExtra("ll",ll);
-                                        i.putExtra("sz",sz);
-                                        i.putExtra("miaoshu",des);
+                                        i.putExtra("jingdu",la);
+                                        i.putExtra("weidu",ln);
+                                        i.putExtra("gaodu",high);
                                         startActivity(i);
                                         Intent li=new Intent("com.showpoint.broadcasttest");
                                         sendBroadcast(li);
@@ -530,7 +524,7 @@ public class GeodataSWDZPointActivity extends Activity{
                                     }
                                     if (bt4.isChecked()){
                                         try{
-                                            GeoSwdzUtils.writeExcel(GeodataSWDZPointActivity.this,listExport,filename);
+                                            GeoSwdzUtils.writeExcel(GeodataSWDZPointActivity.this,listExport,filename,path);
                                             ToastNotRepeat.show(GeodataSWDZPointActivity.this,"导出成功！");
                                         }catch(Exception e){
                                             e.printStackTrace();
@@ -541,7 +535,7 @@ public class GeodataSWDZPointActivity extends Activity{
                                             SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                             Date curDate =  new Date(System.currentTimeMillis());
                                             String  str  =  formatter.format(curDate);
-                                            writeGpx.createSwdzGpx(filename,listExport,str);
+                                            writeGpx.createSwdzGpx(filename,listExport,str,path);
                                             ToastNotRepeat.show(GeodataSWDZPointActivity.this,"导出成功！");
                                         }catch(Exception e){
                                             e.printStackTrace();
@@ -549,7 +543,7 @@ public class GeodataSWDZPointActivity extends Activity{
                                     }else if (bt2.isChecked()){
                                         GeoWritekml writekml = new GeoWritekml();
                                         try {
-                                            writekml.createSwdzKml(filename,listExport);
+                                            writekml.createSwdzKml(filename,listExport,path);
                                             ToastNotRepeat.show(GeodataSWDZPointActivity.this,"导出成功！");
                                         } catch (Exception e) {
                                             e.printStackTrace();
@@ -567,7 +561,7 @@ public class GeodataSWDZPointActivity extends Activity{
                                                         if (radioButton1.isChecked()){
                                                             GeoSwdzCass writeCASS = new GeoSwdzCass();
                                                             try{
-                                                                writeCASS.creatWgs84(finalFilename,listExport);
+                                                                writeCASS.creatWgs84(finalFilename,listExport,path);
                                                                 ToastNotRepeat.show(GeodataSWDZPointActivity.this,"导出成功！");
                                                             }catch(Exception e){
                                                                 e.printStackTrace();
@@ -576,7 +570,7 @@ public class GeodataSWDZPointActivity extends Activity{
                                                         else if (radioButton2.isChecked()){
                                                             GeoSwdzCass writeCASS = new GeoSwdzCass();
                                                             try{
-                                                                writeCASS.createbeijing54(finalFilename,listExport);
+                                                                writeCASS.createbeijing54(finalFilename,listExport,path);
                                                                 ToastNotRepeat.show(GeodataSWDZPointActivity.this,"导出成功！");
                                                             }catch(Exception e){
                                                                 e.printStackTrace();
@@ -585,16 +579,24 @@ public class GeodataSWDZPointActivity extends Activity{
                                                         else if (radioButton3.isChecked()){
                                                             GeoSwdzCass writeCASS = new GeoSwdzCass();
                                                             try{
-                                                                writeCASS.createxian80(finalFilename,listExport);
+                                                                writeCASS.createxian80(finalFilename,listExport,path);
                                                                 ToastNotRepeat.show(GeodataSWDZPointActivity.this,"导出成功！");
                                                             }catch(Exception e){
                                                                 e.printStackTrace();
                                                             }
                                                         }
-                                                        else {
+                                                        else if (radioButton4.isChecked()){
                                                             GeoSwdzCass writeCASS = new GeoSwdzCass();
                                                             try{
-                                                                writeCASS.createguojia2000(finalFilename,listExport);
+                                                                writeCASS.createguojia2000(finalFilename,listExport,path);
+                                                                ToastNotRepeat.show(GeodataSWDZPointActivity.this,"导出成功！");
+                                                            }catch(Exception e){
+                                                                e.printStackTrace();
+                                                            }
+                                                        }else{
+                                                            GeoSwdzCass writeCASS = new GeoSwdzCass();
+                                                            try{
+                                                                writeCASS.create(finalFilename,listExport,path);
                                                                 ToastNotRepeat.show(GeodataSWDZPointActivity.this,"导出成功！");
                                                             }catch(Exception e){
                                                                 e.printStackTrace();
@@ -620,10 +622,24 @@ public class GeodataSWDZPointActivity extends Activity{
                     bt2= (RadioButton) dialog.findViewById(R.id.kml);
                     bt3= (RadioButton) dialog.findViewById(R.id.cass);
                     bt4= (RadioButton) dialog.findViewById(R.id.excel);
+                    exportpath = (TextView) dialog.findViewById(R.id.export_path);
+                    path = projects.get(Integer.parseInt(pposition)).getPath();
+                    exportpath.setText("导出目录:"+path);
+
                     Button btnpositive=dialog.getButton(AlertDialog.BUTTON_POSITIVE);
                     Button btnnegative=dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
                     btnpositive.setTextColor(getResources().getColor(R.color.color29));
                     btnnegative.setTextColor(getResources().getColor(R.color.color29));
+
+                    exportpath.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            FileUtils.mFileFileterBySuffixs.acceptSuffixs("");
+                            Intent f=new Intent(GeodataSWDZPointActivity.this,FileChooserActivity.class);
+                            startActivityForResult(f, REQUEST_CHOOSER);
+                        }
+                    });
+
                     break;
                 case R.id.search:
                     String tsname = text.getText().toString();
@@ -683,4 +699,29 @@ public class GeodataSWDZPointActivity extends Activity{
         super.onStop();
     }
     //遍历数组
+    /**
+     *更新项目路径
+     */
+    private void UpdatePath(String str){
+        ContentValues values = new ContentValues();
+        values.put("exportpath",str);
+        db.update("Geonewproject",values,"gposition = ?",new String[]{String.valueOf(pposition)});
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CHOOSER:
+                if (resultCode == RESULT_OK) {
+                    final Uri uri = data.getData();
+                    String path = FileUtils.getPath(this, uri);
+                    if (path != null && FileUtils.isLocal(path)) {
+                        File file = new File(path);
+                        String str = file.toString();
+                        UpdatePath(str);
+                        exportpath.setText("导出目录:"+str);
+                    }
+                }
+                break;
+        }
+    }
 }

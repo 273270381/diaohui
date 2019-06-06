@@ -29,7 +29,7 @@ public class GeoWritekml {
     /**
      * 传入两个参数，一个是kml名称，第二个是坐标点list
      */
-    public void  createKml(String dirName,List<LitepalPoints> list)throws Exception{
+    public void  createKml(String dirName,List<LitepalPoints> list,String exportpath)throws Exception{
 
         Element root= DocumentHelper.createElement("kml");
         Document document=DocumentHelper.createDocument(root);
@@ -64,11 +64,11 @@ public class GeoWritekml {
         format.setEncoding("utf-8");//设置编码格式
         format.setNewlines(true);//设置换行
         //将doc.kml写入到/mnt/sdcard/Mymap/doc.kml目录
-        File file=new File(Environment.getExternalStorageDirectory()+"/MyMap/地勘/Export");
+        File file=new File(exportpath+"/地勘/Export");
         if (!file.exists()) {
             file.mkdirs();
         }
-        String path=Environment.getExternalStorageDirectory()+"/Mymap/地勘/Export/"+dirName+".kml";
+        String path=exportpath+"/地勘/Export/"+dirName+".kml";
         File file1=new File(path);
         if (file1.exists()){
             file1.delete();
@@ -79,7 +79,7 @@ public class GeoWritekml {
         xmlWriter.write(document);
         xmlWriter.close();
     }
-    public void  createDxdmKml(String dirName,List<DixingdimaoPoint> list)throws Exception{
+    public void  createDxdmKml(String dirName,List<DixingdimaoPoint> list,String exportpath)throws Exception{
 
         Element root= DocumentHelper.createElement("kml");
         Document document=DocumentHelper.createDocument(root);
@@ -114,11 +114,11 @@ public class GeoWritekml {
         format.setEncoding("utf-8");//设置编码格式
         format.setNewlines(true);//设置换行
         //将doc.kml写入到/mnt/sdcard/Mymap/doc.kml目录
-        File file=new File(Environment.getExternalStorageDirectory()+"/MyMap/地勘/Export");
+        File file=new File(exportpath+"/地勘/Export");
         if (!file.exists()) {
             file.mkdirs();
         }
-        String path=Environment.getExternalStorageDirectory()+"/Mymap/地勘/Export/"+dirName+".kml";
+        String path=exportpath+"/地勘/Export/"+dirName+".kml";
         File file1=new File(path);
         if (file1.exists()){
             file1.delete();
@@ -129,7 +129,7 @@ public class GeoWritekml {
         xmlWriter.write(document);
         xmlWriter.close();
     }
-    public void  createDcyxKml(String dirName,List<DicengyanxingPoint> list)throws Exception{
+    public void  createDcyxKml(String dirName,List<DicengyanxingPoint> list,String exportpath)throws Exception{
 
         Element root= DocumentHelper.createElement("kml");
         Document document=DocumentHelper.createDocument(root);
@@ -164,11 +164,11 @@ public class GeoWritekml {
         format.setEncoding("utf-8");//设置编码格式
         format.setNewlines(true);//设置换行
         //将doc.kml写入到/mnt/sdcard/Mymap/doc.kml目录
-        File file=new File(Environment.getExternalStorageDirectory()+"/MyMap/地勘/Export");
+        File file=new File(exportpath+"/地勘/Export");
         if (!file.exists()) {
             file.mkdirs();
         }
-        String path=Environment.getExternalStorageDirectory()+"/Mymap/地勘/Export/"+dirName+".kml";
+        String path=exportpath+"/地勘/Export/"+dirName+".kml";
         File file1=new File(path);
         if (file1.exists()){
             file1.delete();
@@ -179,7 +179,7 @@ public class GeoWritekml {
         xmlWriter.write(document);
         xmlWriter.close();
     }
-    public void  createSwdzKml(String dirName,List<ShuiwendizhiPoint> list)throws Exception{
+    public void  createSwdzKml(String dirName,List<ShuiwendizhiPoint> list,String exportpath)throws Exception{
 
         Element root= DocumentHelper.createElement("kml");
         Document document=DocumentHelper.createDocument(root);
@@ -214,11 +214,11 @@ public class GeoWritekml {
         format.setEncoding("utf-8");//设置编码格式
         format.setNewlines(true);//设置换行
         //将doc.kml写入到/mnt/sdcard/Mymap/doc.kml目录
-        File file=new File(Environment.getExternalStorageDirectory()+"/MyMap/地勘/Export");
+        File file=new File(exportpath+"/地勘/Export");
         if (!file.exists()) {
             file.mkdirs();
         }
-        String path=Environment.getExternalStorageDirectory()+"/Mymap/地勘/Export/"+dirName+".kml";
+        String path=exportpath+"/地勘/Export/"+dirName+".kml";
         File file1=new File(path);
         if (file1.exists()){
             file1.delete();
@@ -229,7 +229,7 @@ public class GeoWritekml {
         xmlWriter.write(document);
         xmlWriter.close();
     }
-    public void  createGzwdKml(String dirName,List<GouzhuwuPoint> list)throws Exception{
+    public void  createGzwdKml(String dirName,List<GouzhuwuPoint> list,String exportpath)throws Exception{
 
         Element root= DocumentHelper.createElement("kml");
         Document document=DocumentHelper.createDocument(root);
@@ -264,11 +264,11 @@ public class GeoWritekml {
         format.setEncoding("utf-8");//设置编码格式
         format.setNewlines(true);//设置换行
         //将doc.kml写入到/mnt/sdcard/Mymap/doc.kml目录
-        File file=new File(Environment.getExternalStorageDirectory()+"/MyMap/地勘/Export");
+        File file=new File(exportpath+"/地勘/Export");
         if (!file.exists()) {
             file.mkdirs();
         }
-        String path=Environment.getExternalStorageDirectory()+"/Mymap/地勘/Export/"+dirName+".kml";
+        String path=exportpath+"/地勘/Export/"+dirName+".kml";
         File file1=new File(path);
         if (file1.exists()){
             file1.delete();

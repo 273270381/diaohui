@@ -26,8 +26,23 @@ import java.util.List;
  */
 
 public class WriteCASS {
-    public void creatWgs84(String filename, List<LitepalPoints> list){
-            String path=createFile(filename);
+    public void creat(String filename, List<LitepalPoints> list,String exportpath){
+        String path=createFile(filename,exportpath);
+        try {
+            OutputStreamWriter oStreamWriter = new OutputStreamWriter(new FileOutputStream(path), "GB2312");
+            for (int i=0;i<list.size();i++){
+                String context=list.get(i).getClassification()+","+list.get(i).getCode()+","+String.valueOf(list.get(i).getLa()+","+list.get(i).getLn()+","+list.get(i).getHigh()+"\r\n");
+                //outputStream.write(context.getBytes());
+                //outputStream.flush();
+                oStreamWriter.append(context);
+            }
+            oStreamWriter.close();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void creatWgs84(String filename, List<LitepalPoints> list,String exportpath){
+            String path=createFile(filename,exportpath);
         try {
             OutputStreamWriter oStreamWriter = new OutputStreamWriter(new FileOutputStream(path), "GB2312");
             for (int i=0;i<list.size();i++){
@@ -61,8 +76,8 @@ public class WriteCASS {
             e.printStackTrace();
         }
     }
-    public void createbeijing54(String filename, List<LitepalPoints> list){
-        String path=createFile(filename);
+    public void createbeijing54(String filename, List<LitepalPoints> list,String exportpath){
+        String path=createFile(filename,exportpath);
         /*try{
             FileOutputStream outputStream=new FileOutputStream(path);
             for (int i=0;i<list.size();i++){
@@ -90,8 +105,8 @@ public class WriteCASS {
             e.printStackTrace();
         }
     }
-    public void createxian80(String filename,List<LitepalPoints> list){
-        String path=createFile(filename);
+    public void createxian80(String filename,List<LitepalPoints> list,String exportpath){
+        String path=createFile(filename,exportpath);
        /* try{
             FileOutputStream outputStream=new FileOutputStream(path);
             for (int i=0;i<list.size();i++){
@@ -108,10 +123,10 @@ public class WriteCASS {
         try{
             OutputStreamWriter oStreamWriter = new OutputStreamWriter(new FileOutputStream(path), "GB2312");
             for (int i=0;i<list.size();i++){
-                Point p=new Point(Double.parseDouble(list.get(i).getLa()),Double.parseDouble(list.get(i).getLn()),Double.parseDouble(list.get(i).getHigh()),SpatialReferences.getWgs84());
+                Point p=new Point(Double.parseDouble(list.get(i).getLa()),Double.parseDouble(list.get(i).getLn()),Double.parseDouble(list.get(i).getHigh()));
                 Point mp= (Point) GeometryEngine.project(p, SpatialReference.create(2383));
-                //String context=list.get(i).getName()+","+String.valueOf(list.get(i).getId()+","+mp.getX()+","+mp.getY()+","+mp.getZ()+"\n");
                 String context=list.get(i).getClassification()+","+list.get(i).getCode()+","+String.valueOf(mp.getX()+","+mp.getY()+","+mp.getZ()+"\r\n");
+                //String context=list.get(i).getClassification()+","+list.get(i).getCode()+","+String.valueOf(list.get(i).getLa()+","+list.get(i).getLn()+","+list.get(i).getHigh()+"\r\n");
                 oStreamWriter.append(context);
             }
             oStreamWriter.close();
@@ -119,8 +134,8 @@ public class WriteCASS {
             e.printStackTrace();
         }
     }
-    public void createguojia2000(String filename,List<LitepalPoints> list){
-        String path=createFile(filename);
+    public void createguojia2000(String filename,List<LitepalPoints> list,String exportpath){
+        String path=createFile(filename,exportpath);
         /*try{
             FileOutputStream outputStream=new FileOutputStream(path);
             for (int i=0;i<list.size();i++){
@@ -148,12 +163,12 @@ public class WriteCASS {
             e.printStackTrace();
         }
     }
-    public String createFile(String filename){
-        File file=new File(Environment.getExternalStorageDirectory()+"/MyMap/航测/Export");
+    public String createFile(String filename,String exportpath){
+        File file=new File(exportpath+"/航测/Export");
         if (!file.exists()){
             file.mkdirs();
         }
-        String path=Environment.getExternalStorageDirectory()+"/Mymap/航测/Export/"+filename+".dat";
+        String path=exportpath+"/航测/Export/"+filename+".dat";
         File file1=new File(path);
         if (file1.exists()){
             file1.delete();

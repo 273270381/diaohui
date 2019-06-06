@@ -33,7 +33,7 @@ public class DataManagerActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_datamanager);
+        setContentView(R.layout.activity_datamanager_hangce);
         intview();
         setlistener();
         list.add("点元素");

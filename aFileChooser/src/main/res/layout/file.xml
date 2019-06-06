@@ -14,7 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 -->
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/fileChooserName"
-    android:layout_width="fill_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight" />
+<RelativeLayout android:layout_width="fill_parent"
+    android:descendantFocusability="blocksDescendants"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="?android:attr/listPreferredItemHeight">
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/text"
+        style="@style/fileChooserName"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent" />
+    <ImageButton
+        android:focusable="false"
+        android:id="@+id/image"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/imagebutton_backgrond"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>
+

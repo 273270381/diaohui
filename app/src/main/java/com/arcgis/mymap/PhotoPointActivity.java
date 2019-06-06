@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -34,6 +35,10 @@ import com.arcgis.mymap.contacts.NewProject;
 import com.arcgis.mymap.utils.GetTable;
 import com.arcgis.mymap.utils.SyncHorizontalScrollView;
 import com.arcgis.mymap.utils.ToastNotRepeat;
+import com.ipaulpro.afilechooser.FileChooserActivity;
+import com.ipaulpro.afilechooser.utils.FileUtils;
+
+import java.io.File;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -72,6 +77,9 @@ public class PhotoPointActivity extends Activity{
     public Alert_dialogActivity alert_dialogActivity;
     public NewDataActivity.PictureAdapter adapter;
     private List<String> listLa=new ArrayList<>();
+    private String path;
+    private String projectname;
+    private static final int REQUEST_CHOOSER = 1;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +109,7 @@ public class PhotoPointActivity extends Activity{
         delate.setOnLongClickListener(longClickLister);
         search.setOnClickListener(listener);
         findall.setOnClickListener(listener);
+        str.setOnClickListener(listener);
     }
     //初始化控件
     public void findByid() throws ParseException {
@@ -122,7 +131,8 @@ public class PhotoPointActivity extends Activity{
         GetTable getTable=new GetTable();
         pposition=getTable.getTableposition(PhotoPointActivity.this,db,dbHelper,projects);
         int sposition=Integer.parseInt(getTable.getPpposition(PhotoPointActivity.this,db,dbHelper));
-        String projectname=projects.get(sposition).getProjectname();
+        projectname=projects.get(sposition).getProjectname();
+        path = projects.get(Integer.parseInt(pposition)).getPath();
         back = (ImageButton) findViewById(R.id.back);
         search = (ImageButton) findViewById(R.id.search);
         text = (EditText) findViewById(R.id.editText);
@@ -132,7 +142,7 @@ public class PhotoPointActivity extends Activity{
         edit = (Button) findViewById(R.id.bt2);
         detailed= (Button) findViewById(R.id.bt1);
         str= (TextView) findViewById(R.id.stringstr);
-        str.setText("/MyMap/航测/Pictrue/"+projectname);
+        str.setText(path+"/航测/Pictrue/"+projectname);
         initTableView();
     }
     private void initTableView() throws ParseException {
@@ -310,7 +320,7 @@ public class PhotoPointActivity extends Activity{
                     break;
                 case R.id.bt1:
                     if (b){
-                        LinearLayout linearLayout2 = (LinearLayout) getLayoutInflater().inflate(R.layout.detaildata_data_dcyx, null);
+                        LinearLayout linearLayout2 = (LinearLayout) getLayoutInflater().inflate(R.layout.detaildata_new_data, null);
                         AlertDialog dialog1 = new AlertDialog.Builder(PhotoPointActivity.this)
                                 .setTitle("详细：")
                                 .setView(linearLayout2)
@@ -335,14 +345,12 @@ public class PhotoPointActivity extends Activity{
                         TextView tv2 = (TextView) dialog1.findViewById(R.id.dianming);
                         TextView tv3 = (TextView) dialog1.findViewById(R.id.jingdu);
                         TextView tv4 = (TextView) dialog1.findViewById(R.id.weidu);
-                        TextView tv5 = (TextView) dialog1.findViewById(R.id.gaocheng);
-                        TextView tv6 = (TextView) dialog1.findViewById(R.id.leibie);
+                        TextView tv6 = (TextView) dialog1.findViewById(R.id.daima);
                         TextView tv7 = (TextView) dialog1.findViewById(R.id.miaoshu);
                         tv1.setText(String.valueOf(id));
                         tv2.setText(name);
                         tv3.setText(la);
                         tv4.setText(ln);
-                        tv5.setText(high);
                         tv6.setText(classification);
                         tv7.setText(des);
                         Button btnpositive=dialog1.getButton(AlertDialog.BUTTON_POSITIVE);
@@ -434,6 +442,11 @@ public class PhotoPointActivity extends Activity{
                     break;
                 case R.id.bt4:
                     finish();
+                    break;
+                case R.id.stringstr:
+                    FileUtils.mFileFileterBySuffixs.acceptSuffixs("");
+                    Intent f=new Intent(PhotoPointActivity.this,FileChooserActivity.class);
+                    startActivityForResult(f, REQUEST_CHOOSER);
                     break;
                 case R.id.search:
                     String tsname = text.getText().toString();
@@ -552,6 +565,30 @@ public class PhotoPointActivity extends Activity{
         }
         public String getTitled() {
             return titled;
+        }
+    }
+    /**
+     *更新项目路径
+     */
+    private void UpdatePath(String str){
+        ContentValues values = new ContentValues();
+        values.put("exportpath",str);
+        db.update("Newproject",values,"position = ?",new String[]{String.valueOf(pposition)});
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CHOOSER:
+                if (resultCode == RESULT_OK) {
+                    final Uri uri = data.getData();
+                    String path = FileUtils.getPath(this, uri);
+                    if (path != null && FileUtils.isLocal(path)) {
+                        File file = new File(path);
+                        String string = file.toString();
+                        UpdatePath(string);
+                        str.setText(string+"/航测/Pictrue/"+projectname);
+                    }
+                }
+                break;
         }
     }
 }

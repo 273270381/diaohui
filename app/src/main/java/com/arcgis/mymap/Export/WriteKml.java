@@ -23,7 +23,7 @@ public class WriteKml {
     /**
      * 传入两个参数，一个是kml名称，第二个是坐标点list
      */
-    public void  createKml(String dirName,List<LitepalPoints> list)throws Exception{
+    public void  createKml(String dirName,List<LitepalPoints> list,String exprotpath)throws Exception{
 
         Element root= DocumentHelper.createElement("kml");
         Document document=DocumentHelper.createDocument(root);
@@ -58,11 +58,11 @@ public class WriteKml {
         format.setEncoding("utf-8");//设置编码格式
         format.setNewlines(true);//设置换行
         //将doc.kml写入到/mnt/sdcard/Mymap/doc.kml目录
-        File file=new File(Environment.getExternalStorageDirectory()+"/MyMap/航测/Export");
+        File file=new File(exprotpath+"/航测/Export");
         if (!file.exists()) {
             file.mkdirs();
         }
-            String path=Environment.getExternalStorageDirectory()+"/Mymap/航测/Export/"+dirName+".kml";
+            String path=exprotpath+"/航测/Export/"+dirName+".kml";
             File file1=new File(path);
             if (file1.exists()){
                 file1.delete();

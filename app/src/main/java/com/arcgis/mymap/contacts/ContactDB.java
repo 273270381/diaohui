@@ -50,6 +50,14 @@ public class ContactDB {
             "水磨房.水车","避雷针","水轮泵.抽水机站","地下建筑物通风口","纪念碑","碑.柱.墩","塑像","庙宇","土地庙","教堂","清真寺","宝塔.经塔","假石山",
             "塔形建筑物","独立坟","散坟","水文站","停泊场","航行灯塔","航行灯桩","航行灯船", "系船浮筒","过江管线标","露出的沉船","淹没的沉船"
     };
+    private static String[] lines = new String[]{
+            "未加固陡坎","加固陡坎","未加固斜坡","加固斜坡","不依比例石垄","石质的陡崖","等外公路","内部道路","小路","大车路虚线边","建筑中等外公路","地类界","依比例围墙","不依比例围墙","栅栏.栏杆",
+            "铁丝网","篱笆","依比例一般铁路","不依比例一般铁路","地面上的上水管道","地面下的上水管道"
+    };
+    private static String[] linescode = new String[]{
+            "K0","ZK","ZU2","ZU3","ZK4","ZK5","X0","X1","X2","X3","X4","X5","W0","W6","W2",
+            "W3","W4","T0","T1","G2","G3"
+    };
    /* private static String[] titles=new String[]{
             "不明井盖","厕所","电杆","电力井盖","电信井盖","加油站","垃圾台","路灯","庙宇","旗杆", "燃气井盖","散坟","上水井盖","水井","水塔",
             "塑像","土地庙","网络井盖","卫生所","污水井盖","信号杆","学校","烟囱","雨水井盖"
@@ -79,5 +87,11 @@ public class ContactDB {
     }
     public static String[] getCodes(){
         return codes2;
+    }
+    public static String[] getLines(){
+        return lines;
+    }
+    public static String[] getlinecode(){
+        return linescode;
     }
 }

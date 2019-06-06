@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.io.File;
@@ -39,6 +40,7 @@ public class FileListAdapter extends BaseAdapter {
     private final static int ICON_FILE = R.drawable.ic_file;
 
     private final LayoutInflater mInflater;
+    private ConformPathListener conformPathListener;
 
     private List<File> mData = new ArrayList<File>();
 
@@ -103,7 +105,16 @@ public class FileListAdapter extends BaseAdapter {
         if (row == null)
             row = mInflater.inflate(R.layout.file, parent, false);
 
-        TextView view = (TextView) row;
+        TextView view = (TextView) row.findViewById(R.id.text);
+        ImageButton imageButton = (ImageButton) row.findViewById(R.id.image);
+        imageButton.setTag(position);
+
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                conformPathListener.Conform(v);
+            }
+        });
 
         // Get the file at the current position
         final File file = getItem(position);
@@ -118,4 +129,10 @@ public class FileListAdapter extends BaseAdapter {
         return row;
     }
 
+    public interface ConformPathListener{
+        void Conform(View view);
+    }
+    public void setConformPathListener(ConformPathListener conformPathListener){
+        this.conformPathListener = conformPathListener;
+    }
 }

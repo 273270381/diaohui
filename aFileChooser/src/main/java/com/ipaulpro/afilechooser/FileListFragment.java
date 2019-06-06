@@ -17,11 +17,14 @@
 package com.ipaulpro.afilechooser;
 
 import android.app.Activity;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.ParcelUuid;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -47,13 +50,13 @@ public class FileListFragment extends ListFragment implements
          * @param file The file selected
          */
         public void onFileSelected(File file);
+        public void onFilePathSelected(File file);
     }
 
     private static final int LOADER_ID = 0;
 
-    private FileListAdapter mAdapter;
+    public FileListAdapter mAdapter;
     private String mPath;
-
     private Callbacks mListener;
 
     /**
@@ -64,6 +67,7 @@ public class FileListFragment extends ListFragment implements
      */
     public static FileListFragment newInstance(String path) {
         FileListFragment fragment = new FileListFragment();
+
         Bundle args = new Bundle();
         args.putString(FileChooserActivity.PATH, path);
         fragment.setArguments(args);
@@ -98,11 +102,22 @@ public class FileListFragment extends ListFragment implements
         setEmptyText(getString(R.string.empty_directory));
         setListAdapter(mAdapter);
         setListShown(false);
-
         getLoaderManager().initLoader(LOADER_ID, null, this);
+        mAdapter.setConformPathListener(new FileListAdapter.ConformPathListener() {
+            @Override
+            public void Conform(View view) {
+                ListView listView =getListView();
+                FileListAdapter adapter = (FileListAdapter) listView.getAdapter();
+                if (adapter!=null){
+                    File file = (File) adapter.getItem(Integer.parseInt(view.getTag().toString()));
+                    mListener.onFilePathSelected(file);
+                }
+            }
+        });
 
         super.onActivityCreated(savedInstanceState);
     }
+
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
