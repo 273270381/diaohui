@@ -1,29 +1,23 @@
 package com.arcgis.mymap;
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.AsyncQueryHandler;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
@@ -51,15 +45,13 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.arcgis.mymap.Geological.GeologicalMapActivity;
 import com.arcgis.mymap.Geological.Voice.VoiceToText;
 import com.arcgis.mymap.adapter.FloorAdapter;
 import com.arcgis.mymap.adapter.LayoutlistAdapter;
 import com.arcgis.mymap.adapter.RecyclerAdapter;
+import com.arcgis.mymap.bean.JsonPoint;
 import com.arcgis.mymap.contacts.ContactDB;
 import com.arcgis.mymap.contacts.LayoutAttributes;
-import com.arcgis.mymap.contacts.Lines;
 import com.arcgis.mymap.contacts.LitepalPoints;
 import com.arcgis.mymap.contacts.MoreLines;
 import com.arcgis.mymap.contacts.MyDatabaseHelper;
@@ -70,15 +62,15 @@ import com.arcgis.mymap.contacts.SevenPrams;
 import com.arcgis.mymap.utils.ColorPickerView;
 import com.arcgis.mymap.utils.CoordTransUtil;
 import com.arcgis.mymap.utils.DataManagerActivity;
-import com.arcgis.mymap.utils.Degree;
 import com.arcgis.mymap.utils.DisplayUtil;
 import com.arcgis.mymap.utils.DistanceUtils;
 import com.arcgis.mymap.utils.GetTable;
 import com.arcgis.mymap.utils.HscaleView;
-import com.arcgis.mymap.utils.LogUtils;
 import com.arcgis.mymap.utils.ScaleView;
 import com.arcgis.mymap.utils.ShowPointUtils;
 import com.arcgis.mymap.utils.ToastNotRepeat;
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.data.Feature;
 import com.esri.arcgisruntime.data.Geodatabase;
 import com.esri.arcgisruntime.data.GeodatabaseFeatureTable;
 import com.esri.arcgisruntime.data.ShapefileFeatureTable;
@@ -87,32 +79,30 @@ import com.esri.arcgisruntime.data.VectorTileCache;
 import com.esri.arcgisruntime.geometry.GeodeticCurveType;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
-import com.esri.arcgisruntime.geometry.GeometryType;
 import com.esri.arcgisruntime.geometry.LinearUnit;
 import com.esri.arcgisruntime.geometry.LinearUnitId;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.PointCollection;
-import com.esri.arcgisruntime.geometry.Polygon;
 import com.esri.arcgisruntime.geometry.Polyline;
 import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.internal.jni.CoreGraphic;
 import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
 import com.esri.arcgisruntime.layers.ArcGISVectorTiledLayer;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
-import com.esri.arcgisruntime.loadable.LoadStatusChangedEvent;
-import com.esri.arcgisruntime.loadable.LoadStatusChangedListener;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.GeoElement;
 import com.esri.arcgisruntime.mapping.LayerList;
 import com.esri.arcgisruntime.mapping.MobileMapPackage;
 import com.esri.arcgisruntime.mapping.view.BackgroundGrid;
 import com.esri.arcgisruntime.mapping.view.DefaultMapViewOnTouchListener;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.mapping.view.IdentifyGraphicsOverlayResult;
+import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.LocationDisplay;
 import com.esri.arcgisruntime.mapping.view.MapScaleChangedEvent;
 import com.esri.arcgisruntime.mapping.view.MapScaleChangedListener;
@@ -124,41 +114,47 @@ import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import com.esri.arcgisruntime.symbology.TextSymbol;
-import com.esri.arcgisruntime.util.ListenableList;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.ipaulpro.afilechooser.FileChooserActivity;
 import com.ipaulpro.afilechooser.utils.FileUtils;
-
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.PrimitiveIterator;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static com.arcgis.mymap.R.drawable.khc;
-import static com.arcgis.mymap.R.drawable.loginbutton;
 import static com.arcgis.mymap.utils.DistanceUtils.UseList;
 public class MainActivity extends Activity{
     private ColorPickerView colorDisk=null;
     private Button btnColor;
     private TextView widthtext;
     public static boolean flagOfColorChange=false;
-    private final static int COLOR_CHANGE=4;
     private String time;
     public InputMethodManager imm;
     static MapView mMapView;
+    private  ExecutorService fixedThreadPool = Executors.newFixedThreadPool(10);
+    private  List<Graphic> graphics_point = new ArrayList<>();
+    private  List<Graphic> graphics_line = new ArrayList<>();
+    private  List<Graphic> graphics_ph = new ArrayList<>();
+    private List<JsonPoint> point_list = new ArrayList<>();
     ArcGISMap mMap;
     TextView xtx1,xtx2,xtx3,xtx4,xtx5,xtx6,xtx7,dtx1,dtx2,dtx3,dtx4,dtx5,FY,fy;
     EditText WriteText,mset;
@@ -182,13 +178,21 @@ public class MainActivity extends Activity{
     List<String> listfy=new ArrayList<>();
     List<Graphic> listline = new ArrayList<>();
     List<Graphic> listtext = new ArrayList<>();
-    List<String> permissionList = new ArrayList<>();
     List<LitepalPoints> pointlist=new ArrayList<>();
     List<MoreLines> linelist=new ArrayList<>();
-    List<GraphicsOverlay> list2=new ArrayList<>();
     List<String> sublistline = new ArrayList<>();
     List<String> linela = new ArrayList<>();
     List<String> lineln = new ArrayList<>();
+    List<String> linetime = new ArrayList<>();
+    private String time1 = "";
+    private String time2 = "";
+    private MoreLines line;
+    private int index = 0;
+    private int index_line = 0;
+    private int index_ph = 0;
+    private int m = 0;
+    private int length = 0;
+    private Gson gson;
     private SimpleRenderer renderer;
     private SimpleRenderer renderer2;
     private RecyclerAdapter recyclerAdapter;
@@ -203,6 +207,8 @@ public class MainActivity extends Activity{
     private LayoutlistAdapter adapter;
     public String name="";
     public String text="";
+    public String x="";
+    public String y="";
     public  BitmapDrawable bitmapDrawable4;
     public  PictureMarkerSymbol pictureMarkerSymbol4;
     private List<NewProject> projects=new ArrayList<>();
@@ -214,6 +220,7 @@ public class MainActivity extends Activity{
     public NewDataActivity newDataActivity;
     public DataLineActivity dataLineActivity;
     public static List<Graphic> listph = new ArrayList<>();
+    public static List<Graphic> listph_point = new ArrayList<>();
     public static boolean ali1=false;
     public static boolean ali2=false;
     public static boolean ali3=false;
@@ -222,6 +229,7 @@ public class MainActivity extends Activity{
     private boolean move = false;
     private boolean writeText = false;
     private boolean drawline = false;
+    private boolean flag_long_press = false;
     public static int ap=0;
     public static String  atotitle=null;
     public String pposition;
@@ -233,7 +241,10 @@ public class MainActivity extends Activity{
     public static GraphicsOverlay graphicsOverlay_line;
     private List<GraphicsOverlay> graphicsOverlays_point = new ArrayList<>();
     private List<GraphicsOverlay> graphicsOverlays_line = new ArrayList<>();
+    private List<GraphicsOverlay> graphicsOverlays_line_more = new ArrayList<>();
+    private List<GraphicsOverlay> graphicsOverlays_line_dash = new ArrayList<>();
     public static GraphicsOverlay locationOverlay;
+    public ExecutorService threadPool1;
     public ExecutorService threadPool2;
     public android.graphics.Point p;
     public Point dwmp;
@@ -241,16 +252,20 @@ public class MainActivity extends Activity{
     public List<android.graphics.Point> listP;
     public BitmapDrawable bitmapDrawablePoint;
     public PointCollection centerpoint,centerpoint1,seeback_point,seeback_line,linepoint;
+    private PointCollection pointCollection1,pointCollection2,pointCollection3;
     private List<String> lineX = new ArrayList<>();
     private List<String> lineY = new ArrayList<>();
     public SimpleLineSymbol simpleLineSymbolX;
     public LocationDisplay locationDisplay;
     private int requestCode = 2;
     private boolean isLocation = true;
+    private Handler handler;
     private static final int REQUEST_CHOOSER = 123;
     public static final int TAKE_PHOTO = 1;
     public final static int CANSHU = 2;
     public final static int CANSHUL= 3;
+    private final static int COLOR_CHANGE=4;
+    private final static int DRAW_LINE=5;
     Alert_dialogActivity alert_dialogActivity;
     private List<String> popdy1=new ArrayList<>();
     private List<String> popContents = new ArrayList<>();
@@ -278,7 +293,6 @@ public class MainActivity extends Activity{
         setContentView(R.layout.activity_main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         intview();
-        threadPool2 = Executors.newCachedThreadPool();
         loadArcgismap(str,color,width);
         setBackground();
         setSpiners();
@@ -289,8 +303,6 @@ public class MainActivity extends Activity{
         Clicklistener listener = new Clicklistener();
         mapchangeListener=new MapchangeListener();
         mMapView.addMapScaleChangedListener(mapchangeListener);
-
-
         lymenu.setOnClickListener(listener);
         measure.setOnClickListener(listener);
         close.setOnClickListener(listener);
@@ -359,7 +371,7 @@ public class MainActivity extends Activity{
                     if (list1==null){
                         list1=new ArrayList<>();
                     }
-                    ShowPointUtils.ShowAllPointUtils(MainActivity.this,threadPool2,list,list1,titles,imager,mMapView);
+                    ShowPointUtils.ShowAllPointUtils(MainActivity.this,threadPool2,list,list1,titles,imager,mMapView,graphicsOverlays_line,listph_point,listline);
                     ali3=false;
                 }
                 if (ali2){
@@ -689,10 +701,113 @@ public class MainActivity extends Activity{
             }
         });
         hasmap = true;
-        //SetSpatialReference();
         mMapView.setOnTouchListener(new DefaultMapViewOnTouchListener(this,mMapView){
             @Override
+            public void onLongPress(MotionEvent e) {
+                for (GraphicsOverlay graphicsOverlay : mMapView.getGraphicsOverlays()){
+                    for (Graphic graphic : graphicsOverlay.getGraphics()){
+                        graphic.setSelected(false);
+                    }
+                }
+                android.graphics.Point screenPoint = new android.graphics.Point((int)e.getX(),(int)e.getY());
+                point_list.clear();
+                graphics_point.clear();
+                graphics_line.clear();
+                graphics_ph.clear();
+                final ListenableFuture<List<IdentifyGraphicsOverlayResult>> identifyFuture = mMapView.identifyGraphicsOverlaysAsync(screenPoint,20,false,25);
+                identifyFuture.addDoneListener(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            List<IdentifyGraphicsOverlayResult> identifyLayerResults = identifyFuture.get();
+                            for (IdentifyGraphicsOverlayResult identifyGraphicsOverlayResult : identifyLayerResults){
+                                List<Graphic> graphics_resule = identifyGraphicsOverlayResult.getGraphics();
+                                for (int i = 0;i<graphics_resule.size();i++){
+                                    Graphic graphic = graphics_resule.get(i);
+                                    if (graphic.getGeometry().getGeometryType().toString().equals("POINT")){
+                                        graphic.setSelected(true);
+                                        JsonPoint point = gson.fromJson(graphic.getGeometry().toJson(), JsonPoint.class);
+                                        x = point.getX();
+                                        y = point.getY();
+                                        point_list.add(point);
+                                        graphics_point.add(graphic);
+                                        if (graphic.getAttributes().get("style").equals("line")){
+                                            time1 = graphic.getAttributes().get("time").toString();
+                                            time2 = graphic.getAttributes().get("time2").toString();
+                                            line = new MoreLines();
+                                            for (int a =0 ; a<linelist.size() ; a++){
+                                                if (linelist.get(a).getDatatime().equals(time2)){
+                                                    line = linelist.get(a);
+                                                    m =a;
+                                                }
+                                            }
+                                            Point p1 = new Point(Double.parseDouble(x),Double.parseDouble(y));
+                                            for (int i1 =0 ; i1 < line.getListla().size() ; i1++){
+                                                if (String.valueOf(p1.getX()).equals(line.getListla().get(i1))){
+                                                    index = i1;
+                                                    Log.i("TAG","index="+i1);
+                                                    for (int i2 = 0; i2 <listline.size() ; i2++){
+                                                        if (listline.get(i2).getAttributes().get("time").toString().equals(time1)){
+                                                            listline.get(i2).setVisible(false);
+                                                            index_line = i2;
+                                                            Log.i("TAG","i2="+i2);
+                                                            Log.i("TAG","listline.size="+listline.size());
+                                                            Log.i("TAG","time1="+time1);
+                                                            if (index >0 && index <line.getListla().size()-1){
+                                                                listline.get(i2+1).setVisible(false);
+                                                            }
+                                                        }
+                                                        Log.i("TAG","listline.get(i)="+listline.get(i2).getAttributes().get("time").toString());
+                                                    }
+                                                    for (int i3 = 0 ; i3 < listph_point.size() ; i3++){
+                                                        if (listph_point.get(i3).getAttributes().get("time").toString().equals(time1)){
+                                                            index_ph = i3;
+                                                        }
+                                                    }
+                                                    Log.i("TAG","listph_point.size = "+listph_point.size());
+                                                    Log.i("TAG","index_ph = "+index_ph);
+                                                    if (index >0 && index < line.getListla().size()-1){
+                                                        listph_point.get(index_ph).setVisible(false);
+                                                        listph_point.get(index_ph+1).setVisible(false);
+                                                        if (move){
+                                                            graphicsOverlays_line_more.remove(index_ph);
+                                                            graphicsOverlays_line_more.remove(index_ph);
+                                                        }else{
+                                                            graphicsOverlays_line.remove(index_ph);
+                                                            graphicsOverlays_line.remove(index_ph);
+                                                        }
+                                                    }else {
+                                                        listph_point.get(index_ph).setVisible(false);
+                                                        if (move){
+                                                            graphicsOverlays_line_more.remove(index_ph);
+                                                        }else{
+                                                            graphicsOverlays_line.remove(index_ph);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }else if(graphic.getGeometry().getGeometryType().toString().equals("POLYLINE")){
+                                        graphics_line.add(graphic);
+                                    }
+                                }
+                            }
+                        }catch (Exception ex){
+                            ex.printStackTrace();
+                        }
+                    }
+                });
+                super.onLongPress(e);
+                flag_long_press = true;
+            }
+
+            @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
+                for (GraphicsOverlay graphicsOverlay : mMapView.getGraphicsOverlays()){
+                    for (Graphic graphic : graphicsOverlay.getGraphics()){
+                        graphic.setSelected(false);
+                    }
+                }
                 if (down){
                     if (drawline){
                         android.graphics.Point p = new android.graphics.Point((int)e.getX(),(int)e.getY());
@@ -718,11 +833,15 @@ public class MainActivity extends Activity{
                                         Point mp= mMapView.screenToLocation(p);
                                         seeback_point.add(mp.getX(),mp.getY(),mp.getZ());
                                         seeback_line.clear();
-                                        graphicsOverlay.getGraphics().add(new Graphic(mp,t));
                                         //获得当前时间
                                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                         Date date= new Date(System.currentTimeMillis());
                                         String time=simpleDateFormat.format(date);
+                                        Map<String,Object> map = new HashMap<>();
+                                        map.put("style","point");
+                                        map.put("time",time);
+                                        Graphic graphic_text = new Graphic(mp,map,t);
+                                        graphicsOverlay.getGraphics().add(graphic_text);
                                         ContentValues values=new ContentValues();
                                         values.put("name","null");
                                         values.put("la",String.valueOf(mp.getX()));
@@ -749,27 +868,81 @@ public class MainActivity extends Activity{
 
             @Override
             public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-                if (move){
-                    //手画线
-                    GraphicsOverlay overlay = new GraphicsOverlay();
-                    mMapView.getGraphicsOverlays().add(overlay);
+                if (move&&flag_long_press==false){
                     android.graphics.Point p1 = new android.graphics.Point((int)e1.getX(),(int)e1.getY());
                     android.graphics.Point p2 = new android.graphics.Point((int)e2.getX(),(int)e2.getY());
-                    Log.i("TAG","p1="+p1);
-                    Log.i("TAG","p2="+p2);
                     Point mp1= mMapView.screenToLocation(p1);
                     Point mp2= mMapView.screenToLocation(p2);
                     PointCollection collection = new PointCollection(mMapView.getSpatialReference());
                     collection.add(mp1);
                     collection.add(mp2);
-                    linepoint.add(mp1);
-                    lineX.add(String.valueOf(mp1.getX()));
-                    lineY.add(String.valueOf(mp1.getY()));
-                    SimpleLineSymbol s1 = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.YELLOW, 1);
-                    Polyline polyline = new Polyline(collection);
-                    Graphic line = new Graphic(polyline, s1);
-                    overlay.getGraphics().add(line);
+                    lineX.add(String.valueOf(mp2.getX()));
+                    lineY.add(String.valueOf(mp2.getY()));
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.mipmap.point1_sel);
+                    PictureMarkerSymbol pictureMarkerSymbol = new PictureMarkerSymbol(bitmapDrawable);
+                    DotMoreLine(collection,pictureMarkerSymbol);
+//                    android.graphics.Point p = new android.graphics.Point((int)e1.getX(),(int)e1.getY());
+//                    DotLine(p);
+                    //手画线
+//                    GraphicsOverlay overlay = new GraphicsOverlay();
+//                    mMapView.getGraphicsOverlays().add(overlay);
+//                    graphicsOverlays_line_more.add(overlay);
+//                    android.graphics.Point p1 = new android.graphics.Point((int)e1.getX(),(int)e1.getY());
+//                    android.graphics.Point p2 = new android.graphics.Point((int)e2.getX(),(int)e2.getY());
+//                    Point mp1= mMapView.screenToLocation(p1);
+//                    Point mp2= mMapView.screenToLocation(p2);
+//                    PointCollection collection = new PointCollection(mMapView.getSpatialReference());
+//                    collection.add(mp1);
+//                    collection.add(mp2);
+//                    linepoint.add(mp1);
+//                    lineX.add(String.valueOf(mp1.getX()));
+//                    lineY.add(String.valueOf(mp1.getY()));
+//                    //获得当前时间
+//                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+//                    Date date = new Date(System.currentTimeMillis());
+//                    String time=simpleDateFormat.format(date);
+//                    SimpleLineSymbol s1 = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.YELLOW, 1);
+//                    Polyline polyline = new Polyline(collection);
+//                    Map<String,Object> map = new HashMap<>();
+//                    map.put("style","line");
+//                    map.put("time",time);
+//                    map.put("time2",time);
+//                    Graphic line = new Graphic(polyline,map, s1);
+//                    overlay.getGraphics().add(line);
                     return false;
+                }else if(flag_long_press){
+                    android.graphics.Point screenPoint = new android.graphics.Point((int)e1.getX(),(int)e1.getY());
+                    Point p  = mMapView.screenToLocation(screenPoint);
+                    for(int i = 0; i<graphics_point.size();i++){
+                        point_list.get(i).setX(String.valueOf(p.getX()));
+                        point_list.get(i).setY(String.valueOf(p.getY()));
+                        String json = gson.toJson(point_list.get(i));
+                        graphics_point.get(i).setGeometry(Geometry.fromJson(json));
+                        if (graphics_point.get(i).getAttributes().get("style").equals("line")){
+                            int finalI = i;
+                            threadPool1.execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    String x = String.valueOf(point_list.get(finalI).getX());
+                                    String y = String.valueOf(point_list.get(finalI).getY());
+                                    String time = graphics_point.get(finalI).getAttributes().get("time").toString();
+                                    Message msg = new Message();
+                                    msg.what = MainActivity.DRAW_LINE;
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("x",x);
+                                    bundle.putString("y",y);
+                                    bundle.putString("time",time);
+                                    msg.setData(bundle);
+                                    handler.sendMessage(msg);
+                                    point_list.get(finalI).setX(String.valueOf(p.getX()));
+                                    point_list.get(finalI).setY(String.valueOf(p.getY()));
+                                    String json = gson.toJson(point_list.get(finalI));
+                                    graphics_point.get(finalI).setGeometry(Geometry.fromJson(json));
+                                }
+                            });
+                        }
+                    }
+                    return true;
                 }else{
                     return super.onScroll(e1, e2, distanceX, distanceY);
                 }
@@ -777,35 +950,269 @@ public class MainActivity extends Activity{
 
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                if (flag_long_press){
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            //更新数据库
+                            for (int i = 0;i<graphics_point.size();i++){
+                                if (graphics_point.get(i).getAttributes().get("style").equals("point")){
+                                    int finalI = i;
+                                    ContentValues values = new ContentValues();
+                                    values.put("la",point_list.get(finalI).getX());
+                                    values.put("ln",point_list.get(finalI).getY());
+                                    db.update("Newpoints"+pposition,values,"time = ?",new String[] {graphics_point.get(finalI).getAttributes().get("time").toString()});
+                                    for (LitepalPoints points : pointlist){
+                                        Runnable runnable = new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if (points.getDatetime().equals(graphics_point.get(finalI).getAttributes().get("time"))){
+                                                    points.setLa(point_list.get(finalI).getX());
+                                                    points.setLn(point_list.get(finalI).getY());
+                                                }
+                                            }
+                                        };
+                                        fixedThreadPool.execute(runnable);
+                                    }
+                                }
+                                if (graphics_point.get(i).getAttributes().get("style").equals("line")){
+                                    //更新linelist数组
+                                    int finalI = i;
+                                    line.getListla().set(index,point_list.get(finalI).getX());
+                                    line.getListln().set(index,point_list.get(finalI).getY());
+                                    linelist.get(m).setListla(line.getListla());
+                                    linelist.get(m).setListln(line.getListln());
+                                    //更新界面
+                                    if (graphicsOverlays_line_dash.size()>0){
+                                        mMapView.getGraphicsOverlays().remove(graphicsOverlays_line_dash.get(graphicsOverlays_line_dash.size()-1));
+                                        graphicsOverlays_line_dash.remove(graphicsOverlays_line_dash.size()-1);
+                                    }
+                                    if (pointCollection1.size()!=0){
+                                        Point p = new Point(Double.parseDouble(point_list.get(finalI).getX()),Double.parseDouble(point_list.get(finalI).getY()));
+                                        pointCollection1.set(0,p);
+                                        GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
+                                        mMapView.getGraphicsOverlays().add(graphicsOverlay);
+                                        Polyline polyline = new Polyline(pointCollection1);
+                                        SimpleLineSymbol s = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.YELLOW, 2);
+                                        Map map = new HashMap();
+                                        map.put("style","");
+                                        map.put("time",time1);
+                                        map.put("time2",time2);
+                                        Graphic new_line = new Graphic(polyline,map,s);
+                                        graphicsOverlay.getGraphics().add(new_line);
+                                        if (move){
+                                            graphicsOverlays_line_more.add(index_ph,graphicsOverlay);
+                                        }else{
+                                            graphicsOverlays_line.add(index_ph,graphicsOverlay);
+                                        }
+                                        Drawbitmap(pointCollection1.get(1),index_ph,time1,time2,graphicsOverlay);
+                                        listline.set(index_line,new_line);
+
+//                                        if (length>0){
+//                                            graphicsOverlays_line.add(length,graphicsOverlay);
+//                                            Drawbitmap(pointCollection1.get(length+1),1,time1,time2,graphicsOverlay);
+//                                            listline.set(index_line,new_line);
+//                                        }else{
+//                                            graphicsOverlays_line.add(1,graphicsOverlay);
+//                                            Drawbitmap(pointCollection1.get(1),1,time1,time2,graphicsOverlay);
+//                                            listline.set(index,new_line);
+//                                        }
+                                        if (centerpoint.size()>0){
+                                            centerpoint.set(index,p);
+                                            seeback_line.set(index,p);
+                                            linela.set(index,String.valueOf(pointCollection1.get(0).getX()));
+                                            lineln.set(index,String.valueOf(pointCollection1.get(0).getY()));
+                                        }
+                                        line.getListla().set(0,String.valueOf(pointCollection1.get(0).getX()));
+                                        line.getListln().set(0,String.valueOf(pointCollection1.get(0).getY()));
+                                        line.setDatatime(time2);
+                                        linelist.set(m,line);
+                                        //更新数据库
+                                        ContentValues values = new ContentValues();
+                                        values.put("xla", StringUtils.join(linela,","));
+                                        values.put("xln",StringUtils.join(lineln,","));
+                                        db.update("Newlines"+pposition,values,"time = ?",new String[] {time2});
+                                    }else if(pointCollection2.size()!=0){
+                                        Point p = new Point(Double.parseDouble(point_list.get(finalI).getX()),Double.parseDouble(point_list.get(finalI).getY()));
+                                        pointCollection2.set(1,p);
+                                        GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
+                                        mMapView.getGraphicsOverlays().add(graphicsOverlay);
+                                        Polyline polyline = new Polyline(pointCollection2);
+                                        SimpleLineSymbol s = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.YELLOW, 2);
+                                        Map map = new HashMap();
+                                        map.put("style","");
+                                        map.put("time",time1);
+                                        map.put("time2",time2);
+                                        Graphic new_line = new Graphic(polyline,map,s);
+                                        graphicsOverlay.getGraphics().add(new_line);
+                                        if (move){
+                                            graphicsOverlays_line_more.add(index_ph,graphicsOverlay);
+                                        }else{
+                                            graphicsOverlays_line.add(index_ph,graphicsOverlay);
+                                        }
+                                        Drawbitmap(pointCollection2.get(1),index_ph,time1,time2,graphicsOverlay);
+                                        listline.set(index_line,new_line);
+//                                        if (length>0){
+//                                            graphicsOverlays_line.add(length+index,graphicsOverlay);
+//                                            Drawbitmap(p,length+index,time1,time2,graphicsOverlay);
+//                                            listline.set(index_line,new_line);
+//                                        }else{
+//                                            graphicsOverlays_line.add(graphicsOverlay);
+//                                            Drawbitmap(p,index,time1,time2,graphicsOverlay);
+//                                            listline.set(index-1,new_line);
+//                                        }
+                                        if (centerpoint.size()!=0){
+                                            centerpoint.set(index,p);
+                                            seeback_line.set(index,p);
+                                            linela.set(index,String.valueOf(pointCollection2.get(1).getX()));
+                                            lineln.set(index,String.valueOf(pointCollection2.get(1).getY()));
+                                        }
+                                        line.getListla().set(index,String.valueOf(pointCollection2.get(1).getX()));
+                                        line.getListln().set(index,String.valueOf(pointCollection2.get(1).getY()));
+                                        line.setDatatime(time2);
+                                        linelist.set(m,line);
+                                        //更新数据库
+                                        ContentValues values = new ContentValues();
+                                        values.put("xla", StringUtils.join(linela,","));
+                                        values.put("xln",StringUtils.join(lineln,","));
+                                        db.update("Newlines"+pposition,values,"time = ?",new String[] {time2});
+                                    }else if (pointCollection3.size()!=0){
+                                        Point p = new Point(Double.parseDouble(point_list.get(finalI).getX()),Double.parseDouble(point_list.get(finalI).getY()));
+                                        pointCollection3.set(1,p);
+                                        PointCollection p1 = new PointCollection(mMapView.getSpatialReference());
+                                        PointCollection p2 = new PointCollection(mMapView.getSpatialReference());
+                                        p1.add(pointCollection3.get(0));
+                                        p1.add(pointCollection3.get(1));
+                                        p2.add(pointCollection3.get(1));
+                                        p2.add(pointCollection3.get(2));
+                                        //第一条线
+                                        GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
+                                        mMapView.getGraphicsOverlays().add(graphicsOverlay);
+                                        Polyline polyline = new Polyline(p1);
+                                        SimpleLineSymbol s = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.YELLOW, 2);
+                                        Map map = new HashMap();
+                                        map.put("style","");
+                                        map.put("time",time1);
+                                        map.put("time2",time2);
+                                        Graphic new_line = new Graphic(polyline,map,s);
+                                        graphicsOverlay.getGraphics().add(new_line);
+
+
+
+                                        //第二条线
+                                        GraphicsOverlay graphicsOverlay2 = new GraphicsOverlay();
+                                        mMapView.getGraphicsOverlays().add(graphicsOverlay2);
+                                        String time = listph_point.get(index_ph+1).getAttributes().get("time").toString();
+                                        Polyline polyline2 = new Polyline(p2);
+                                        SimpleLineSymbol s2 = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.YELLOW, 2);
+                                        Map map2 = new HashMap();
+                                        map2.put("style","");
+                                        map2.put("time",time);
+                                        map2.put("time2",time2);
+                                        Graphic new_line2 = new Graphic(polyline2,map2,s2);
+                                        graphicsOverlay2.getGraphics().add(new_line2);
+//                                        if (length>0){
+//                                            //1
+//                                            graphicsOverlays_line.add(length+index,graphicsOverlay);
+//                                            Drawbitmap(pointCollection3.get(1),length+index,time1,time2,graphicsOverlay);
+//                                            listline.set(index_line,new_line);
+//                                            //2
+//                                            graphicsOverlays_line.add(length+index+1,graphicsOverlay2);
+//                                            Drawbitmap(pointCollection3.get(2),length+index+1,time,time2,graphicsOverlay2);
+//                                            listline.set(index_line+1,new_line);
+//                                        }else{
+//                                            //第一条线
+//                                            graphicsOverlays_line.add(index,graphicsOverlay);
+//                                            Drawbitmap(pointCollection3.get(1),index,time1,time2,graphicsOverlay);
+//                                            listline.set(index_line,new_line);
+//                                            //第二条线
+//                                            graphicsOverlays_line.add(index+1,graphicsOverlay2);
+//                                            Drawbitmap(pointCollection3.get(2),index+1,time,time2,graphicsOverlay2);
+//                                            listline.set(index_line+1,new_line2);
+//                                        }
+                                        if (move){
+                                            graphicsOverlays_line_more.add(index_ph,graphicsOverlay);
+                                            graphicsOverlays_line_more.add(index_ph+1,graphicsOverlay2);
+                                        }else{
+                                            graphicsOverlays_line.add(index_ph,graphicsOverlay);
+                                            graphicsOverlays_line.add(index_ph+1,graphicsOverlay2);
+                                        }
+                                        Drawbitmap(pointCollection3.get(1),index_ph,time1,time2,graphicsOverlay);
+                                        listline.set(index_line,new_line);
+                                        Drawbitmap(pointCollection3.get(2),index_ph+1,time,time2,graphicsOverlay2);
+                                        listline.set(index_line+1,new_line2);
+                                        Log.i("TAG","index="+index);
+                                        Log.i("TAG","centerpoint.size="+centerpoint.size());
+                                        if (centerpoint.size()!=0){
+                                            centerpoint.set(index,p);
+                                            seeback_line.set(index,p);
+                                            linela.set(index,String.valueOf(pointCollection3.get(1).getX()));
+                                            lineln.set(index,String.valueOf(pointCollection3.get(1).getY()));
+                                        }
+                                        line.getListla().set(index,String.valueOf(pointCollection3.get(1).getX()));
+                                        line.getListln().set(index,String.valueOf(pointCollection3.get(1).getY()));
+                                        line.setDatatime(time2);
+                                        Log.i("TAG","time2="+time2);
+                                        linelist.set(m,line);
+                                        //更新数据库
+                                        ContentValues values = new ContentValues();
+                                        values.put("xla", StringUtils.join(line.getListla(),","));
+                                        values.put("xln",StringUtils.join(line.getListln(),","));
+                                        db.update("Newlines"+pposition,values,"time = ?",new String[] {time2});
+                                    }
+                                }
+                            }
+                        }
+                    },150);
+                }
+                flag_long_press = false;
                 if (move){
-                    //保存数据库
-                    //获得当前时间
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                    Date date = new Date(System.currentTimeMillis());
-                    time=simpleDateFormat.format(date);
-                    ContentValues values=new ContentValues();
-                    values.put("classification","手绘线");
-                    values.put("xla", StringUtils.join(lineX,","));
-                    values.put("xln",StringUtils.join(lineY,","));
-                    values.put("time",time);
-                    values.put("code","Q2");
-                    db.insert("Newlines"+pposition,null,values);
-                    MoreLines moreLines = new MoreLines();
-                    moreLines.setListla(Arrays.asList(StringUtils.join(lineX,",").split(",")));
-                    moreLines.setListln(Arrays.asList(StringUtils.join(lineY,",").split(",")));
-                    moreLines.setClassification("手绘线");
-                    linelist.add(moreLines);
-
-
-                    linepoint.clear();
-                    lineX.clear();
-                    lineY.clear();
+                    if (lineX.size()>0){
+                        //保存数据库
+                        //获得当前时间
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                        Date date = new Date(System.currentTimeMillis());
+                        time=simpleDateFormat.format(date);
+                        ContentValues values=new ContentValues();
+                        values.put("classification","手绘线");
+                        values.put("xla", StringUtils.join(lineX,","));
+                        values.put("xln",StringUtils.join(lineY,","));
+                        values.put("linetime",StringUtils.join(linetime,","));
+                        values.put("time",time);
+                        values.put("code","Q2");
+                        db.insert("Newlines"+pposition,null,values);
+                        MoreLines moreLines = new MoreLines();
+                        moreLines.setListla(Arrays.asList(StringUtils.join(lineX,",").split(",")));
+                        moreLines.setListln(Arrays.asList(StringUtils.join(lineY,",").split(",")));
+                        moreLines.setLinetime(Arrays.asList(StringUtils.join(linetime,",").split(",")));
+                        moreLines.setDatatime(time);
+                        moreLines.setClassification("手绘线");
+                        linelist.add(moreLines);
+                        Log.i("TAG","listph_point.size="+listph_point.size());
+                        Log.i("TAG","listline.size = "+listline.size());
+                        Log.i("TAG","lineX.size="+lineX.size());
+                        if (lineX.size()>0){
+                            if (listph_point.size()<lineX.size()){
+                                for (int  i = 0 ; i <listph_point.size() ; i++){
+                                    listph_point.get(i).getAttributes().put("time2",time);
+                                }
+                            }else{
+                                for (int  i = listph_point.size() - lineX.size() ; i < listph_point.size() ; i++){
+                                    listph_point.get(i).getAttributes().put("time2",time);
+                                }
+                            }
+                        }
+                        seeback_line.clear();
+                        linepoint.clear();
+                        lineX.clear();
+                        lineY.clear();
+                        linetime.clear();
+                    }
                     return false;
                 }else{
                     return true;
                 }
             }
-
             @Override
             public boolean onDoubleTap(MotionEvent e) {
                 if (drawline==true||move==true){
@@ -831,7 +1238,6 @@ public class MainActivity extends Activity{
                                         Point p = new Point(Double.parseDouble(moreLines.getListla().get(moreLines.getListla().size()/2)),Double.parseDouble(moreLines.getListln().get(moreLines.getListln().size()/2)));
                                         graphicsOverlay.getGraphics().add(new Graphic(p,t));
                                     }
-
                                     ContentValues values = new ContentValues();
                                     values.put("classification",name);
                                     values.put("description",ms);
@@ -842,14 +1248,10 @@ public class MainActivity extends Activity{
                                     centerpoint.clear();
                                     seeback_point.clear();
                                     seeback_line.clear();
-                                    graphicsOverlays_point.clear();
-                                    graphicsOverlays_line.clear();
-                                    listline.clear();
-                                    listtext.clear();
-                                    list2.clear();
                                     linela.clear();
                                     lineln.clear();
-                                    sublistline.clear();
+                                    linetime.clear();
+                                    listtext.clear();
                                 }
                             }).show();
                     spinner = (Spinner) dialog.findViewById(R.id.spinner);
@@ -892,7 +1294,10 @@ public class MainActivity extends Activity{
      * 初始化控件
      */
     private void intview() {
+        threadPool1 = Executors.newSingleThreadExecutor();
+        threadPool2 = Executors.newCachedThreadPool();
         SpeechUtility.createUtility(this, SpeechConstant.APPID+"=5c74ebde");
+        gson = new Gson();
         listView = (ListView) findViewById(R.id.layoutlist);
         xtx1= (TextView) findViewById(R.id.xtx1);
         xtx2= (TextView) findViewById(R.id.xtx2);
@@ -986,6 +1391,12 @@ public class MainActivity extends Activity{
                         move = true;
                         writeText = false;
                         drawline = false;
+                        centerpoint.clear();
+                        seeback_line.clear();
+                        linela.clear();
+                        lineln.clear();
+                        linetime.clear();
+                        listtext.clear();
                         break;
                     case 2:
                         //文字
@@ -1008,6 +1419,7 @@ public class MainActivity extends Activity{
         photopath = projects.get(Integer.parseInt(pposition)).getPath();
         adapter = new LayoutlistAdapter(listlayout,R.layout.layoutlist,MainActivity.this);
         listView.setAdapter(adapter);
+        setHanderMessage();
         adapter.setAddlayerListener(new LayoutlistAdapter.AddlayerListener() {
             @Override
             public void addLayer() {
@@ -1097,25 +1509,6 @@ public class MainActivity extends Activity{
                     btnColor.setBackgroundColor(Integer.parseInt(colorlist.get(position).trim()));
                     widthtext.setText(widthlist.get(position));
                 }
-
-
-                Handler mColorhandler=new Handler()
-                {
-                    public void handleMessage(Message msg)
-                    {
-                        switch(msg.what)
-                        {
-                            case COLOR_CHANGE:
-                                btnColor.setBackgroundColor(ColorPickerView.ColorText);
-                                Log.i("TAG","color="+ColorPickerView.ColorText);
-                                break;
-
-                            default:
-                                break;
-                        }
-                    };
-                };
-
                 //用线程监听 是否颜色已经改变
                 new Thread(new Runnable() {
 
@@ -1133,7 +1526,7 @@ public class MainActivity extends Activity{
 
                                 System.out.println("color change!!!");
                                 flagOfColorChange=false;
-                                mColorhandler.sendEmptyMessage(COLOR_CHANGE);
+                                handler.sendEmptyMessage(COLOR_CHANGE);
                             }
                         }
 
@@ -1190,8 +1583,78 @@ public class MainActivity extends Activity{
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
+        Log.i("TAG","pointlist.size="+point_list.size());
+        Log.i("TAG","linelist.size="+linelist.size());
     }
+
+    private void setHanderMessage() {
+        handler=new Handler(){
+            public void handleMessage(Message msg) {
+                switch(msg.what) {
+                    case COLOR_CHANGE:
+                        btnColor.setBackgroundColor(ColorPickerView.ColorText);
+                        break;
+                    case DRAW_LINE:
+                        String la = msg.getData().getString("x");
+                        String ln = msg.getData().getString("y");
+                        Point point = new Point(Double.parseDouble(la),Double.parseDouble(ln));
+                        Point p1 = new Point(Double.parseDouble(x),Double.parseDouble(y));
+                        Point p2 = new Point(Double.parseDouble(line.getListla().get(0)),Double.parseDouble(line.getListln().get(0)));
+                        Point p3 = new Point(Double.parseDouble(line.getListla().get(line.getListla().size()-1)),Double.parseDouble(line.getListln().get(line.getListln().size()-1)));
+                        pointCollection1 = new PointCollection(mMapView.getSpatialReference());
+                        pointCollection2 = new PointCollection(mMapView.getSpatialReference());
+                        pointCollection3 = new PointCollection(mMapView.getSpatialReference());
+                        if (line.getListla().size()>1){
+                            if (String.valueOf(p1.getX()).equals(String.valueOf(p2.getX()))){
+                                Point p = new Point(Double.parseDouble(line.getListla().get(1)),Double.parseDouble(line.getListln().get(1)));
+                                pointCollection1.add(point);
+                                pointCollection1.add(p);
+                            }else if (String.valueOf(p1.getX()).equals(String.valueOf(p3.getX()))){
+                                Point p = new Point(Double.parseDouble(line.getListla().get(line.getListla().size()-2)),Double.parseDouble(line.getListln().get(line.getListln().size()-2)));
+                                pointCollection2.add(p);
+                                pointCollection2.add(point);
+                            }else{
+                                if (index >0 && index <line.getListla().size()-1){
+                                    Point p = new Point(Double.parseDouble(line.getListla().get(index-1)),Double.parseDouble(line.getListln().get(index-1)));
+                                    Point p_next = new Point(Double.parseDouble(line.getListla().get(index+1)),Double.parseDouble(line.getListln().get(index+1)));
+                                    pointCollection3.add(p);
+                                    pointCollection3.add(point);
+                                    pointCollection3.add(p_next);
+                                }
+                            }
+                            List<PointCollection> list = new ArrayList<>();
+                            list.add(pointCollection1);
+                            list.add(pointCollection2);
+                            list.add(pointCollection3);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (graphicsOverlays_line_dash.size()>0){
+                                        mMapView.getGraphicsOverlays().remove(graphicsOverlays_line_dash.get(graphicsOverlays_line_dash.size()-1));
+                                        graphicsOverlays_line_dash.remove(graphicsOverlays_line_dash.size()-1);
+                                    }
+                                    for (int i = 0 ;i < list.size();i++){
+                                        if (list.get(i).size()!=0){
+                                            GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
+                                            mMapView.getGraphicsOverlays().add(graphicsOverlay);
+                                            graphicsOverlays_line_dash.add(graphicsOverlay);
+                                            Polyline polyline = new Polyline(list.get(i));
+                                            SimpleLineSymbol s = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, Color.YELLOW, 1);
+                                            Graphic new_line = new Graphic(polyline,s);
+                                            graphicsOverlay.getGraphics().add(new_line);
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            };
+        };
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -1234,78 +1697,7 @@ public class MainActivity extends Activity{
         values.put("width",width);
         db.update("Newproject",values,"position = ?",new String[]{String.valueOf(pposition)});
     }
-    /**
-     * 点绘线
-     */
-    private void DotLine(android.graphics.Point p ){
-        i1=1;
-        graphicsOverlay_line = new GraphicsOverlay();
-        graphicsOverlays_line.add(graphicsOverlay_line);
-        mMapView.getGraphicsOverlays().add(graphicsOverlay_line);
-        mp= mMapView.screenToLocation(p);
-        pictureMarkerSymbol4 = new PictureMarkerSymbol(bitmapDrawable4);
-        pictureMarkerSymbol4.loadAsync();
-        pictureMarkerSymbol4.addDoneLoadingListener(new Runnable() {
-            @Override
-            public void run() {
-                Graphic ph = new Graphic(mp, pictureMarkerSymbol4);
-                listph.add(ph);
-                graphicsOverlay_line.getGraphics().add(listph.get(listph.size() - 1));
-            }
-        });
-        centerpoint1.add(mp.getX(), mp.getY(), mp.getZ());
-        centerpoint.add(mp.getX(), mp.getY(), mp.getZ());
-        seeback_line.add(mp.getX(),mp.getY(),mp.getZ());
-        seeback_point.clear();
-        SimpleLineSymbol s1 = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.YELLOW, 1);
-        //TextSymbol t1 = new TextSymbol(12f, "", Color.GREEN, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.MIDDLE);
-        if (centerpoint.size() >= 2) {
-            Polyline polyline = new Polyline(centerpoint);
-            Graphic line = new Graphic(polyline, s1);
-            listline.add(line);
-            graphicsOverlay_line.getGraphics().add(listline.get(listline.size() - 1));
-            //Graphic ts = new Graphic(polyline);
-            //listtext.add(ts);
-            //graphicsOverlay_line.getGraphics().add(listtext.get(listtext.size() - 1));
-            if (centerpoint.size()>2){
-                mMapView.getGraphicsOverlays().remove(graphicsOverlays_line.get(graphicsOverlays_line.size()-2));
-                graphicsOverlays_line.remove(graphicsOverlays_line.size()-2);
-            }
-            linela.add(String.valueOf(centerpoint.get(centerpoint.size()-1).getX()));
-            lineln.add(String.valueOf(centerpoint.get(centerpoint.size()-1).getY()));
-            ContentValues values = new ContentValues();
-            values.put("xla", StringUtils.join(linela,","));
-            values.put("xln",StringUtils.join(lineln,","));
-            db.update("Newlines"+pposition,values,"xla = ?",new String[] {StringUtils.join(linelist.get(linelist.size()-1).getListla(),",")});
-            MoreLines moreLines = new MoreLines();
-            moreLines.setListla(Arrays.asList(StringUtils.join(linela,",").split(",")));
-            moreLines.setListln(Arrays.asList(StringUtils.join(lineln,",").split(",")));
-            moreLines.setClassification(text);
-            moreLines.setCode("Q2");
-            if (centerpoint.size()>2){
-                linelist.remove(linelist.size()-1);
-            }
-            linelist.add(moreLines);
-        }else {
-            linela.add(String.valueOf(centerpoint.get(0).getX()));
-            lineln.add(String.valueOf(centerpoint.get(0).getY()));
-            //获得当前时间
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            Date date = new Date(System.currentTimeMillis());
-            time=simpleDateFormat.format(date);
-            ContentValues values=new ContentValues();
-            values.put("classification","点绘线");
-            values.put("xla", StringUtils.join(linela,","));
-            values.put("xln",StringUtils.join(lineln,","));
-            values.put("time",time);
-            values.put("code","Q2");
-            db.insert("Newlines"+pposition,null,values);
-            MoreLines moreLines = new MoreLines();
-            moreLines.setListla(Arrays.asList(StringUtils.join(linela,",").split(",")));
-            moreLines.setListln(Arrays.asList(StringUtils.join(lineln,",").split(",")));
-            linelist.add(moreLines);
-    }
-    }
+
 
     /**
      * 为各个控件写长按监听
@@ -1619,24 +2011,31 @@ public class MainActivity extends Activity{
                         centerpoint1.add(mp.getX(), mp.getY(), mp.getZ());
                         seeback_point.add(mp.getX(),mp.getY(),mp.getZ());
                         seeback_line.clear();
+                        //获得当前时间
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Date date= new Date(System.currentTimeMillis());
+                        String time=simpleDateFormat.format(date);
                         bitmapDrawable3 = (BitmapDrawable) getResources().getDrawable(R.mipmap.fy);
                         final PictureMarkerSymbol pictureMarkerSymbol3 = new PictureMarkerSymbol(bitmapDrawable3);
                         pictureMarkerSymbol3.loadAsync();
                         pictureMarkerSymbol3.addDoneLoadingListener(new Runnable() {
                             @Override
                             public void run() {
-                                Graphic ph = new Graphic(mp, pictureMarkerSymbol3);
+                                Map<String,Object> map = new HashMap<>();
+                                map.put("style","point");
+                                map.put("time",time);
+                                Graphic ph = new Graphic(mp,map, pictureMarkerSymbol3);
                                 listph.add(ph);
                                 graphicsOverlay_2.getGraphics().add(listph.get(listph.size() - 1));
                             }
                         });
                         String text=fy.getText().toString();
                         TextSymbol textSymbol = new TextSymbol(12f, text, Color.GREEN, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.MIDDLE);
-                        graphicsOverlay_2.getGraphics().add(new Graphic(mp,textSymbol));
-                        //获得当前时间
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Date date= new Date(System.currentTimeMillis());
-                        String time=simpleDateFormat.format(date);
+                        Map<String,Object> map2 = new HashMap<>();
+                        map2.put("style","text");
+                        map2.put("time",time);
+                        Graphic ph = new Graphic(mp,map2, textSymbol);
+                        graphicsOverlay_2.getGraphics().add(ph);
                         ContentValues values=new ContentValues();
                         values.put("name","FY");
                         values.put("la",String.valueOf(mp.getX()));
@@ -1658,7 +2057,7 @@ public class MainActivity extends Activity{
                     }
                     break;
                 case R.id.showpoint:
-                    ShowPointUtils.ShowAllPointUtils(MainActivity.this,threadPool2,pointlist,linelist,titles,imager,mMapView);
+                    ShowPointUtils.ShowAllPointUtils(MainActivity.this,threadPool2,pointlist,linelist,titles,imager,mMapView,graphicsOverlays_line,listph_point,listline);
                     showpoint.setVisibility(View.GONE);
                     clear.setVisibility(View.VISIBLE);
                     break;
@@ -1851,26 +2250,45 @@ public class MainActivity extends Activity{
                     startActivity(i);
                     break;
                 case R.id.clear:
-                    mMapView.getGraphicsOverlays().clear();
-                    centerpoint.clear();
-                    seeback_point.clear();
-                    seeback_line.clear();
+                    if (hasmap){
+                        mMapView.getGraphicsOverlays().clear();
+                        centerpoint.clear();
+                        seeback_point.clear();
+                        seeback_line.clear();
+                    }
+                    listph_point.clear();
+                    listph.clear();
+                    listline.clear();
+                    listtext.clear();
+                    length = 0;
                     graphicsOverlays_point.clear();
                     graphicsOverlays_line.clear();
-                    listline.clear();
                     listtext.clear();
                     showpoint.setVisibility(View.VISIBLE);
                     clear.setVisibility(View.GONE);
-                    list2.clear();
                     linela.clear();
                     lineln.clear();
-                    sublistline.clear();
+                    linetime.clear();
                     break;
                 case R.id.menu:
                     Intent m=new Intent(MainActivity.this,MainMenuActivity.class);
                     startActivity(m);
                     break;
                 case R.id.measure:
+                    if (hasmap){
+                        length = listph_point.size();
+                        centerpoint.clear();
+                        seeback_point.clear();
+                        seeback_line.clear();
+                    }
+                    linela.clear();
+                    lineln.clear();
+                    linetime.clear();
+                    listtext.clear();
+                    down = false;
+                    move = false;
+                    writeText = false;
+                    drawline = false;
                     view1.setVisibility(View.VISIBLE);
                     view2.setVisibility(View.VISIBLE);
                     scale1.setVisibility(View.VISIBLE);
@@ -1879,7 +2297,6 @@ public class MainActivity extends Activity{
                     radioGroup2.setVisibility(View.VISIBLE);
                     close.setVisibility(View.VISIBLE);
                     measure.setVisibility(View.GONE);
-                    mMapView.getGraphicsOverlays().clear();
                     FY.setVisibility(View.VISIBLE);
                     fy.setVisibility(View.VISIBLE);
                     li1.setVisibility(View.VISIBLE);
@@ -1893,19 +2310,33 @@ public class MainActivity extends Activity{
                     recyclerAdapter.notifyDataSetChanged();
                     break;
                 case R.id.next:
-                    centerpoint.clear();
-                    seeback_point.clear();
-                    seeback_line.clear();
-                    graphicsOverlays_point.clear();
-                    graphicsOverlays_line.clear();
-                    listline.clear();
-                    listtext.clear();
-                    list2.clear();
+                    if (hasmap){
+                        length = listph_point.size();
+                        centerpoint.clear();
+                        seeback_point.clear();
+                        seeback_line.clear();
+                    }
                     linela.clear();
                     lineln.clear();
-                    sublistline.clear();
+                    linetime.clear();
+                    listtext.clear();
                     break;
                 case R.id.close:
+                    if (hasmap){
+                        length = listph_point.size();
+                        centerpoint.clear();
+                        seeback_point.clear();
+                        seeback_line.clear();
+                    }
+                    linela.clear();
+                    lineln.clear();
+                    linetime.clear();
+                    listtext.clear();
+
+                    down = false;
+                    move = false;
+                    writeText = false;
+                    drawline = false;
                     next.setVisibility(View.GONE);
                     view1.setVisibility(View.GONE);
                     view2.setVisibility(View.GONE);
@@ -1917,17 +2348,6 @@ public class MainActivity extends Activity{
                     measure.setVisibility(View.VISIBLE);
                     listView.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.GONE);
-                    mMapView.getGraphicsOverlays().clear();
-                    centerpoint.clear();
-                    seeback_point.clear();
-                    seeback_line.clear();
-                    graphicsOverlays_point.clear();
-                    graphicsOverlays_line.clear();
-                    listline.clear();
-                    listtext.clear();
-                    linela.clear();
-                    lineln.clear();
-                    sublistline.clear();
                     FY.setVisibility(View.GONE);
                     fy.setVisibility(View.GONE);
                     li1.setVisibility(View.GONE);
@@ -1947,64 +2367,93 @@ public class MainActivity extends Activity{
                                 seeback_point.remove(seeback_point.size()-1);
                             }
                         }
-                        if (seeback_line.size()!=0&&graphicsOverlays_line.size()>0&&listline.size()>0){
-                            mMapView.getGraphicsOverlays().remove(graphicsOverlays_line.get(graphicsOverlays_line.size()-1));
-                            graphicsOverlays_line.remove(graphicsOverlays_line.size()-1);
-                            centerpoint.remove(centerpoint.size()-1);
-                            listline.remove(listline.size()-1);
-                            if (listtext.size()>0){
-                                listtext.remove(listtext.size()-1);
+                        if (graphicsOverlays_line_more.size()>0){
+                            mMapView.getGraphicsOverlays().remove(graphicsOverlays_line_more.get(graphicsOverlays_line_more.size()-1));
+                            graphicsOverlays_line_more.remove(graphicsOverlays_line_more.size()-1);
+                            MoreLines lines = linelist.remove(linelist.size()-1);
+                            List<String> la = new ArrayList<>(lines.getListla());
+                            List<String> mla = new ArrayList<>();
+                            mla.addAll(la);
+                            List<String> ln = new ArrayList<>(lines.getListln());
+                            la.remove(la.size()-1);
+                            ln.remove(ln.size()-1);
+                            MoreLines lines1 = new MoreLines();
+                            lines1.setListla(la);
+                            lines1.setListln(ln);
+                            lines1.setClassification(lines.getClassification());
+                            linelist.add(lines1);
+                            ContentValues values=new ContentValues();
+                            values.put("xla", StringUtils.join(la,","));
+                            values.put("xln",StringUtils.join(ln,","));
+                            db.update("Newlines"+pposition,values,"xla = ?",new String[] {StringUtils.join(mla,",")});
+                        }else if(graphicsOverlays_line_more.size() == 0&&linelist.size()>0) {
+                            if (linelist.get(linelist.size()-1).getListln().toString().equals("[]")==true){
+                                db.delete("Newlines"+pposition, "xla=?", new String[]{StringUtils.join(linelist.get(linelist.size()-1).getListla(),",")});
+                                linelist.remove(linelist.size()-1);
                             }
-                            graphicsOverlay_line = new GraphicsOverlay();
-                            mMapView.getGraphicsOverlays().add(graphicsOverlay_line);
-                            graphicsOverlays_line.add(graphicsOverlay_line);
-                            if (seeback_line.size()>2){
-                                pictureMarkerSymbol4 = new PictureMarkerSymbol(bitmapDrawable4);
-                                pictureMarkerSymbol4.loadAsync();
-                                pictureMarkerSymbol4.addDoneLoadingListener(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Graphic ph = new Graphic(seeback_line.get(seeback_line.size()-1), pictureMarkerSymbol4);
-                                        graphicsOverlay_line.getGraphics().add(ph);
+                        }
+                        if (seeback_line.size()!=0&&graphicsOverlays_line.size()>0){
+                                mMapView.getGraphicsOverlays().remove(graphicsOverlays_line.get(graphicsOverlays_line.size()-1));
+                                graphicsOverlays_line.remove(graphicsOverlays_line.size()-1);
+                                centerpoint.remove(centerpoint.size()-1);
+                                if (listline.size()>0){
+                                    listline.remove(listline.size()-1);
+                                }
+                                if (listph_point.size()>0){
+                                    listph_point.remove(listph_point.size()-1);
+                                }
+                                if (seeback_line.size()>2){
+                                    if (listtext.size()>0){
+                                        listtext.get(listtext.size()-1).setVisible(false);
+                                        listtext.remove(listtext.size()-1);
+                                        if (listtext.size()>1){
+                                            listtext.get(listtext.size()-1).setVisible(true);
+                                        }
                                     }
-                                });
-                                Graphic line = new Graphic(listline.get(listline.size()-1).getGeometry(),listline.get(listline.size()-1).getSymbol());
-                                graphicsOverlay_line.getGraphics().add(line);
-                                if (listtext.size()>0&&listtext.get(listtext.size()-1).getSymbol()!=null){
-                                    Graphic ts = new Graphic(listtext.get(listtext.size()-1).getGeometry(),listtext.get(listtext.size()-1).getSymbol());
-                                    graphicsOverlay_line.getGraphics().add(ts);
+                                    mMapView.setViewpointCenterAsync(seeback_line.get(seeback_line.size()-2));
+                                    seeback_line.remove(seeback_line.size()-1);
+                                    linela.remove(linela.size()-1);
+                                    lineln.remove(lineln.size()-1);
+                                    ContentValues values = new ContentValues();
+                                    List<String> linela = new ArrayList<>();
+                                    List<String> lineln = new ArrayList<>();
+                                    for (int a = 0;a<seeback_line.size();a++){
+                                        linela.add(String.valueOf(seeback_line.get(a).getX()));
+                                        lineln.add(String.valueOf(seeback_line.get(a).getY()));
+                                    }
+                                    values.put("xla", StringUtils.join(linela,","));
+                                    values.put("xln",StringUtils.join(lineln,","));
+                                    db.update("Newlines"+pposition,values,"xla = ?",new String[] {StringUtils.join(linelist.get(linelist.size()-1).getListla(),",")});
+                                    linelist.get(linelist.size()-1).setListla(Arrays.asList(StringUtils.join(linela,",").split(",")));
+                                    linelist.get(linelist.size()-1).setListln(Arrays.asList(StringUtils.join(lineln,",").split(",")));
+                                }else if(seeback_line.size()==2){
+                                    mMapView.setViewpointCenterAsync(seeback_line.get(seeback_line.size()-2));
+                                    seeback_line.remove(seeback_line.size()-1);
+                                    linela.remove(linela.size()-1);
+                                    lineln.remove(lineln.size()-1);
+                                    ContentValues values = new ContentValues();
+                                    List<String> linela = new ArrayList<>();
+                                    List<String> lineln = new ArrayList<>();
+                                    linela.add(String.valueOf(centerpoint.get(0).getX()));
+                                    lineln.add(String.valueOf(centerpoint.get(0).getY()));
+                                    values.put("xla", StringUtils.join(linela,","));
+                                    values.put("xln",StringUtils.join(lineln,","));
+                                    db.update("Newlines"+pposition,values,"xla = ?",new String[] {StringUtils.join(linelist.get(linelist.size()-1).getListla(),",")});
+                                    linelist.get(linelist.size()-1).setListla(Arrays.asList(StringUtils.join(linela,",").split(",")));
+                                    linelist.get(linelist.size()-1).setListln(Arrays.asList(StringUtils.join(lineln,",").split(",")));
+                                }else if (seeback_line.size()==1){
+                                    db.delete("Newlines"+pposition, "xla=?", new String[]{StringUtils.join(linelist.get(linelist.size()-1).getListla(),",")});
+                                    seeback_line.clear();
+                                    listtext.clear();
+                                    linela.clear();
+                                    lineln.clear();
+                                    linetime.clear();
+                                    mMapView.getGraphicsOverlays().remove(graphicsOverlays_line);
+                                    linelist.remove(linelist.size()-1);
                                 }
-                                mMapView.setViewpointCenterAsync(seeback_line.get(seeback_line.size()-2));
-                                seeback_line.remove(seeback_line.size()-1);
-                                linela.remove(linela.size()-1);
-                                lineln.remove(lineln.size()-1);
-                                ContentValues values = new ContentValues();
-                                List<String> linela = new ArrayList<>();
-                                List<String> lineln = new ArrayList<>();
-                                for (int a = 0;a<seeback_line.size();a++){
-                                    linela.add(String.valueOf(seeback_line.get(a).getX()));
-                                    lineln.add(String.valueOf(seeback_line.get(a).getY()));
-                                }
-                                values.put("xla", StringUtils.join(linela,","));
-                                values.put("xln",StringUtils.join(lineln,","));
-                                db.update("Newlines"+pposition,values,"xla = ?",new String[] {StringUtils.join(linelist.get(linelist.size()-1).getListla(),",")});
-                                linelist.get(linelist.size()-1).setListla(Arrays.asList(StringUtils.join(linela,",").split(",")));
-                                linelist.get(linelist.size()-1).setListln(Arrays.asList(StringUtils.join(lineln,",").split(",")));
-                                Log.i("TAG","la1="+StringUtils.join(linelist.get(linelist.size()-1).getListla(),","));
-                            }else if(seeback_line.size()==2){
-                                ContentValues values = new ContentValues();
-                                List<String> linela = new ArrayList<>();
-                                List<String> lineln = new ArrayList<>();
-                                linela.add(String.valueOf(centerpoint.get(0).getX()));
-                                lineln.add(String.valueOf(centerpoint.get(0).getY()));
-                                values.put("xla", StringUtils.join(linela,","));
-                                values.put("xln",StringUtils.join(lineln,","));
-                                db.update("Newlines"+pposition,values,"xla = ?",new String[] {StringUtils.join(linelist.get(linelist.size()-1).getListla(),",")});
-                                linelist.get(linelist.size()-1).setListla(Arrays.asList(StringUtils.join(linela,",").split(",")));
-                                linelist.get(linelist.size()-1).setListln(Arrays.asList(StringUtils.join(lineln,",").split(",")));
-                                mMapView.setViewpointCenterAsync(seeback_line.get(seeback_line.size()-2));
-                                seeback_line.remove(seeback_line.size()-1);
-                            }
+                            Log.i("TAG","centerpoint.size= "+centerpoint.size());
+                            Log.i("TAG","seebackline.size= "+seeback_line.size());
+                            Log.i("TAG","graphicsOverlays_line.size= "+graphicsOverlays_line.size());
                         }
                     }
                     break;
@@ -2041,10 +2490,19 @@ public class MainActivity extends Activity{
                         }else{
                             recyclerView.setVisibility(View.GONE);
                         }
+                        length = listph_point.size();
+                        centerpoint.clear();
+                        seeback_point.clear();
+                        seeback_line.clear();
+                        linela.clear();
+                        lineln.clear();
+                        linetime.clear();
+                        listtext.clear();
                         down = false;
                         move = false;
                         writeText = false;
                         drawline = false;
+
                         next.setVisibility(View.VISIBLE);
                         recyclerAdapter.setSelectItem(-1);
                         recyclerAdapter.notifyDataSetChanged();
@@ -2224,22 +2682,28 @@ public class MainActivity extends Activity{
         centerpoint1.add(mp.getX(), mp.getY(), mp.getZ());
         seeback_point.add(mp.getX(),mp.getY(),mp.getZ());
         seeback_line.clear();
-        final PictureMarkerSymbol pictureMarkerSymbol5 = new PictureMarkerSymbol(bitmapDrawable5);
-        pictureMarkerSymbol5.loadAsync();
-
-        pictureMarkerSymbol5.addDoneLoadingListener(new Runnable() {
-            @Override
-            public void run() {
-                Graphic ph = new Graphic(mp, pictureMarkerSymbol5);
-                listph.add(ph);
-                graphicsOverlay_point.getGraphics().add(listph.get(listph.size() - 1));
-            }
-        });
-        graphicsOverlay_point.getGraphics().add(new Graphic(mp,textSymbol));
         //获得当前时间
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date= new Date(System.currentTimeMillis());
         String time=simpleDateFormat.format(date);
+        Log.i("TAG","time1 = "+time);
+        final PictureMarkerSymbol pictureMarkerSymbol5 = new PictureMarkerSymbol(bitmapDrawable5);
+        pictureMarkerSymbol5.loadAsync();
+        pictureMarkerSymbol5.addDoneLoadingListener(new Runnable() {
+            @Override
+            public void run() {
+                Map<String,Object> map = new HashMap<>();
+                map.put("style","point");
+                map.put("time",time);
+                Graphic ph = new Graphic(mp, map, pictureMarkerSymbol5);
+                listph.add(ph);
+                graphicsOverlay_point.getGraphics().add(listph.get(listph.size() - 1));
+            }
+        });
+        Map<String,Object> map2 = new HashMap<>();
+        map2.put("style","text");
+        Graphic graphic_text = new Graphic(mp,map2,textSymbol);
+        graphicsOverlay_point.getGraphics().add(graphic_text);
         ContentValues values=new ContentValues();
         values.put("name",name);
         values.put("la",String.valueOf(mp.getX()));
@@ -2259,6 +2723,158 @@ public class MainActivity extends Activity{
         litepalPoints.setCode(code);
         pointlist.add(litepalPoints);
     }
+    private void Drawbitmap(Point p ,int index,String time1,String time2,GraphicsOverlay graphicsOverlay){
+        pictureMarkerSymbol4 = new PictureMarkerSymbol(bitmapDrawable4);
+        pictureMarkerSymbol4.loadAsync();
+        pictureMarkerSymbol4.addDoneLoadingListener(new Runnable() {
+            @Override
+            public void run() {
+                Map<String,Object> map = new HashMap<>();
+                map.put("style","line");
+                map.put("time",time1);
+                map.put("time2",time2);
+                Graphic ph = new Graphic(p, map,pictureMarkerSymbol4);
+                listph_point.set(index,ph);
+                graphicsOverlay.getGraphics().add(ph);
+            }
+        });
+    }
+    /**
+     * 手绘线
+     */
+    private void DotMoreLine(PointCollection pointCollection,PictureMarkerSymbol pictureMarkerSymbol){
+        graphicsOverlay_line = new GraphicsOverlay();
+        mMapView.getGraphicsOverlays().add(graphicsOverlay_line);
+        graphicsOverlays_line_more.add(graphicsOverlay_line);
+        graphicsOverlays_line.add(graphicsOverlay_line);
+        //获得当前时间
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date(System.currentTimeMillis());
+        String time=simpleDateFormat.format(date);
+        String time2 = String.valueOf(System.currentTimeMillis());
+        linetime.add(time2);
+        pictureMarkerSymbol.loadAsync();
+        pictureMarkerSymbol.addDoneLoadingListener(new Runnable() {
+            @Override
+            public void run() {
+                Map<String,Object> map = new HashMap<>();
+                map.put("style","line");
+                map.put("time",time2);
+                map.put("time2",time);
+                Graphic ph = new Graphic(pointCollection.get(1),map, pictureMarkerSymbol );
+                listph_point.add(ph);
+                graphicsOverlay_line.getGraphics().add(ph);
+            }
+        });
+        SimpleLineSymbol s1 = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.YELLOW, 2);
+        Polyline polyline = new Polyline(pointCollection);
+        Map<String,Object> map = new HashMap<>();
+        map.put("style","");
+        map.put("time",time2);
+        map.put("time2",time);
+        Graphic line = new Graphic(polyline,map,s1);
+        listline.add(line);
+        graphicsOverlay_line.getGraphics().add(line);
+    }
+    /**
+     * 点绘线
+     */
+    private void DotLine(android.graphics.Point p ){
+        i1=1;
+        graphicsOverlay_line = new GraphicsOverlay();
+        graphicsOverlays_line.add(graphicsOverlay_line);
+        mMapView.getGraphicsOverlays().add(graphicsOverlay_line);
+        mp= mMapView.screenToLocation(p);
+        //获得当前时间
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date(System.currentTimeMillis());
+        String time=simpleDateFormat.format(date);
+        String time2 = String.valueOf(System.currentTimeMillis());
+        Log.i("TAG","time = "+time);
+        pictureMarkerSymbol4 = new PictureMarkerSymbol(bitmapDrawable4);
+        pictureMarkerSymbol4.loadAsync();
+        pictureMarkerSymbol4.addDoneLoadingListener(new Runnable() {
+            @Override
+            public void run() {
+                Map<String,Object> map = new HashMap<>();
+                map.put("style","line");
+                map.put("time",time2);
+                map.put("time2",time);
+                Graphic ph = new Graphic(mp,map, pictureMarkerSymbol4);
+                listph_point.add(ph);
+                graphicsOverlay_line.getGraphics().add(ph);
+                if (centerpoint.size()>1){
+                    for (int i = length;i<listph_point.size();i++){
+                        listph_point.get(i).getAttributes().put("time2",time);
+                    }
+                }
+                if(centerpoint.size()==2){
+                    listph_point.get(length).getAttributes().put("time",time2);
+                    linetime.set(0,time2);
+                }
+            }
+        });
+        centerpoint1.add(mp.getX(), mp.getY(), mp.getZ());
+        centerpoint.add(mp.getX(), mp.getY(), mp.getZ());
+        seeback_line.add(mp.getX(),mp.getY(),mp.getZ());
+        seeback_point.clear();
+        SimpleLineSymbol s1 = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.YELLOW, 2);
+        //TextSymbol t1 = new TextSymbol(12f, "", Color.GREEN, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.MIDDLE);
+        if (centerpoint.size() >= 2) {
+            PointCollection pointCollection = new PointCollection(mMapView.getSpatialReference());
+            pointCollection.add(centerpoint.get(centerpoint.size()-2));
+            pointCollection.add(centerpoint.get(centerpoint.size()-1));
+            Polyline polyline = new Polyline(pointCollection);
+            Polyline polyline2 = new Polyline(centerpoint);
+            Map<String,Object> map = new HashMap<>();
+            map.put("style","");
+            map.put("time",time2);
+            map.put("time2",time);
+            Graphic line = new Graphic(polyline,map,s1);
+            listline.add(line);
+            graphicsOverlay_line.getGraphics().add(line);
+            if (listline.size()>1){
+                for (Graphic graphic:listline){
+                    graphic.getAttributes().put("time2",time);
+                }
+            }
+            linela.add(String.valueOf(centerpoint.get(centerpoint.size()-1).getX()));
+            lineln.add(String.valueOf(centerpoint.get(centerpoint.size()-1).getY()));
+            linetime.add(time2);
+            ContentValues values = new ContentValues();
+            values.put("xla", StringUtils.join(linela,","));
+            values.put("xln",StringUtils.join(lineln,","));
+            values.put("linetime",StringUtils.join(linetime,","));
+            values.put("time",time);
+            db.update("Newlines"+pposition,values,"xla = ?",new String[] {StringUtils.join(linelist.get(linelist.size()-1).getListla(),",")});
+            MoreLines moreLines = linelist.get(linelist.size()-1);
+            moreLines.setListla(Arrays.asList(StringUtils.join(linela,",").split(",")));
+            moreLines.setListln(Arrays.asList(StringUtils.join(lineln,",").split(",")));
+            moreLines.setDatatime(time);
+            moreLines.setLinetime(Arrays.asList(StringUtils.join(linetime,",").split(",")));
+            moreLines.setClassification("点绘线");
+            moreLines.setCode("Q2");
+        }else {
+            linela.add(String.valueOf(centerpoint.get(0).getX()));
+            lineln.add(String.valueOf(centerpoint.get(0).getY()));
+            linetime.add(time2);
+            ContentValues values=new ContentValues();
+            values.put("classification","点绘线");
+            values.put("xla", StringUtils.join(linela,","));
+            values.put("xln",StringUtils.join(lineln,","));
+            values.put("linetime",StringUtils.join(linetime,","));
+            values.put("time",time);
+            values.put("code","Q2");
+            db.insert("Newlines"+pposition,null,values);
+            MoreLines moreLines = new MoreLines();
+            moreLines.setListla(Arrays.asList(StringUtils.join(linela,",").split(",")));
+            moreLines.setListln(Arrays.asList(StringUtils.join(lineln,",").split(",")));
+            moreLines.setClassification("");
+            moreLines.setLinetime(Arrays.asList(StringUtils.join(linetime,",").split(",")));
+            moreLines.setDatatime(time);
+            linelist.add(moreLines);
+        }
+    }
     /**
      * 在图层添加线元素
      * @param simpleLineSymbol
@@ -2273,68 +2889,171 @@ public class MainActivity extends Activity{
         graphicsOverlays_line.add(graphicsOverlay_line);
         p = new android.graphics.Point(mMapView.getWidth() / 2, mMapView.getHeight() / 2);
         mp= mMapView.screenToLocation(p);
+        //获得当前时间
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date(System.currentTimeMillis());
+        String time=simpleDateFormat.format(date);
+        String time2=String.valueOf(System.currentTimeMillis());
         pictureMarkerSymbol4 = new PictureMarkerSymbol(bitmapDrawable4);
         pictureMarkerSymbol4.loadAsync();
         pictureMarkerSymbol4.addDoneLoadingListener(new Runnable() {
             @Override
             public void run() {
-                Graphic ph = new Graphic(mp, pictureMarkerSymbol4);
-                listph.add(ph);
-                graphicsOverlay_line.getGraphics().add(listph.get(listph.size() - 1));
+                Map<String,Object> map = new HashMap<>();
+                map.put("style","line");
+                map.put("time",time2);
+                map.put("time2",time);
+                Graphic ph = new Graphic(mp, map,pictureMarkerSymbol4);
+                listph_point.add(ph);
+                graphicsOverlay_line.getGraphics().add(ph);
+                if (centerpoint.size()>1){
+                    for (int i = length;i<listph_point.size();i++){
+                        listph_point.get(i).getAttributes().put("time2",time);
+                    }
+                }
+                if(centerpoint.size()==2){
+                    listph_point.get(length).getAttributes().put("time",time2);
+                    linetime.set(0,time2);
+                }
             }
         });
         centerpoint1.add(mp.getX(),mp.getY(),mp.getZ());
         centerpoint.add(mp.getX(),mp.getY(),mp.getZ());
         seeback_line.add(mp.getX(),mp.getY(),mp.getZ());
         seeback_point.clear();
-        Log.i("TAG","size="+centerpoint.size());
         if (centerpoint.size() >= 2) {
-            Polyline polyline = new Polyline(centerpoint);
-            Graphic line = new Graphic(polyline, simpleLineSymbol);
+            PointCollection pointCollection = new PointCollection(mMapView.getSpatialReference());
+            pointCollection.add(centerpoint.get(centerpoint.size()-2));
+            pointCollection.add(centerpoint.get(centerpoint.size()-1));
+            Polyline polyline = new Polyline(pointCollection);
+            Polyline polyline2 = new Polyline(centerpoint);
+            Map<String,Object> map = new HashMap<>();
+            map.put("style","");
+            map.put("time",time2);
+            map.put("time2",time);
+            Graphic line = new Graphic(polyline,map,simpleLineSymbol);
             listline.add(line);
-            graphicsOverlay_line.getGraphics().add(listline.get(listline.size() - 1));
-            Graphic ts = new Graphic(polyline, textSymbol);
+            graphicsOverlay_line.getGraphics().add(line);
+            if (listline.size()>1){
+                for (Graphic graphic:listline){
+                    graphic.getAttributes().put("time2",time);
+                }
+            }
+            Graphic ts = new Graphic(polyline2,textSymbol);
             listtext.add(ts);
-            graphicsOverlay_line.getGraphics().add(listtext.get(listtext.size() - 1));
-            if (centerpoint.size()>2){
-                mMapView.getGraphicsOverlays().remove(graphicsOverlays_line.get(graphicsOverlays_line.size()-2));
-                graphicsOverlays_line.remove(graphicsOverlays_line.size()-2);
+            graphicsOverlay_line.getGraphics().add(ts);
+            if (listtext.size()>1){
+                if (listtext.get(listtext.size()-2).isVisible()){
+                    listtext.get(listtext.size()-2).setVisible(false);
+                }
             }
             linela.add(String.valueOf(centerpoint.get(centerpoint.size()-1).getX()));
             lineln.add(String.valueOf(centerpoint.get(centerpoint.size()-1).getY()));
+            linetime.add(time2);
             ContentValues values = new ContentValues();
             values.put("xla", StringUtils.join(linela,","));
             values.put("xln",StringUtils.join(lineln,","));
+            values.put("time",time);
+            values.put("linetime",StringUtils.join(linetime,","));
             db.update("Newlines"+pposition,values,"xla = ?",new String[] {StringUtils.join(linelist.get(linelist.size()-1).getListla(),",")});
-            Log.i("TAG","la2="+StringUtils.join(linelist.get(linelist.size()-1).getListla(),","));
-            MoreLines moreLines = new MoreLines();
+            MoreLines moreLines = linelist.get(linelist.size()-1);
             moreLines.setListla(Arrays.asList(StringUtils.join(linela,",").split(",")));
             moreLines.setListln(Arrays.asList(StringUtils.join(lineln,",").split(",")));
+            moreLines.setLinetime(Arrays.asList(StringUtils.join(linetime,",").split(",")));
             moreLines.setClassification(text);
+            moreLines.setDatatime(time);
             moreLines.setCode(code);
-            if (centerpoint.size()>2){
-                linelist.remove(linelist.size()-1);
-            }
-            linelist.add(moreLines);
+//            Polyline polyline = new Polyline(centerpoint);
+//            Map<String,Object> map = new HashMap<>();
+//            map.put("style","");
+//            map.put("time",time);
+//            Graphic line = new Graphic(polyline,map, simpleLineSymbol);
+//            listline.add(line);
+//            graphicsOverlay_line.getGraphics().add(listline.get(listline.size() - 1));
+//            Graphic ts = new Graphic(polyline, textSymbol);
+//            listtext.add(ts);
+//            graphicsOverlay_line.getGraphics().add(listtext.get(listtext.size() - 1));
+//            if (centerpoint.size()>2){
+//                mMapView.getGraphicsOverlays().remove(graphicsOverlays_line.get(graphicsOverlays_line.size()-2));
+//                graphicsOverlays_line.remove(graphicsOverlays_line.size()-2);
+//            }
+//            linela.add(String.valueOf(centerpoint.get(centerpoint.size()-1).getX()));
+//            lineln.add(String.valueOf(centerpoint.get(centerpoint.size()-1).getY()));
+//            ContentValues values = new ContentValues();
+//            values.put("xla", StringUtils.join(linela,","));
+//            values.put("xln",StringUtils.join(lineln,","));
+//            db.update("Newlines"+pposition,values,"xla = ?",new String[] {StringUtils.join(linelist.get(linelist.size()-1).getListla(),",")});
+//            Log.i("TAG","la2="+StringUtils.join(linelist.get(linelist.size()-1).getListla(),","));
+//            MoreLines moreLines = linelist.get(linelist.size()-1);
+//            moreLines.setListla(Arrays.asList(StringUtils.join(linela,",").split(",")));
+//            moreLines.setListln(Arrays.asList(StringUtils.join(lineln,",").split(",")));
+//            moreLines.setClassification(text);
+//            moreLines.setDatatime(time);
+//            moreLines.setCode(code);
+//            if (centerpoint.size()>2){
+//                linelist.remove(linelist.size()-1);
+//            }
+//            linelist.add(moreLines);
         }else {
             linela.add(String.valueOf(centerpoint.get(0).getX()));
             lineln.add(String.valueOf(centerpoint.get(0).getY()));
-            //获得当前时间
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            Date date = new Date(System.currentTimeMillis());
-            String time=simpleDateFormat.format(date);
+            linetime.add(time2);
             ContentValues values=new ContentValues();
             values.put("classification",text);
             values.put("xla", StringUtils.join(linela,","));
             values.put("xln",StringUtils.join(lineln,","));
             values.put("time",time);
+            values.put("linetime",StringUtils.join(linetime,","));
             values.put("code",code);
             db.insert("Newlines"+pposition,null,values);
             MoreLines moreLines = new MoreLines();
             moreLines.setListla(Arrays.asList(StringUtils.join(linela,",").split(",")));
             moreLines.setListln(Arrays.asList(StringUtils.join(lineln,",").split(",")));
+            moreLines.setDatatime(time);
+            moreLines.setLinetime(Arrays.asList(StringUtils.join(linetime,",").split(",")));
+            moreLines.setClassification(text);
             linelist.add(moreLines);
         }
+    }
+    private void drawline2(MoreLines line){
+        List<String> la = line.getListla();
+        List<String> ln = line.getListln();
+        GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
+        mMapView.getGraphicsOverlays().add(graphicsOverlay);
+        PointCollection pointCollection = new PointCollection(mMapView.getSpatialReference());
+        for (int  i =0 ; i<la.size();i++){
+            pointCollection.add(Double.parseDouble(la.get(i)),Double.parseDouble(ln.get(i)));
+        }
+        //获得当前时间
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date(System.currentTimeMillis());
+        String time=simpleDateFormat.format(date);
+        pictureMarkerSymbol4 = new PictureMarkerSymbol(bitmapDrawable4);
+        for (int i =0 ; i<pointCollection.size();i++){
+            pictureMarkerSymbol4.loadAsync();
+            int finalI = i;
+            pictureMarkerSymbol4.addDoneLoadingListener(new Runnable() {
+                @Override
+                public void run() {
+                    Map<String,Object> map = new HashMap<>();
+                    map.put("style","line");
+                    map.put("time",time);
+                    Graphic ph = new Graphic(pointCollection.get(finalI),map,pictureMarkerSymbol4);
+                    listph_point.add(ph);
+                    graphics_ph.add(ph);
+                    graphicsOverlay.getGraphics().add(ph);
+                }
+            });
+        }
+        Polyline polyline = new Polyline(pointCollection);
+        SimpleLineSymbol s = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.YELLOW, 2);
+        Map<String,Object> map = new HashMap<>();
+        map.put("style","");
+        map.put("time",time);
+        Graphic graphic_line = new Graphic(polyline,map, s);
+        graphicsOverlay.getGraphics().add(graphic_line);
+        line.setDatatime(time);
+        linelist.add(line);
     }
     /**
      * 地图比例尺监听
@@ -2391,6 +3110,10 @@ public class MainActivity extends Activity{
                     mp = mMapView.screenToLocation(p);
                     graphicsOverlay_2 = new GraphicsOverlay();
                     mMapView.getGraphicsOverlays().add(graphicsOverlay_2);
+                    //获得当前时间
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date = new Date(System.currentTimeMillis());
+                    String time = simpleDateFormat.format(date);
                     BitmapDrawable b = (BitmapDrawable) getResources().getDrawable(R.mipmap.camera2);
                     TextSymbol t = new TextSymbol(12f, textp, Color.GREEN, TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.TOP);
                     centerpoint1.add(mp.getX(), mp.getY(), mp.getZ());
@@ -2399,17 +3122,19 @@ public class MainActivity extends Activity{
                     pictureMarkerSymbol5.addDoneLoadingListener(new Runnable() {
                         @Override
                         public void run() {
-                            Graphic ph = new Graphic(mp, pictureMarkerSymbol5);
+                            Map<String,Object> map = new HashMap<>();
+                            map.put("style","point");
+                            map.put("time",time);
+                            Graphic ph = new Graphic(mp,map, pictureMarkerSymbol5);
                             listph.add(ph);
                             graphicsOverlay_2.getGraphics().add(listph.get(listph.size() - 1));
                         }
                     });
-                    graphicsOverlay_2.getGraphics().add(new Graphic(mp, t));
-                    //获得当前时间
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    Date date = new Date(System.currentTimeMillis());
-                    String time = simpleDateFormat.format(date);
-
+                    Map<String,Object> map2 = new HashMap<>();
+                    map2.put("style","text");
+                    map2.put("time",time);
+                    Graphic graphic_text = new Graphic(mp,map2, t);
+                    graphicsOverlay_2.getGraphics().add(graphic_text);
                     ContentValues values = new ContentValues();
                     values.put("name","p");
                     values.put("la", String.valueOf(mp.getX()));
@@ -2437,6 +3162,7 @@ public class MainActivity extends Activity{
                     Bundle bundle=data.getExtras();
                     if (bundle!=null);
                     atotitle=bundle.getString("second");
+                    String time = bundle.getString("time");
                     seeback_point.add(mp.getX(),mp.getY(),mp.getZ());
                     seeback_line.clear();
                     if (!UseList(titles,atotitle)){
@@ -2446,19 +3172,27 @@ public class MainActivity extends Activity{
                         pictureMarkerSymbol.addDoneLoadingListener(new Runnable() {
                             @Override
                             public void run() {
-                                Graphic ph2 = new Graphic(mp, pictureMarkerSymbol);
+                                Map<String,Object> map = new HashMap<>();
+                                map.put("style","point");
+                                map.put("time",time);
+                                Graphic ph2 = new Graphic(mp,map, pictureMarkerSymbol);
                                 listph.add(ph2);
                                 graphicsOverlay_2.getGraphics().add(ph2);
                             }
                         });
                         TextSymbol textSymboly = new TextSymbol(12f, atotitle, Color.GREEN, TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.TOP  );
-                        graphicsOverlay_2.getGraphics().add(new Graphic(mp,textSymboly));
+                        Map<String,Object> map2 = new HashMap<>();
+                        map2.put("style","text");
+                        map2.put("time",time);
+                        Graphic ph = new Graphic(mp,map2, textSymboly);
+                        graphicsOverlay_2.getGraphics().add(ph);
 
                         LitepalPoints litepalPoints2=new LitepalPoints();
                         litepalPoints2.setLa(String.valueOf(mp.getX()));
                         litepalPoints2.setLn(String.valueOf(mp.getY()));
                         litepalPoints2.setHigh(String.valueOf(mp.getZ()));
                         litepalPoints2.setClassification(atotitle);
+                        litepalPoints2.setDatetime(time);
                         litepalPoints2.setCode("null");
                         pointlist.add(litepalPoints2);
                     }else {
@@ -2473,18 +3207,25 @@ public class MainActivity extends Activity{
                         pictureMarkerSymbol.addDoneLoadingListener(new Runnable() {
                             @Override
                             public void run() {
-                                Graphic ph2 = new Graphic(mp, pictureMarkerSymbol);
+                                Map<String,Object> map = new HashMap<>();
+                                map.put("style","point");
+                                map.put("time",time);
+                                Graphic ph2 = new Graphic(mp, map,pictureMarkerSymbol);
                                 listph.add(ph2);
                                 graphicsOverlay_2.getGraphics().add(ph2);
                             }
                         });
                         TextSymbol textSymboly = new TextSymbol(12f, atotitle, Color.GREEN, TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.TOP  );
-                        graphicsOverlay_2.getGraphics().add(new Graphic(mp,textSymboly));
-
+                        Map<String,Object> map2 = new HashMap<>();
+                        map2.put("style","text");
+                        map2.put("time",time);
+                        Graphic ph = new Graphic(mp, map2,textSymboly);
+                        graphicsOverlay_2.getGraphics().add(ph);
                         LitepalPoints litepalPoints2=new LitepalPoints();
                         litepalPoints2.setLa(String.valueOf(mp.getX()));
                         litepalPoints2.setLn(String.valueOf(mp.getY()));
                         litepalPoints2.setHigh(String.valueOf(mp.getZ()));
+                        litepalPoints2.setDatetime(time);
                         litepalPoints2.setClassification(atotitle);
                         litepalPoints2.setCode(codes[ap]);
                         pointlist.add(litepalPoints2);

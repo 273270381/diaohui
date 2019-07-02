@@ -14,6 +14,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Sensor;
@@ -129,6 +130,7 @@ import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.layers.RasterLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
+import com.esri.arcgisruntime.location.LocationDataSource;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.LayerList;
@@ -148,6 +150,7 @@ import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
+import com.esri.arcgisruntime.symbology.Symbol;
 import com.esri.arcgisruntime.symbology.TextSymbol;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -186,17 +189,17 @@ import static com.arcgis.mymap.R.id.yr;
 public class GeologicalMapActivity  extends Activity implements SensorEventListener{
     static MapView mMapView;
     EditText WriteText,mset,Write_name;
-    Spinner spinner;
     Button msbt;
     ListView lv;
     ImageView compass;
     float currentDegree = 0f;
+    private float degree;
     SensorManager mSensormanager;
     private SimpleRenderer renderer;
     EditText et1,et2,editText3,editText4,etdc,pet1,pet2,aet1,aet2;
     ArcGISMap mMap;
     ImageButton measure,zoomIn,zoomOut,dw,qx,showpoint,clear,close,camera,next;
-    TextView ddd,tsxt,tsxtm,bldz,bldzm,cz,jl,dc,bxzz,ht,yr;
+    TextView ddd,tsxt,tsxtm,bldz,bldzm,cz,jl,dc,bxzz,ht,yr,text;
     ScaleView scale1;
     HscaleView scale2;
     View view1,view2;
@@ -238,6 +241,7 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
     public static GraphicsOverlay graphicsOverlay_point;
     private List<GraphicsOverlay> graphicsOverlays_point = new ArrayList<>();
     private List<GraphicsOverlay> graphicsOverlays_line = new ArrayList<>();
+    private List<GraphicsOverlay> graphicsOverlays_line_more = new ArrayList<>();
     private List<GraphicsOverlay> graphicsOverlays_surface = new ArrayList<>();
     private ArrayList<JsonBean> options1Items = new ArrayList<>();//省
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();//市
@@ -303,6 +307,9 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
     public Boolean flag_yr = false;
     public Boolean flag_line = false;
     public Boolean flag_double_click = false;
+    public Boolean flag_bx_click = false;
+    public Boolean flag_ht_click = false;
+    public Boolean flag_yr_click = false;
     public SpannableString item4;
     static Point mp;
     public android.graphics.Point p;
@@ -515,6 +522,11 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
                         move = false;
                         writeText = false;
                         drawline = true;
+                        graphicsOverlays_line_more.clear();
+                        view1.setVisibility(View.VISIBLE);
+                        view2.setVisibility(View.VISIBLE);
+                        scale1.setVisibility(View.VISIBLE);
+                        scale2.setVisibility(View.VISIBLE);
                         break;
                     case 1:
                         //手绘线
@@ -522,6 +534,30 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
                         move = true;
                         writeText = false;
                         drawline = false;
+                        centerpoint.clear();
+                        centerpoint2.clear();
+                        centerpoint3.clear();
+                        seeback_surface.clear();
+                        seeback_point.clear();
+                        seeback_line.clear();
+                        seeback_surface.clear();
+                        graphicsOverlays_point.clear();
+                        graphicsOverlays_line.clear();
+                        graphicsOverlays_surface.clear();
+                        listline.clear();
+                        listtext.clear();
+                        list.clear();
+                        list2.clear();
+                        linela.clear();
+                        lineln.clear();
+                        surfacela.clear();
+                        surfaceln.clear();
+                        sublistline.clear();
+                        sublistsurface.clear();
+                        view1.setVisibility(View.GONE);
+                        view2.setVisibility(View.GONE);
+                        scale1.setVisibility(View.GONE);
+                        scale2.setVisibility(View.GONE);
                         break;
                     case 2:
                         //文字
@@ -529,6 +565,10 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
                         move = false;
                         writeText = true;
                         drawline = false;
+                        view1.setVisibility(View.GONE);
+                        view2.setVisibility(View.GONE);
+                        scale1.setVisibility(View.GONE);
+                        scale2.setVisibility(View.GONE);
                         break;
                 }
             }
@@ -778,7 +818,7 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
             MoreLines moreLines = new MoreLines();
             moreLines.setListla(Arrays.asList(StringUtils.join(linela,",").split(",")));
             moreLines.setListln(Arrays.asList(StringUtils.join(lineln,",").split(",")));
-            moreLines.setClassification("");
+            moreLines.setClassification("点绘线");
             moreLines.setCode("Q2");
             if (centerpoint2.size()>2){
                 linelist.remove(linelist.size()-1);
@@ -801,6 +841,7 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
             MoreLines moreLines = new MoreLines();
             moreLines.setListla(Arrays.asList(StringUtils.join(linela,",").split(",")));
             moreLines.setListln(Arrays.asList(StringUtils.join(lineln,",").split(",")));
+            moreLines.setClassification("");
             linelist.add(moreLines);
         }
     }
@@ -973,6 +1014,13 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
             mMapView.setMap(mMap);
         }
         locationDisplay=mMapView.getLocationDisplay();
+        locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
+        locationDisplay.addLocationChangedListener(new LocationDisplay.LocationChangedListener() {
+            @Override
+            public void onLocationChanged(LocationDisplay.LocationChangedEvent locationChangedEvent) {
+                Log.i("TAG","holer="+locationDisplay.getHeading());
+            }
+        });
         locationDisplay.addDataSourceStatusChangedListener(new LocationDisplay.DataSourceStatusChangedListener() {
             @Override
             public void onStatusChanged(LocationDisplay.DataSourceStatusChangedEvent dataSourceStatusChangedEvent) {
@@ -987,7 +1035,6 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
     private void loadLayer(String path, String color, String width){
         //path="/storage/emulated/0/0507.tpk"
         String str = path.substring(path.indexOf("."));
-        Log.i("TAG","path="+path);
         if (str.equals(".tpk")){
             //加载TPK
             TileCache mainTileCache = new TileCache(path);
@@ -1015,10 +1062,19 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
             rasterLayer.setDescription("MainLayer");
             mMap = new ArcGISMap(new Basemap(rasterLayer));
             mMapView.setMap(mMap);
+//            mMap = new ArcGISMap();
+//            mMap.getOperationalLayers().add(rasterLayer);
+//            mMapView.setMap(mMap);
             rasterLayer.addDoneLoadingListener(new Runnable() {
                 @Override
                 public void run() {
-                    mMapView.setViewpointGeometryAsync(rasterLayer.getFullExtent(),50);
+                    if (rasterLayer.getLoadStatus()==LoadStatus.LOADED){
+                        mMapView.setViewpointGeometryAsync(rasterLayer.getFullExtent(),50);
+                        android.graphics.Point dp=new android.graphics.Point(mMapView.getWidth() / 4, mMapView.getHeight() / 4);
+//                        Log.i("TAG","json="+mMapView.getSpatialReference().toJson());
+//                        Log.i("TAG","locationppp="+mMapView.screenToLocation(dp));
+//                        Log.i("TAG","wktext="+mMapView.getSpatialReference().getWKText());
+                    }
                 }
             });
             layers.clear();
@@ -1044,14 +1100,12 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
                 renderer = new SimpleRenderer(markerSymbol);
             }
             featureLayer.setRenderer(renderer);
-
-
-
             mMap.getOperationalLayers().add(featureLayer);
             mMapView.setMap(mMap);
             listView.setVisibility(View.GONE);
             layers.add(0,featureLayer);
             featurelayer.add(0,featureLayer);
+//            Log.i("TAG","wktext="+mMapView.getSpatialReference().getWKText());
         }else if (str.equals(".mmpk")){
             MobileMapPackage mobileMapPackage = new MobileMapPackage(path);
             mobileMapPackage.loadAsync();
@@ -1109,7 +1163,8 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
             public boolean onSingleTapConfirmed(MotionEvent e) {
                 if (down){
                     if (drawline){
-                        android.graphics.Point p = new android.graphics.Point((int)e.getX(),(int)e.getY());
+                        //android.graphics.Point p = new android.graphics.Point((int)e.getX(),(int)e.getY());
+                        android.graphics.Point p = new android.graphics.Point(mMapView.getWidth()/2,mMapView.getHeight()/2);
                         //点画线
                         DotLine(p);
                     }
@@ -1166,6 +1221,7 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
                     //手画线
                     GraphicsOverlay overlay = new GraphicsOverlay();
                     mMapView.getGraphicsOverlays().add(overlay);
+                    graphicsOverlays_line_more.add(overlay);
                     android.graphics.Point p1 = new android.graphics.Point((int)e1.getX(),(int)e1.getY());
                     android.graphics.Point p2 = new android.graphics.Point((int)e2.getX(),(int)e2.getY());
                     //Point mp1= (Point) GeometryEngine.project(mMapView.screenToLocation(p1),SpatialReference.create(4326));
@@ -1228,10 +1284,11 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    String cla = ContactDB.getLines()[spinner.getSelectedItemPosition()];
                                     String ms = mset.getText().toString();
                                     String name = Write_name.getText().toString();
-                                    String code = ContactDB.getlinecode()[spinner.getSelectedItemPosition()];                                    //添加文字
+                                    String cla = text.getText().toString();
+                                    //String code = ContactDB.getlinecode()[spinner.getSelectedItemPosition()];
+                                    String code = "ZU";
                                     TextSymbol t = new TextSymbol(12f, cla, Color.GREEN, TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.TOP);
                                     GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
                                     mMapView.getGraphicsOverlays().add(graphicsOverlay);
@@ -1264,13 +1321,22 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
                                 }
                             }).show();
                     Write_name = (EditText) dialog.findViewById(R.id.name);
-                    spinner = (Spinner) dialog.findViewById(R.id.spinner);
+                    text = (TextView) dialog.findViewById(R.id.text);
                     mset  = (EditText) dialog.findViewById(R.id.mset);
                     msbt = (Button) dialog.findViewById(R.id.msbt);
                     Cursor utc=db.query("Geomorelines"+pposition,null,"name != ? and name != ? and name != ? and name != ? and name != ? and name != ? and name != ?",
                             new String[]{"H","Z","J","P","T","R","FY"},null,null,null);
                     String string = FirstNameUtils.getName(utc,"Line");
                     Write_name.setText(string);
+                    if (flag_bx_click){
+                        text.setText(bxzz.getText().toString());
+                    }else if (flag_ht_click){
+                        text.setText(ht.getText().toString());
+                    }else if (flag_yr_click){
+                        text.setText(yr.getText().toString());
+                    }else{
+                        text.setText("背斜褶皱");
+                    }
                     msbt.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -1278,21 +1344,13 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
                         }
                     });
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(GeologicalMapActivity.this,android.R.layout.simple_spinner_item, ContactDB.getLines());
-                    spinner.setAdapter(adapter);
-                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            TextView tv = (TextView) view;
-                            tv.setGravity(Gravity.CENTER_HORIZONTAL);
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-                    });
                 }
                 return true;
+            }
+
+            @Override
+            public boolean onRotate(MotionEvent event, double rotationAngle) {
+                return false;
             }
         });
     }
@@ -1304,7 +1362,7 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
         switch(sensorType){
             case Sensor.TYPE_ORIENTATION:
                 // 获取绕Z轴转过的角度。
-                float degree = event.values[0];
+                degree = event.values[0];
                 // 创建旋转动画（反向转过degree度）
                 RotateAnimation ra = new RotateAnimation(currentDegree, -degree,
                         Animation.RELATIVE_TO_SELF, 0.5f,
@@ -1576,6 +1634,9 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
                             flag_yr = true;
                         }
                         //添加点
+                        flag_bx_click = false;
+                        flag_ht_click = false;
+                        flag_yr_click = true;
                         final GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
                         list.add(graphicsOverlay);
                         mMapView.getGraphicsOverlays().add(graphicsOverlay);
@@ -1654,6 +1715,9 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
                         flag_surface_line = false;
                         flag_line = true;
                         flag_double_click = false;
+                        flag_bx_click = true;
+                        flag_ht_click = false;
+                        flag_yr_click = false;
                     }
                     break;
                 case R.id.tsxtm:
@@ -1700,6 +1764,9 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
                             flag_ts = true;
                             flag_yr = false;
                         }
+                        flag_bx_click = false;
+                        flag_ht_click = true;
+                        flag_yr_click = false;
                         //添加点
                         final GraphicsOverlay graphicsOverlay2 = new GraphicsOverlay();
                         list.add(graphicsOverlay2);
@@ -1752,27 +1819,29 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
                     }
                     break;
                 case R.id.next:
-                    if (flag_surface_name == false){
-                        Cursor utc=db.query("Geosurface"+pposition,null,"name != ? and name != ? and name != ? and name != ? and name != ? and name != ? and name != ?",
-                                new String[]{"H","Z","J","P","T","R","FY"},null,null,null);
-                        if (flag_ts){
-                            surface_name = FirstNameUtils.getName(utc,"TS");
-                        }else if(flag_yr){
-                            surface_name = FirstNameUtils.getName(utc,"BL");
-                        }
+                    if (hasmap){
+                        if (flag_surface_name == false){
+                            Cursor utc=db.query("Geosurface"+pposition,null,"name != ? and name != ? and name != ? and name != ? and name != ? and name != ? and name != ?",
+                                    new String[]{"H","Z","J","P","T","R","FY"},null,null,null);
+                            if (flag_ts){
+                                surface_name = FirstNameUtils.getName(utc,"TS");
+                            }else if(flag_yr){
+                                surface_name = FirstNameUtils.getName(utc,"BL");
+                            }
 
+                        }
+                        if (centerpoint3.size()!=0){
+                            Drawsurface2(simpleFillSymbol,t,str_yr,"K2",surface_name,surface_des);
+                        }
+                        flag_surface_name = false;
+                        centerpoint.clear();
+                        centerpoint2.clear();
+                        centerpoint3.clear();
+                        seeback_surface.clear();
+                        seeback_point.clear();
+                        seeback_line.clear();
+                        seeback_surface.clear();
                     }
-                    if (centerpoint3.size()!=0){
-                        Drawsurface2(simpleFillSymbol,t,str_yr,"K2",surface_name,surface_des);
-                    }
-                    flag_surface_name = false;
-                    centerpoint.clear();
-                    centerpoint2.clear();
-                    centerpoint3.clear();
-                    seeback_surface.clear();
-                    seeback_point.clear();
-                    seeback_line.clear();
-                    seeback_surface.clear();
                     graphicsOverlays_point.clear();
                     graphicsOverlays_line.clear();
                     graphicsOverlays_surface.clear();
@@ -1812,6 +1881,10 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
                         }
                     }
                     recyclerView.setVisibility(View.GONE);
+                    view1.setVisibility(View.GONE);
+                    view2.setVisibility(View.GONE);
+                    scale1.setVisibility(View.GONE);
+                    scale2.setVisibility(View.GONE);
                     break;
                 case R.id.drawing:
                     if (hasmap){
@@ -2021,7 +2094,7 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
                     }
                     break;
                 case R.id.dw:
-                    try{
+                    try {
                         android.graphics.Point dp=new android.graphics.Point(mMapView.getWidth() / 2, mMapView.getHeight() / 2);
                         dwmp= (Point) GeometryEngine.project(mMapView.screenToLocation(dp),SpatialReference.create(4326));
                         if (!locationDisplay.isStarted()){
@@ -2030,7 +2103,6 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
                             Geometry p=GeometryEngine.project(locationDisplay.getMapLocation(),SpatialReference.create(4326));
                             boolean x=GeometryEngine.within(p,a);
                             if (!x){
-                                locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.OFF);
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
@@ -2041,14 +2113,17 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
                                     }
                                 },2000);
                             }else {
-                                locationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
+                                locationDisplay.setShowAccuracy(true);
+                                locationDisplay.setShowLocation(true);
+                                locationDisplay.setShowPingAnimation(true);
+                                locationDisplay.setUseCourseSymbolOnMovement(true);
                             }
                             locationDisplay.startAsync();
                         }
                         dw.setVisibility(View.GONE);
                         qx.setVisibility(View.VISIBLE);
-                    }catch(Exception e){
-                        e.printStackTrace();
+                    }catch (Exception E){
+                        E.printStackTrace();
                     }
                     break;
                 case R.id.qx:
@@ -2067,15 +2142,17 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
                     startActivity(i);
                     break;
                 case R.id.clear:
-                    mMapView.getGraphicsOverlays().clear();
-                    centerpoint.clear();
+                    if (hasmap){
+                        mMapView.getGraphicsOverlays().clear();
+                        centerpoint.clear();
+                        centerpoint2.clear();
+                        centerpoint3.clear();
+                        seeback_point.clear();
+                        seeback_line.clear();
+                        seeback_surface.clear();
+                    }
                     showpoint.setVisibility(View.VISIBLE);
                     clear.setVisibility(View.GONE);
-                    centerpoint2.clear();
-                    centerpoint3.clear();
-                    seeback_point.clear();
-                    seeback_line.clear();
-                    seeback_surface.clear();
                     graphicsOverlays_point.clear();
                     graphicsOverlays_line.clear();
                     graphicsOverlays_surface.clear();
@@ -2117,6 +2194,14 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
                     recyclerAdapter.notifyDataSetChanged();
                     break;
                 case R.id.close:
+                    if (hasmap){
+                        centerpoint.clear();
+                        centerpoint2.clear();
+                        centerpoint3.clear();
+                        seeback_point.clear();
+                        seeback_line.clear();
+                        seeback_surface.clear();
+                    }
                     view1.setVisibility(View.GONE);
                     view2.setVisibility(View.GONE);
                     scale1.setVisibility(View.GONE);
@@ -2127,12 +2212,6 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
                     close.setVisibility(View.GONE);
                     measure.setVisibility(View.VISIBLE);
                     mMapView.getGraphicsOverlays().clear();
-                    centerpoint.clear();
-                    centerpoint2.clear();
-                    centerpoint3.clear();
-                    seeback_point.clear();
-                    seeback_line.clear();
-                    seeback_surface.clear();
                     graphicsOverlays_point.clear();
                     graphicsOverlays_line.clear();
                     graphicsOverlays_surface.clear();
@@ -2199,18 +2278,45 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
                             surfacela.remove(surfacela.size()-1);
                             surfaceln.remove(surfaceln.size()-1);
                         }
-                        if (seeback_line.size()!=0&&graphicsOverlays_line.size()>0&&listline.size()>0){
+                        if (graphicsOverlays_line_more.size()>0){
+                            mMapView.getGraphicsOverlays().remove(graphicsOverlays_line_more.get(graphicsOverlays_line_more.size()-1));
+                            graphicsOverlays_line_more.remove(graphicsOverlays_line_more.size()-1);
+                            MoreLines lines = linelist.remove(linelist.size()-1);
+                            List<String> la = new ArrayList<>(lines.getListla());
+                            List<String> mla = new ArrayList<>();
+                            mla.addAll(la);
+                            List<String> ln = new ArrayList<>(lines.getListln());
+                            la.remove(la.size()-1);
+                            ln.remove(ln.size()-1);
+                            MoreLines lines1 = new MoreLines();
+                            lines1.setListla(la);
+                            lines1.setListln(ln);
+                            lines1.setClassification(lines.getClassification());
+                            linelist.add(lines1);
+                            ContentValues values=new ContentValues();
+                            values.put("gla", StringUtils.join(la,","));
+                            values.put("gln",StringUtils.join(ln,","));
+                            db.update("Geomorelines"+pposition,values,"gla = ?",new String[] {StringUtils.join(mla,",")});
+                        }else if(graphicsOverlays_line_more.size() == 0&&linelist.size()>0) {
+                            if (linelist.get(linelist.size()-1).getListln().toString().equals("[]")==true){
+                                db.delete("Geomorelines"+pposition, "gla=?", new String[]{StringUtils.join(linelist.get(linelist.size()-1).getListla(),",")});
+                                linelist.remove(linelist.size()-1);
+                            }
+                        }
+                        if (seeback_line.size()!=0&&graphicsOverlays_line.size()>0&&listline.size()>=0){
                             mMapView.getGraphicsOverlays().remove(graphicsOverlays_line.get(graphicsOverlays_line.size()-1));
                             graphicsOverlays_line.remove(graphicsOverlays_line.size()-1);
                             centerpoint2.remove(centerpoint2.size()-1);
-                            listline.remove(listline.size()-1);
+                            if (listline.size()>0){
+                                listline.remove(listline.size()-1);
+                            }
                             if (listtext.size()>0){
                                 listtext.remove(listtext.size()-1);
                             }
-                            GraphicsOverlay graphicsOverlay_line = new GraphicsOverlay();
-                            mMapView.getGraphicsOverlays().add(graphicsOverlay_line);
-                            graphicsOverlays_line.add(graphicsOverlay_line);
                             if (seeback_line.size()>2){
+                                GraphicsOverlay graphicsOverlay_line = new GraphicsOverlay();
+                                mMapView.getGraphicsOverlays().add(graphicsOverlay_line);
+                                graphicsOverlays_line.add(graphicsOverlay_line);
                                 pictureMarkerSymbol4 = new PictureMarkerSymbol(bitmapDrawable4);
                                 pictureMarkerSymbol4.loadAsync();
                                 pictureMarkerSymbol4.addDoneLoadingListener(new Runnable() {
@@ -2242,7 +2348,6 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
                                 db.update("Geomorelines"+pposition,values,"gla = ?",new String[] {StringUtils.join(linelist.get(linelist.size()-1).getListla(),",")});
                                 linelist.get(linelist.size()-1).setListla(Arrays.asList(StringUtils.join(linela,",").split(",")));
                                 linelist.get(linelist.size()-1).setListln(Arrays.asList(StringUtils.join(lineln,",").split(",")));
-                                Log.i("TAG","la1="+StringUtils.join(linelist.get(linelist.size()-1).getListla(),","));
                             }else if(seeback_line.size()==2){
                                 ContentValues values = new ContentValues();
                                 List<String> linela = new ArrayList<>();
@@ -2256,6 +2361,11 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
                                 linelist.get(linelist.size()-1).setListln(Arrays.asList(StringUtils.join(lineln,",").split(",")));
                                 mMapView.setViewpointCenterAsync(seeback_line.get(seeback_line.size()-2));
                                 seeback_line.remove(seeback_line.size()-1);
+                            }else if (seeback_line.size()==1){
+                                db.delete("Geomorelines"+pposition, "gla=?", new String[]{StringUtils.join(linelist.get(linelist.size()-1).getListla(),",")});
+                                seeback_line.clear();
+                                mMapView.getGraphicsOverlays().remove(graphicsOverlays_line);
+                                graphicsOverlays_line.clear();
                             }
                         }
                     }
@@ -2286,6 +2396,7 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
         p = new android.graphics.Point(mMapView.getWidth() / 2, mMapView.getHeight() / 2);
         //mp= (Point) GeometryEngine.project(mMapView.screenToLocation(p),SpatialReference.create(4326));
         mp = mMapView.screenToLocation(p);
+        Log.i("TAG","mp="+mp.toString());
         seekack.add(mp.getX(),mp.getY(),mp.getZ());
         seeback_point.add(mp.getX(),mp.getY(),mp.getZ());
         seeback_line.clear();
@@ -2614,14 +2725,14 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
             //获得当前时间
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date(System.currentTimeMillis());
-            //String time=simpleDateFormat.format(date);
+            String time=simpleDateFormat.format(date);
             ContentValues values=new ContentValues();
             values.put("gclassification",text);
             values.put("gla", StringUtils.join(linela,","));
             values.put("gln",StringUtils.join(lineln,","));
             values.put("gdescription",des);
             values.put("name",name);
-            //values.put("time",time);
+            values.put("time",time);
             values.put("gcode",code);
             db.insert("Geomorelines"+pposition,null,values);
             MoreLines moreLines = new MoreLines();
@@ -2685,9 +2796,14 @@ public class GeologicalMapActivity  extends Activity implements SensorEventListe
             Graphic ts = new Graphic(polygon, textSymbol);
             listtext2.add(ts);
             graphicsOverlay.getGraphics().add(listtext2.get(listtext2.size() - 1));
+            //获得当前时间
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date date = new Date(System.currentTimeMillis());
+            String time=simpleDateFormat.format(date);
             ContentValues values=new ContentValues();
             values.put("gclassification",text);
             values.put("name",name);
+            values.put("time",time);
             values.put("gdescription",des);
             values.put("gla",StringUtils.join(surfacela,","));
             values.put("gln",StringUtils.join(surfaceln,","));

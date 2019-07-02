@@ -2,6 +2,7 @@ package com.arcgis.mymap.Ellipses;
 
 
 import com.arcgis.mymap.contacts.PointGPS;
+import com.arcgis.mymap.contacts.PointXY;
 import com.arcgis.mymap.contacts.PointXYZ;
 
 /**
@@ -105,6 +106,11 @@ public class GaussProjection {
         dy = y;
         return true;
     }
+
+    /**
+     * 大地坐标转平面坐标
+     */
+
 
     /**
      *  大地坐标系（BLH）转 空间直角坐标系（XYZ）

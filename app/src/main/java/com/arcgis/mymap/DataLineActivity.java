@@ -170,6 +170,7 @@ public class DataLineActivity extends Activity {
                 String classification=cursor.getString(cursor.getColumnIndex("classification"));
                 String xla = cursor.getString(cursor.getColumnIndex("xla"));
                 String xln = cursor.getString(cursor.getColumnIndex("xln"));
+                String linetime = cursor.getString(cursor.getColumnIndex("linetime"));
                 String datetime=cursor.getString(cursor.getColumnIndex("time"));
                 String code=cursor.getString(cursor.getColumnIndex("code"));
                 //String formatType="yyyy-MM-dd HH:mm:ss";
@@ -183,6 +184,7 @@ public class DataLineActivity extends Activity {
                 lines.setDatatime(datetime);
                 lines.setDescription(description);
                 lines.setCode(code);
+                lines.setLinetime(Arrays.asList(linetime.split(",")));
                 list.add(lines);
             } while (cursor.moveToNext());
         }

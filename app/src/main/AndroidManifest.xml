@@ -32,7 +32,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="j5oPGom3d8RzkFqUaQQwOPAsVAiMgX4t" />
+            android:value="QXamI08pDxofqvbiMcdaHt2IYeCN3tho" />
         <meta-data
             android:name="IFLYTEK_APPKEY"
             android:value="5c74ebde"/>
@@ -256,7 +256,6 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTask"
             android:configChanges="orientation|keyboardHidden" />
         <activity
             android:name=".Geological.GeologicalMapActivity"
@@ -370,6 +369,10 @@
         <activity android:name=".utils.CoorTransActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity android:name=".Geological.GeoCoorTransActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity android:name=".ActivitySevenParam"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity android:name=".ActivityFourParam"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
         <service
             android:name="com.baidu.location.f"

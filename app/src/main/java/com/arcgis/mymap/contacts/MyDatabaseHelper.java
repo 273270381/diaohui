@@ -610,47 +610,47 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
 
     public static final String CREATE_NEWLINES0="create table Newlines0("+"id integer primary key autoincrement,"+"classification text,"+"code text,"
-            +"xla text,"+"xln text,"+"time text,"+"description text)";
+            +"xla text,"+"xln text,"+"linetime text,"+"time text,"+"description text)";
     public static final String CREATE_NEWLINES1="create table Newlines1("+"id integer primary key autoincrement,"+"classification text,"+"code text,"
-            +"xla text,"+"xln text,"+"time text,"+"description text)";
+            +"xla text,"+"xln text,"+"linetime text,"+"time text,"+"description text)";
     public static final String CREATE_NEWLINES2="create table Newlines2("+"id integer primary key autoincrement,"+"classification text,"+"code text,"
-            +"xla text,"+"xln text,"+"time text,"+"description text)";
+            +"xla text,"+"xln text,"+"linetime text,"+"time text,"+"description text)";
     public static final String CREATE_NEWLINES3="create table Newlines3("+"id integer primary key autoincrement,"+"classification text,"+"code text,"
-            +"xla text,"+"xln text,"+"time text,"+"description text)";
+            +"xla text,"+"xln text,"+"linetime text,"+"time text,"+"description text)";
     public static final String CREATE_NEWLINES4="create table Newlines4("+"id integer primary key autoincrement,"+"classification text,"+"code text,"
-            +"xla text,"+"xln text,"+"time text,"+"description text)";
+            +"xla text,"+"xln text,"+"linetime text,"+"time text,"+"description text)";
     public static final String CREATE_NEWLINES5="create table Newlines5("+"id integer primary key autoincrement,"+"classification text,"+"code text,"
-            +"xla text,"+"xln text,"+"time text,"+"description text)";
+            +"xla text,"+"xln text,"+"linetime text,"+"time text,"+"description text)";
     public static final String CREATE_NEWLINES6="create table Newlines6("+"id integer primary key autoincrement,"+"classification text,"+"code text,"
-            +"xla text,"+"xln text,"+"time text,"+"description text)";
+            +"xla text,"+"xln text,"+"linetime text,"+"time text,"+"description text)";
     public static final String CREATE_NEWLINES7="create table Newlines7("+"id integer primary key autoincrement,"+"classification text,"+"code text,"
-            +"xla text,"+"xln text,"+"time text,"+"description text)";
+            +"xla text,"+"xln text,"+"linetime text,"+"time text,"+"description text)";
     public static final String CREATE_NEWLINES8="create table Newlines8("+"id integer primary key autoincrement,"+"classification text,"+"code text,"
-            +"xla text,"+"xln text,"+"time text,"+"description text)";
+            +"xla text,"+"xln text,"+"linetime text,"+"time text,"+"description text)";
     public static final String CREATE_NEWLINES9="create table Newlines9("+"id integer primary key autoincrement,"+"classification text,"+"code text,"
-            +"xla text,"+"xln text,"+"time text,"+"description text)";
+            +"xla text,"+"xln text,"+"linetime text,"+"time text,"+"description text)";
     public static final String CREATE_NEWLINES10="create table Newlines10("+"id integer primary key autoincrement,"+"classification text,"+"code text,"
-            +"xla text,"+"xln text,"+"time text,"+"description text)";
+            +"xla text,"+"xln text,"+"linetime text,"+"time text,"+"description text)";
     public static final String CREATE_NEWLINES11="create table Newlines11("+"id integer primary key autoincrement,"+"classification text,"+"code text,"
-            +"xla text,"+"xln text,"+"time text,"+"description text)";
+            +"xla text,"+"xln text,"+"linetime text,"+"time text,"+"description text)";
     public static final String CREATE_NEWLINES12="create table Newlines12("+"id integer primary key autoincrement,"+"classification text,"+"code text,"
-            +"xla text,"+"xln text,"+"time text,"+"description text)";
+            +"xla text,"+"xln text,"+"linetime text,"+"time text,"+"description text)";
     public static final String CREATE_NEWLINES13="create table Newlines13("+"id integer primary key autoincrement,"+"classification text,"+"code text,"
-            +"xla text,"+"xln text,"+"time text,"+"description text)";
+            +"xla text,"+"xln text,"+"linetime text,"+"time text,"+"description text)";
     public static final String CREATE_NEWLINES14="create table Newlines14("+"id integer primary key autoincrement,"+"classification text,"+"code text,"
-            +"xla text,"+"xln text,"+"time text,"+"description text)";
+            +"xla text,"+"xln text,"+"linetime text,"+"time text,"+"description text)";
     public static final String CREATE_NEWLINES15="create table Newlines15("+"id integer primary key autoincrement,"+"classification text,"+"code text,"
-            +"xla text,"+"xln text,"+"time text,"+"description text)";
+            +"xla text,"+"xln text,"+"linetime text,"+"time text,"+"description text)";
     public static final String CREATE_NEWLINES16="create table Newlines16("+"id integer primary key autoincrement,"+"classification text,"+"code text,"
-            +"xla text,"+"xln text,"+"time text,"+"description text)";
+            +"xla text,"+"xln text,"+"linetime text,"+"time text,"+"description text)";
     public static final String CREATE_NEWLINES17="create table Newlines17("+"id integer primary key autoincrement,"+"classification text,"+"code text,"
-            +"xla text,"+"xln text,"+"time text,"+"description text)";
+            +"xla text,"+"xln text,"+"linetime text,"+"time text,"+"description text)";
     public static final String CREATE_NEWLINES18="create table Newlines18("+"id integer primary key autoincrement,"+"classification text,"+"code text,"
-            +"xla text,"+"xln text,"+"time text,"+"description text)";
+            +"xla text,"+"xln text,"+"linetime text,"+"time text,"+"description text)";
     public static final String CREATE_NEWLINES19="create table Newlines19("+"id integer primary key autoincrement,"+"classification text,"+"code text,"
-            +"xla text,"+"xln text,"+"time text,"+"description text)";
+            +"xla text,"+"xln text,"+"linetime text,"+"time text,"+"description text)";
     public static final String CREATE_NEWLINES20="create table Newlines20("+"id integer primary key autoincrement,"+"classification text,"+"code text,"
-            +"xla text,"+"xln text,"+"time text,"+"description text)";
+            +"xla text,"+"xln text,"+"linetime text,"+"time text,"+"description text)";
 
 
 

@@ -13,6 +13,7 @@ public class MoreLines implements Serializable {
     private String classification;
     private List<String> listla;
     private List<String> listln;
+    private List<String> linetime;
     private String datatime;
     private String description;
     private String code;
@@ -20,7 +21,12 @@ public class MoreLines implements Serializable {
     public MoreLines() {
     }
 
-    public MoreLines(int id, String classification, List<String> listla, List<String> listln,String name, String datatime, String description, String code) {
+    public MoreLines(List<String> listla, List<String> listln) {
+        this.listla = listla;
+        this.listln = listln;
+    }
+
+    public MoreLines(int id, String classification, List<String> listla, List<String> listln, String name, String datatime, String description, String code) {
         this.id = id;
         this.name = name;
         this.classification = classification;
@@ -29,6 +35,14 @@ public class MoreLines implements Serializable {
         this.datatime = datatime;
         this.description = description;
         this.code = code;
+    }
+
+    public List<String> getLinetime() {
+        return linetime;
+    }
+
+    public void setLinetime(List<String> linetime) {
+        this.linetime = linetime;
     }
 
     public String getName() {

@@ -255,6 +255,7 @@ public class Alert_dialogActivity extends Activity {
                         String text2=et2.getText().toString();
                         Bundle bundle =new Bundle();
                         bundle.putString("second",text2);
+                        bundle.putString("time",time);
                         intent.putExtras(bundle);
                         setResult(RESULT_OK,intent);
                         if (mla.equals(la)){
@@ -285,6 +286,7 @@ public class Alert_dialogActivity extends Activity {
                             Bundle bundle =new Bundle();
                             if (totitle!=null){
                                 bundle.putString("second",totitle);
+                                bundle.putString("time",time);
                                 intent.putExtras(bundle);
                                 setResult(RESULT_OK,intent);
                                 if (mla.equals(la)){

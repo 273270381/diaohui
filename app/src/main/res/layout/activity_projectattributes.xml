@@ -131,6 +131,7 @@
                 android:layout_height="1dp"/>
 
             <RelativeLayout
+                android:visibility="gone"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="46dp">

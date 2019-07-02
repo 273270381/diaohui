@@ -267,7 +267,9 @@ public class GeoMenuActivity  extends AppCompatActivity {
         be.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(GeoMenuActivity.this,GeoCoorTransActivity.class);
+                Intent i=new Intent(GeoMenuActivity.this,ConvertTools.class);
+                i.putExtra("data","dikan");
+                i.putExtra("position",String.valueOf(pposition));
                 startActivity(i);
             }
         });

@@ -9,7 +9,9 @@ import com.arcgis.mymap.Ellipses.PrjPoint_Krasovsky;
 import com.arcgis.mymap.Ellipses.PrjPoint_USERDefined;
 import com.arcgis.mymap.Ellipses.PrjPoint_WGS84;
 import com.arcgis.mymap.JamaMatrix.Matrix;
+import com.arcgis.mymap.contacts.FourPrams;
 import com.arcgis.mymap.contacts.PointGPS;
+import com.arcgis.mymap.contacts.PointXY;
 import com.arcgis.mymap.contacts.PointXYZ;
 import com.arcgis.mymap.contacts.SevenPrams;
 
@@ -552,6 +554,22 @@ public class CoordTransUtil {
 
         return ptXYZDest;
     }
+//    /**
+//     * 空间直角坐标系转换（四参数）
+//     *
+//     * @param par
+//     * @param ptXYZOrig
+//     * @return
+//     */
+//    public static PointXYZ Trans4Param(FourPrams par, PointXYZ ptXYZOrig) {
+//        double Tx, Ty, R, k;
+//        Tx = par.getX_off();
+//        Ty = par.getY_off();
+//        R = par.getAngle();
+//        k = par.getM();
+//        PointXY ptXYDest = new PointXY(0.0,0.0);
+//        double x =
+//    }
 
     /**
      * 注意：本函数仅限内部转：例如WGS的BLH转WGS的XYZ,不能WGS的BLH转BJ的XYZ

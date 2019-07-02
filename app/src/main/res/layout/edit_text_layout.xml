@@ -10,7 +10,7 @@
 
     <TextView
         android:id="@+id/text"
-        android:layout_width="80dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/textPoint"
-        android:layout_width="12dp"
+        android:layout_width="14dp"
         android:layout_height="match_parent"
         android:layout_toRightOf="@id/text"
         android:gravity="left|center_vertical"
@@ -70,7 +70,8 @@
         android:layout_toRightOf="@id/textPoint"
         android:background="@null"
         android:gravity="left|center_vertical"
-        android:inputType="textPassword"
+        android:digits="1234567890.-"
+        android:inputType="number"
         android:paddingLeft="5dp"
         android:paddingRight="15dp"
         android:selectAllOnFocus="true"

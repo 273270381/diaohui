@@ -254,7 +254,9 @@ public class MainMenuActivity extends AppCompatActivity {
         bg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(MainMenuActivity.this,CoorTransActivity.class);
+                Intent i=new Intent(MainMenuActivity.this,ConvertTools.class);
+                i.putExtra("data","hangce");
+                i.putExtra("position",String.valueOf(pposition));
                 startActivity(i);
             }
         });
