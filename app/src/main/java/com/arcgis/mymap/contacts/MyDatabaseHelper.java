@@ -9,181 +9,181 @@ import android.widget.Toast;
  * Created by Administrator on 2018/1/15.
  */
 public class MyDatabaseHelper extends SQLiteOpenHelper {
-    public static final String CREATE_GEOPOINTS0="create table Geodxdmpoints0("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOPOINTS0="create table Geodxdmpoints0("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"gclassification text,"+"gcode text,"+"zhibeifayu text,"+"gdescription text)";
-    public static final String CREATE_GEOPOINTS1="create table Geodxdmpoints1("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOPOINTS1="create table Geodxdmpoints1("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"gclassification text,"+"gcode text,"+"zhibeifayu text,"+"gdescription text)";
-    public static final String CREATE_GEOPOINTS2="create table Geodxdmpoints2("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOPOINTS2="create table Geodxdmpoints2("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"gclassification text,"+"gcode text,"+"zhibeifayu text,"+"gdescription text)";
-    public static final String CREATE_GEOPOINTS3="create table Geodxdmpoints3("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOPOINTS3="create table Geodxdmpoints3("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"gclassification text,"+"gcode text,"+"zhibeifayu text,"+"gdescription text)";
-    public static final String CREATE_GEOPOINTS4="create table Geodxdmpoints4("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOPOINTS4="create table Geodxdmpoints4("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"gclassification text,"+"gcode text,"+"zhibeifayu text,"+"gdescription text)";
-    public static final String CREATE_GEOPOINTS5="create table Geodxdmpoints5("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOPOINTS5="create table Geodxdmpoints5("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"gclassification text,"+"gcode text,"+"zhibeifayu text,"+"gdescription text)";
-    public static final String CREATE_GEOPOINTS6="create table Geodxdmpoints6("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOPOINTS6="create table Geodxdmpoints6("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"gclassification text,"+"gcode text,"+"zhibeifayu text,"+"gdescription text)";
-    public static final String CREATE_GEOPOINTS7="create table Geodxdmpoints7("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOPOINTS7="create table Geodxdmpoints7("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"gclassification text,"+"gcode text,"+"zhibeifayu text,"+"gdescription text)";
-    public static final String CREATE_GEOPOINTS8="create table Geodxdmpoints8("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOPOINTS8="create table Geodxdmpoints8("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"gclassification text,"+"gcode text,"+"zhibeifayu text,"+"gdescription text)";
-    public static final String CREATE_GEOPOINTS9="create table Geodxdmpoints9("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOPOINTS9="create table Geodxdmpoints9("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"gclassification text,"+"gcode text,"+"zhibeifayu text,"+"gdescription text)";
-    public static final String CREATE_GEOPOINTS10="create table Geodxdmpoints10("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOPOINTS10="create table Geodxdmpoints10("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"gclassification text,"+"gcode text,"+"zhibeifayu text,"+"gdescription text)";
-    public static final String CREATE_GEOPOINTS11="create table Geodxdmpoints11("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOPOINTS11="create table Geodxdmpoints11("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"gclassification text,"+"gcode text,"+"zhibeifayu text,"+"gdescription text)";
-    public static final String CREATE_GEOPOINTS12="create table Geodxdmpoints12("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOPOINTS12="create table Geodxdmpoints12("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"gclassification text,"+"gcode text,"+"zhibeifayu text,"+"gdescription text)";
-    public static final String CREATE_GEOPOINTS13="create table Geodxdmpoints13("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOPOINTS13="create table Geodxdmpoints13("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"gclassification text,"+"gcode text,"+"zhibeifayu text,"+"gdescription text)";
-    public static final String CREATE_GEOPOINTS14="create table Geodxdmpoints14("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOPOINTS14="create table Geodxdmpoints14("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"gclassification text,"+"gcode text,"+"zhibeifayu text,"+"gdescription text)";
-    public static final String CREATE_GEOPOINTS15="create table Geodxdmpoints15("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOPOINTS15="create table Geodxdmpoints15("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"gclassification text,"+"gcode text,"+"zhibeifayu text,"+"gdescription text)";
-    public static final String CREATE_GEOPOINTS16="create table Geodxdmpoints16("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOPOINTS16="create table Geodxdmpoints16("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"gclassification text,"+"gcode text,"+"zhibeifayu text,"+"gdescription text)";
-    public static final String CREATE_GEOPOINTS17="create table Geodxdmpoints17("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOPOINTS17="create table Geodxdmpoints17("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"gclassification text,"+"gcode text,"+"zhibeifayu text,"+"gdescription text)";
-    public static final String CREATE_GEOPOINTS18="create table Geodxdmpoints18("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOPOINTS18="create table Geodxdmpoints18("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"gclassification text,"+"gcode text,"+"zhibeifayu text,"+"gdescription text)";
-    public static final String CREATE_GEOPOINTS19="create table Geodxdmpoints19("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOPOINTS19="create table Geodxdmpoints19("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"gclassification text,"+"gcode text,"+"zhibeifayu text,"+"gdescription text)";
-    public static final String CREATE_GEOPOINTS20="create table Geodxdmpoints20("+"id integer primary key autoincrement,"+"name text,"
-            +"la text,"+"ln text,"+"high text,"+"gclassification text,"+"gcode text,"+"time text,"+"gdescription text)";
+    public static final String CREATE_GEOPOINTS20="create table Geodxdmpoints20("+"id integer primary key autoincrement,"+"name text,"+"time text,"
+            +"la text,"+"ln text,"+"high text,"+"gclassification text,"+"gcode text,"+"zhibeifayu text,"+"gdescription text)";
 
 
-    public static final String CREATE_GEODCYXPOINTS0="create table Geodcyxpoints0("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEODCYXPOINTS0="create table Geodcyxpoints0("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"dznd text,"+"ytmc text,"+"gclassification text,"+"gcode text,"+"fhcd text,"+"cz text,"+"jl text,"+"gdescription text)";
-    public static final String CREATE_GEODCYXPOINTS1="create table Geodcyxpoints1("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEODCYXPOINTS1="create table Geodcyxpoints1("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"dznd text,"+"ytmc text,"+"gclassification text,"+"gcode text,"+"fhcd text,"+"cz text,"+"jl text,"+"gdescription text)";
-    public static final String CREATE_GEODCYXPOINTS2="create table Geodcyxpoints2("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEODCYXPOINTS2="create table Geodcyxpoints2("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"dznd text,"+"ytmc text,"+"gclassification text,"+"gcode text,"+"fhcd text,"+"cz text,"+"jl text,"+"gdescription text)";
-    public static final String CREATE_GEODCYXPOINTS3="create table Geodcyxpoints3("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEODCYXPOINTS3="create table Geodcyxpoints3("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"dznd text,"+"ytmc text,"+"gclassification text,"+"gcode text,"+"fhcd text,"+"cz text,"+"jl text,"+"gdescription text)";
-    public static final String CREATE_GEODCYXPOINTS4="create table Geodcyxpoints4("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEODCYXPOINTS4="create table Geodcyxpoints4("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"dznd text,"+"ytmc text,"+"gclassification text,"+"gcode text,"+"fhcd text,"+"cz text,"+"jl text,"+"gdescription text)";
-    public static final String CREATE_GEODCYXPOINTS5="create table Geodcyxpoints5("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEODCYXPOINTS5="create table Geodcyxpoints5("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"dznd text,"+"ytmc text,"+"gclassification text,"+"gcode text,"+"fhcd text,"+"cz text,"+"jl text,"+"gdescription text)";
-    public static final String CREATE_GEODCYXPOINTS6="create table Geodcyxpoints6("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEODCYXPOINTS6="create table Geodcyxpoints6("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"dznd text,"+"ytmc text,"+"gclassification text,"+"gcode text,"+"fhcd text,"+"cz text,"+"jl text,"+"gdescription text)";
-    public static final String CREATE_GEODCYXPOINTS7="create table Geodcyxpoints7("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEODCYXPOINTS7="create table Geodcyxpoints7("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"dznd text,"+"ytmc text,"+"gclassification text,"+"gcode text,"+"fhcd text,"+"cz text,"+"jl text,"+"gdescription text)";
-    public static final String CREATE_GEODCYXPOINTS8="create table Geodcyxpoints8("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEODCYXPOINTS8="create table Geodcyxpoints8("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"dznd text,"+"ytmc text,"+"gclassification text,"+"gcode text,"+"fhcd text,"+"cz text,"+"jl text,"+"gdescription text)";
-    public static final String CREATE_GEODCYXPOINTS9="create table Geodcyxpoints9("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEODCYXPOINTS9="create table Geodcyxpoints9("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"dznd text,"+"ytmc text,"+"gclassification text,"+"gcode text,"+"fhcd text,"+"cz text,"+"jl text,"+"gdescription text)";
-    public static final String CREATE_GEODCYXPOINTS10="create table Geodcyxpoints10("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEODCYXPOINTS10="create table Geodcyxpoints10("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"dznd text,"+"ytmc text,"+"gclassification text,"+"gcode text,"+"fhcd text,"+"cz text,"+"jl text,"+"gdescription text)";
-    public static final String CREATE_GEODCYXPOINTS11="create table Geodcyxpoints11("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEODCYXPOINTS11="create table Geodcyxpoints11("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"dznd text,"+"ytmc text,"+"gclassification text,"+"gcode text,"+"fhcd text,"+"cz text,"+"jl text,"+"gdescription text)";
-    public static final String CREATE_GEODCYXPOINTS12="create table Geodcyxpoints12("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEODCYXPOINTS12="create table Geodcyxpoints12("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"dznd text,"+"ytmc text,"+"gclassification text,"+"gcode text,"+"fhcd text,"+"cz text,"+"jl text,"+"gdescription text)";
-    public static final String CREATE_GEODCYXPOINTS13="create table Geodcyxpoints13("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEODCYXPOINTS13="create table Geodcyxpoints13("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"dznd text,"+"ytmc text,"+"gclassification text,"+"gcode text,"+"fhcd text,"+"cz text,"+"jl text,"+"gdescription text)";
-    public static final String CREATE_GEODCYXPOINTS14="create table Geodcyxpoints14("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEODCYXPOINTS14="create table Geodcyxpoints14("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"dznd text,"+"ytmc text,"+"gclassification text,"+"gcode text,"+"fhcd text,"+"cz text,"+"jl text,"+"gdescription text)";
-    public static final String CREATE_GEODCYXPOINTS15="create table Geodcyxpoints15("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEODCYXPOINTS15="create table Geodcyxpoints15("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"dznd text,"+"ytmc text,"+"gclassification text,"+"gcode text,"+"fhcd text,"+"cz text,"+"jl text,"+"gdescription text)";
-    public static final String CREATE_GEODCYXPOINTS16="create table Geodcyxpoints16("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEODCYXPOINTS16="create table Geodcyxpoints16("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"dznd text,"+"ytmc text,"+"gclassification text,"+"gcode text,"+"fhcd text,"+"cz text,"+"jl text,"+"gdescription text)";
-    public static final String CREATE_GEODCYXPOINTS17="create table Geodcyxpoints17("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEODCYXPOINTS17="create table Geodcyxpoints17("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"dznd text,"+"ytmc text,"+"gclassification text,"+"gcode text,"+"fhcd text,"+"cz text,"+"jl text,"+"gdescription text)";
-    public static final String CREATE_GEODCYXPOINTS18="create table Geodcyxpoints18("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEODCYXPOINTS18="create table Geodcyxpoints18("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"dznd text,"+"ytmc text,"+"gclassification text,"+"gcode text,"+"fhcd text,"+"cz text,"+"jl text,"+"gdescription text)";
-    public static final String CREATE_GEODCYXPOINTS19="create table Geodcyxpoints19("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEODCYXPOINTS19="create table Geodcyxpoints19("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"dznd text,"+"ytmc text,"+"gclassification text,"+"gcode text,"+"fhcd text,"+"cz text,"+"jl text,"+"gdescription text)";
-    public static final String CREATE_GEODCYXPOINTS20="create table Geodcyxpoints20("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEODCYXPOINTS20="create table Geodcyxpoints20("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"dznd text,"+"ytmc text,"+"gclassification text,"+"gcode text,"+"fhcd text,"+"cz text,"+"jl text,"+"gdescription text)";
-
-
-
-    public static final String CREATE_GEOSWDZPOINTS0="create table Geoswdzpoints0("+"id integer primary key autoincrement,"+"name text,"
-            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOSWDZPOINTS1="create table Geoswdzpoints1("+"id integer primary key autoincrement,"+"name text,"
-            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOSWDZPOINTS2="create table Geoswdzpoints2("+"id integer primary key autoincrement,"+"name text,"
-            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOSWDZPOINTS3="create table Geoswdzpoints3("+"id integer primary key autoincrement,"+"name text,"
-            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOSWDZPOINTS4="create table Geoswdzpoints4("+"id integer primary key autoincrement,"+"name text,"
-            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOSWDZPOINTS5="create table Geoswdzpoints5("+"id integer primary key autoincrement,"+"name text,"
-            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOSWDZPOINTS6="create table Geoswdzpoints6("+"id integer primary key autoincrement,"+"name text,"
-            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOSWDZPOINTS7="create table Geoswdzpoints7("+"id integer primary key autoincrement,"+"name text,"
-            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOSWDZPOINTS8="create table Geoswdzpoints8("+"id integer primary key autoincrement,"+"name text,"
-            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOSWDZPOINTS9="create table Geoswdzpoints9("+"id integer primary key autoincrement,"+"name text,"
-            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOSWDZPOINTS10="create table Geoswdzpoints10("+"id integer primary key autoincrement,"+"name text,"
-            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOSWDZPOINTS11="create table Geoswdzpoints11("+"id integer primary key autoincrement,"+"name text,"
-            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOSWDZPOINTS12="create table Geoswdzpoints12("+"id integer primary key autoincrement,"+"name text,"
-            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOSWDZPOINTS13="create table Geoswdzpoints13("+"id integer primary key autoincrement,"+"name text,"
-            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOSWDZPOINTS14="create table Geoswdzpoints14("+"id integer primary key autoincrement,"+"name text,"
-            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOSWDZPOINTS15="create table Geoswdzpoints15("+"id integer primary key autoincrement,"+"name text,"
-            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOSWDZPOINTS16="create table Geoswdzpoints16("+"id integer primary key autoincrement,"+"name text,"
-            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOSWDZPOINTS17="create table Geoswdzpoints17("+"id integer primary key autoincrement,"+"name text,"
-            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOSWDZPOINTS18="create table Geoswdzpoints18("+"id integer primary key autoincrement,"+"name text,"
-            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOSWDZPOINTS19="create table Geoswdzpoints19("+"id integer primary key autoincrement,"+"name text,"
-            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOSWDZPOINTS20="create table Geoswdzpoints20("+"id integer primary key autoincrement,"+"name text,"
-            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
 
 
 
-    public static final String CREATE_GEOGZWDPOINTS0="create table Geogzwdpoints0("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOSWDZPOINTS0="create table Geoswdzpoints0("+"id integer primary key autoincrement,"+"name text,"+"time text,"
+            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
+    public static final String CREATE_GEOSWDZPOINTS1="create table Geoswdzpoints1("+"id integer primary key autoincrement,"+"name text,"+"time text,"
+            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
+    public static final String CREATE_GEOSWDZPOINTS2="create table Geoswdzpoints2("+"id integer primary key autoincrement,"+"name text,"+"time text,"
+            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
+    public static final String CREATE_GEOSWDZPOINTS3="create table Geoswdzpoints3("+"id integer primary key autoincrement,"+"name text,"+"time text,"
+            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
+    public static final String CREATE_GEOSWDZPOINTS4="create table Geoswdzpoints4("+"id integer primary key autoincrement,"+"name text,"+"time text,"
+            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
+    public static final String CREATE_GEOSWDZPOINTS5="create table Geoswdzpoints5("+"id integer primary key autoincrement,"+"name text,"+"time text,"
+            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
+    public static final String CREATE_GEOSWDZPOINTS6="create table Geoswdzpoints6("+"id integer primary key autoincrement,"+"name text,"+"time text,"
+            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
+    public static final String CREATE_GEOSWDZPOINTS7="create table Geoswdzpoints7("+"id integer primary key autoincrement,"+"name text,"+"time text,"
+            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
+    public static final String CREATE_GEOSWDZPOINTS8="create table Geoswdzpoints8("+"id integer primary key autoincrement,"+"name text,"+"time text,"
+            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
+    public static final String CREATE_GEOSWDZPOINTS9="create table Geoswdzpoints9("+"id integer primary key autoincrement,"+"name text,"+"time text,"
+            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
+    public static final String CREATE_GEOSWDZPOINTS10="create table Geoswdzpoints10("+"id integer primary key autoincrement,"+"name text,"+"time text,"
+            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
+    public static final String CREATE_GEOSWDZPOINTS11="create table Geoswdzpoints11("+"id integer primary key autoincrement,"+"name text,"+"time text,"
+            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
+    public static final String CREATE_GEOSWDZPOINTS12="create table Geoswdzpoints12("+"id integer primary key autoincrement,"+"name text,"+"time text,"
+            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
+    public static final String CREATE_GEOSWDZPOINTS13="create table Geoswdzpoints13("+"id integer primary key autoincrement,"+"name text,"+"time text,"
+            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
+    public static final String CREATE_GEOSWDZPOINTS14="create table Geoswdzpoints14("+"id integer primary key autoincrement,"+"name text,"+"time text,"
+            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
+    public static final String CREATE_GEOSWDZPOINTS15="create table Geoswdzpoints15("+"id integer primary key autoincrement,"+"name text,"+"time text,"
+            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
+    public static final String CREATE_GEOSWDZPOINTS16="create table Geoswdzpoints16("+"id integer primary key autoincrement,"+"name text,"+"time text,"
+            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
+    public static final String CREATE_GEOSWDZPOINTS17="create table Geoswdzpoints17("+"id integer primary key autoincrement,"+"name text,"+"time text,"
+            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
+    public static final String CREATE_GEOSWDZPOINTS18="create table Geoswdzpoints18("+"id integer primary key autoincrement,"+"name text,"+"time text,"
+            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
+    public static final String CREATE_GEOSWDZPOINTS19="create table Geoswdzpoints19("+"id integer primary key autoincrement,"+"name text,"+"time text,"
+            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
+    public static final String CREATE_GEOSWDZPOINTS20="create table Geoswdzpoints20("+"id integer primary key autoincrement,"+"name text,"+"time text,"
+            +"la text,"+"ln text,"+"high text,"+"sllx text,"+"smkd text,"+"ss text,"+"ls text,"+"ll text,"+"sz text,"+"code text,"+"gdescription text)";
+
+
+
+    public static final String CREATE_GEOGZWDPOINTS0="create table Geogzwdpoints0("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"lx text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOGZWDPOINTS1="create table Geogzwdpoints1("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOGZWDPOINTS1="create table Geogzwdpoints1("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"lx text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOGZWDPOINTS2="create table Geogzwdpoints2("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOGZWDPOINTS2="create table Geogzwdpoints2("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"lx text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOGZWDPOINTS3="create table Geogzwdpoints3("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOGZWDPOINTS3="create table Geogzwdpoints3("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"lx text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOGZWDPOINTS4="create table Geogzwdpoints4("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOGZWDPOINTS4="create table Geogzwdpoints4("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"lx text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOGZWDPOINTS5="create table Geogzwdpoints5("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOGZWDPOINTS5="create table Geogzwdpoints5("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"lx text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOGZWDPOINTS6="create table Geogzwdpoints6("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOGZWDPOINTS6="create table Geogzwdpoints6("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"lx text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOGZWDPOINTS7="create table Geogzwdpoints7("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOGZWDPOINTS7="create table Geogzwdpoints7("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"lx text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOGZWDPOINTS8="create table Geogzwdpoints8("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOGZWDPOINTS8="create table Geogzwdpoints8("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"lx text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOGZWDPOINTS9="create table Geogzwdpoints9("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOGZWDPOINTS9="create table Geogzwdpoints9("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"lx text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOGZWDPOINTS10="create table Geogzwdpoints10("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOGZWDPOINTS10="create table Geogzwdpoints10("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"lx text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOGZWDPOINTS11="create table Geogzwdpoints11("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOGZWDPOINTS11="create table Geogzwdpoints11("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"lx text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOGZWDPOINTS12="create table Geogzwdpoints12("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOGZWDPOINTS12="create table Geogzwdpoints12("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"lx text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOGZWDPOINTS13="create table Geogzwdpoints13("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOGZWDPOINTS13="create table Geogzwdpoints13("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"lx text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOGZWDPOINTS14="create table Geogzwdpoints14("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOGZWDPOINTS14="create table Geogzwdpoints14("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"lx text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOGZWDPOINTS15="create table Geogzwdpoints15("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOGZWDPOINTS15="create table Geogzwdpoints15("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"lx text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOGZWDPOINTS16="create table Geogzwdpoints16("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOGZWDPOINTS16="create table Geogzwdpoints16("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"lx text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOGZWDPOINTS17="create table Geogzwdpoints17("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOGZWDPOINTS17="create table Geogzwdpoints17("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"lx text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOGZWDPOINTS18="create table Geogzwdpoints18("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOGZWDPOINTS18="create table Geogzwdpoints18("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"lx text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOGZWDPOINTS19="create table Geogzwdpoints19("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOGZWDPOINTS19="create table Geogzwdpoints19("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"lx text,"+"code text,"+"gdescription text)";
-    public static final String CREATE_GEOGZWDPOINTS20="create table Geogzwdpoints20("+"id integer primary key autoincrement,"+"name text,"
+    public static final String CREATE_GEOGZWDPOINTS20="create table Geogzwdpoints20("+"id integer primary key autoincrement,"+"name text,"+"time text,"
             +"la text,"+"ln text,"+"high text,"+"lx text,"+"code text,"+"gdescription text)";
 
 
@@ -282,47 +282,47 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
 
 
-    public static final String CREATE_GEOMORELINES0="create table Geomorelines0("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"
+    public static final String CREATE_GEOMORELINES0="create table Geomorelines0("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"+"linetime text,"
             +"gla text,"+"gln text,"+"time text,"+"gdescription text)";
-    public static final String CREATE_GEOMORELINES1="create table Geomorelines1("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"
+    public static final String CREATE_GEOMORELINES1="create table Geomorelines1("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"+"linetime text,"
             +"gla text,"+"gln text,"+"time text,"+"gdescription text)";
-    public static final String CREATE_GEOMORELINES2="create table Geomorelines2("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"
+    public static final String CREATE_GEOMORELINES2="create table Geomorelines2("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"+"linetime text,"
             +"gla text,"+"gln text,"+"time text,"+"gdescription text)";
-    public static final String CREATE_GEOMORELINES3="create table Geomorelines3("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"
+    public static final String CREATE_GEOMORELINES3="create table Geomorelines3("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"+"linetime text,"
             +"gla text,"+"gln text,"+"time text,"+"gdescription text)";
-    public static final String CREATE_GEOMORELINES4="create table Geomorelines4("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"
+    public static final String CREATE_GEOMORELINES4="create table Geomorelines4("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"+"linetime text,"
             +"gla text,"+"gln text,"+"time text,"+"gdescription text)";
-    public static final String CREATE_GEOMORELINES5="create table Geomorelines5("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"
+    public static final String CREATE_GEOMORELINES5="create table Geomorelines5("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"+"linetime text,"
             +"gla text,"+"gln text,"+"time text,"+"gdescription text)";
-    public static final String CREATE_GEOMORELINES6="create table Geomorelines6("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"
+    public static final String CREATE_GEOMORELINES6="create table Geomorelines6("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"+"linetime text,"
             +"gla text,"+"gln text,"+"time text,"+"gdescription text)";
-    public static final String CREATE_GEOMORELINES7="create table Geomorelines7("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"
+    public static final String CREATE_GEOMORELINES7="create table Geomorelines7("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"+"linetime text,"
             +"gla text,"+"gln text,"+"time text,"+"gdescription text)";
-    public static final String CREATE_GEOMORELINES8="create table Geomorelines8("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"
+    public static final String CREATE_GEOMORELINES8="create table Geomorelines8("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"+"linetime text,"
             +"gla text,"+"gln text,"+"time text,"+"gdescription text)";
-    public static final String CREATE_GEOMORELINES9="create table Geomorelines9("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"
+    public static final String CREATE_GEOMORELINES9="create table Geomorelines9("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"+"linetime text,"
             +"gla text,"+"gln text,"+"time text,"+"gdescription text)";
-    public static final String CREATE_GEOMORELINES10="create table Geomorelines10("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"
+    public static final String CREATE_GEOMORELINES10="create table Geomorelines10("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"+"linetime text,"
             +"gla text,"+"gln text,"+"time text,"+"gdescription text)";
-    public static final String CREATE_GEOMORELINES11="create table Geomorelines11("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"
+    public static final String CREATE_GEOMORELINES11="create table Geomorelines11("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"+"linetime text,"
             +"gla text,"+"gln text,"+"time text,"+"gdescription text)";
-    public static final String CREATE_GEOMORELINES12="create table Geomorelines12("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"
+    public static final String CREATE_GEOMORELINES12="create table Geomorelines12("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"+"linetime text,"
             +"gla text,"+"gln text,"+"time text,"+"gdescription text)";
-    public static final String CREATE_GEOMORELINES13="create table Geomorelines13("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"
+    public static final String CREATE_GEOMORELINES13="create table Geomorelines13("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"+"linetime text,"
             +"gla text,"+"gln text,"+"time text,"+"gdescription text)";
-    public static final String CREATE_GEOMORELINES14="create table Geomorelines14("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"
+    public static final String CREATE_GEOMORELINES14="create table Geomorelines14("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"+"linetime text,"
             +"gla text,"+"gln text,"+"time text,"+"gdescription text)";
-    public static final String CREATE_GEOMORELINES15="create table Geomorelines15("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"
+    public static final String CREATE_GEOMORELINES15="create table Geomorelines15("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"+"linetime text,"
             +"gla text,"+"gln text,"+"time text,"+"gdescription text)";
-    public static final String CREATE_GEOMORELINES16="create table Geomorelines16("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"
+    public static final String CREATE_GEOMORELINES16="create table Geomorelines16("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"+"linetime text,"
             +"gla text,"+"gln text,"+"time text,"+"gdescription text)";
-    public static final String CREATE_GEOMORELINES17="create table Geomorelines17("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"
+    public static final String CREATE_GEOMORELINES17="create table Geomorelines17("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"+"linetime text,"
             +"gla text,"+"gln text,"+"time text,"+"gdescription text)";
-    public static final String CREATE_GEOMORELINES18="create table Geomorelines18("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"
+    public static final String CREATE_GEOMORELINES18="create table Geomorelines18("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"+"linetime text,"
             +"gla text,"+"gln text,"+"time text,"+"gdescription text)";
-    public static final String CREATE_GEOMORELINES19="create table Geomorelines19("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"
+    public static final String CREATE_GEOMORELINES19="create table Geomorelines19("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"+"linetime text,"
             +"gla text,"+"gln text,"+"time text,"+"gdescription text)";
-    public static final String CREATE_GEOMORELINES20="create table Geomorelines20("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"
+    public static final String CREATE_GEOMORELINES20="create table Geomorelines20("+"id integer primary key autoincrement,"+"name text,"+"gclassification text,"+"gcode text,"+"linetime text,"
             +"gla text,"+"gln text,"+"time text,"+"gdescription text)";
 
 

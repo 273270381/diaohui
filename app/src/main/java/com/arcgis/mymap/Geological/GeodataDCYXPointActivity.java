@@ -93,6 +93,8 @@ public class GeodataDCYXPointActivity extends Activity{
     public Alert_dialogActivity alert_dialogActivity;
     public NewDataActivity.PictureAdapter adapter;
     private List<String> listLa=new ArrayList<>();
+    private TextView tv1;
+    private EditText tv2,tv3,tv4,tv5,tv6,tv7,tv8,tv9;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,6 +130,9 @@ public class GeodataDCYXPointActivity extends Activity{
                 sendBroadcast(i);
             }
         });
+        leftAdapter.setSelectItem(-1);
+        rightAdapter.setSelectItem(-1);
+        comBoxAdapter.setSelectItem(-1);
     }
     //为控件添加监听
     private void listener() {
@@ -286,6 +291,7 @@ public class GeodataDCYXPointActivity extends Activity{
                 String cz=cursor.getString(cursor.getColumnIndex("cz"));
                 String jl=cursor.getString(cursor.getColumnIndex("jl"));
                 String miaoshu=cursor.getString(cursor.getColumnIndex("gdescription"));
+                String time = cursor.getString(cursor.getColumnIndex("time"));
 
                 dicengyanxingPoint.setId(id);
                 dicengyanxingPoint.setName(name);
@@ -300,6 +306,7 @@ public class GeodataDCYXPointActivity extends Activity{
                 dicengyanxingPoint.setCz(cz);
                 dicengyanxingPoint.setJl(jl);
                 dicengyanxingPoint.setDescription(miaoshu);
+                dicengyanxingPoint.setTime(time);
 
                 list.add(dicengyanxingPoint);
             } while (cursor.moveToNext());
@@ -333,12 +340,14 @@ public class GeodataDCYXPointActivity extends Activity{
                             for (int i=0;i<listLa.size();i++){
                                 db.delete("Geodcyxpoints"+pposition, "la=?", new String[]{listLa.get(i)});
                             }
+                            pointsList.clear();
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     leftAdapter.notifyDataSetChanged();
                                     rightAdapter.notifyDataSetChanged();
                                     comBoxAdapter.notifyDataSetChanged();
+                                    ToastNotRepeat.show(GeodataDCYXPointActivity.this,"删除成功");
                                 }
                             }, 400);
                             Intent a=new Intent();
@@ -377,7 +386,58 @@ public class GeodataDCYXPointActivity extends Activity{
                         AlertDialog dialog1 = new AlertDialog.Builder(GeodataDCYXPointActivity.this)
                                 .setTitle("详细：")
                                 .setView(linearLayout2)
-                                .setNegativeButton("取消", null)
+                                .setNegativeButton("保存", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        String str2 = tv2.getText().toString();
+                                        String str3 = tv3.getText().toString();
+                                        String str4 = tv4.getText().toString();
+                                        String str5 = tv5.getText().toString();
+                                        String str6 = tv6.getText().toString();
+                                        String str7 = tv7.getText().toString();
+                                        String str8 = tv8.getText().toString();
+                                        String str9 = tv9.getText().toString();
+
+                                        ContentValues values = new ContentValues();
+                                        values.put("name", str2);
+                                        values.put("dznd", str3);
+                                        values.put("ytmc", str4);
+                                        values.put("gclassification", str5);
+                                        values.put("fhcd", str6);
+                                        values.put("cz", str7);
+                                        values.put("jl", str8);
+                                        values.put("gdescription", str9);
+                                        db.update("Geodcyxpoints"+pposition, values, "id=?", new String[]{String.valueOf(id)});
+                                        pointsList.get(p).setName(str2);
+                                        pointsList.get(p).setDznd(str3);
+                                        pointsList.get(p).setYtmc(str4);
+                                        pointsList.get(p).setClassification(str5);
+                                        pointsList.get(p).setFhcd(str6);
+                                        pointsList.get(p).setCz(str7);
+                                        pointsList.get(p).setJl(str8);
+                                        pointsList.get(p).setDescription(str9);
+
+                                        name = str2;
+                                        dznd = str3;
+                                        ytmc = str4;
+                                        cylx = str5;
+                                        fhcd = str6;
+                                        cz = str7;
+                                        jl = str8;
+                                        des = str9;
+
+                                        if (imm!=null){
+                                            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                                        }
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                rightAdapter.notifyDataSetChanged();
+                                                ToastNotRepeat.show(GeodataDCYXPointActivity.this,"保存成功");
+                                            }
+                                        }, 400);
+                                    }
+                                })
                                 .setPositiveButton("查看", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -394,15 +454,15 @@ public class GeodataDCYXPointActivity extends Activity{
                                     }
                                 })
                                 .show();
-                        TextView tv1 = (TextView) dialog1.findViewById(R.id.xuhao);
-                        TextView tv2 = (TextView) dialog1.findViewById(R.id.dianming);
-                        TextView tv3 = (TextView) dialog1.findViewById(R.id.dznd);
-                        TextView tv4 = (TextView) dialog1.findViewById(R.id.ytmc);
-                        TextView tv5 = (TextView) dialog1.findViewById(R.id.cylx);
-                        TextView tv6 = (TextView) dialog1.findViewById(R.id.fhcd);
-                        TextView tv7 = (TextView) dialog1.findViewById(R.id.cz);
-                        TextView tv8 = (TextView) dialog1.findViewById(R.id.jl);
-                        TextView tv9 = (TextView) dialog1.findViewById(R.id.miaoshu);
+                        tv1 = (TextView) dialog1.findViewById(R.id.xuhao);
+                        tv2 = (EditText) dialog1.findViewById(R.id.dianming);
+                        tv3 = (EditText) dialog1.findViewById(R.id.dznd);
+                        tv4 = (EditText) dialog1.findViewById(R.id.ytmc);
+                        tv5 = (EditText) dialog1.findViewById(R.id.cylx);
+                        tv6 = (EditText) dialog1.findViewById(R.id.fhcd);
+                        tv7 = (EditText) dialog1.findViewById(R.id.cz);
+                        tv8 = (EditText) dialog1.findViewById(R.id.jl);
+                        tv9 = (EditText) dialog1.findViewById(R.id.miaoshu);
                         tv1.setText(String.valueOf(id));
                         tv2.setText(name);
                         tv3.setText(dznd);

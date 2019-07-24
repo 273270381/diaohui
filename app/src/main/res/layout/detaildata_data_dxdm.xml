@@ -103,11 +103,14 @@
             android:background="#A7C0DC"
             android:layout_width="1dp"
             android:layout_height="match_parent"/>
-        <TextView
+        <EditText
             android:id="@+id/dianming"
             android:layout_width="0dp"
             android:layout_weight="3"
             android:gravity="center"
+            android:textColor="@color/color3"
+            android:textSize="15sp"
+            android:background="@null"
             android:layout_height="match_parent" />
         <View
             android:background="#A7C0DC"
@@ -251,11 +254,14 @@
             android:background="#A7C0DC"
             android:layout_width="1dp"
             android:layout_height="match_parent"/>
-        <TextView
+        <EditText
             android:id="@+id/leibie"
             android:layout_width="0dp"
             android:layout_weight="3"
+            android:textColor="@color/color3"
+            android:textSize="15sp"
             android:gravity="center"
+            android:background="@null"
             android:layout_height="match_parent" />
         <View
             android:background="#A7C0DC"
@@ -288,11 +294,14 @@
             android:background="#A7C0DC"
             android:layout_width="1dp"
             android:layout_height="match_parent"/>
-        <TextView
+        <EditText
             android:id="@+id/zhibei"
             android:layout_width="0dp"
             android:layout_weight="3"
             android:gravity="center"
+            android:textColor="@color/color3"
+            android:textSize="15sp"
+            android:background="@null"
             android:layout_height="match_parent" />
         <View
             android:background="#A7C0DC"
@@ -325,10 +334,13 @@
             android:background="#A7C0DC"
             android:layout_width="1dp"
             android:layout_height="match_parent"/>
-        <TextView
+        <EditText
             android:id="@+id/miaoshu"
             android:layout_width="0dp"
             android:layout_weight="3"
+            android:textColor="@color/color3"
+            android:textSize="15sp"
+            android:background="@null"
             android:gravity="center"
             android:layout_height="match_parent" />
         <View

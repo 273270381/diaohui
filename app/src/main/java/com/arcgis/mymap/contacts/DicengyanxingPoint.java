@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class DicengyanxingPoint implements Serializable{
     private int id;
     private String name;
+    private String time;
     private String la;
     private String ln;
     private String high;
@@ -38,6 +39,14 @@ public class DicengyanxingPoint implements Serializable{
 
     public int getId() {
         return id;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getName() {

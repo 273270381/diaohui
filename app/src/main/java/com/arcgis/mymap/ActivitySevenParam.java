@@ -71,7 +71,7 @@ public class ActivitySevenParam extends AppCompatActivity implements View.OnClic
         editTextView5.getTextView().setText("Y轴旋转(秒)");
         editTextView6.getTextView().setText("Z轴旋转(秒)");
         editTextView7.getTextView().setText("尺度(ppm)");
-        editTextView8.getTextView().setText("中央子午");
+        editTextView8.getTextView().setText("中央子午线(度)");
 
         editTextView1.getEditView(0).setText(String.valueOf(projects.get(position).getC3xzpy()));
         editTextView2.getEditView(0).setText(String.valueOf(projects.get(position).getC3yzpy()));

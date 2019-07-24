@@ -103,7 +103,10 @@
             android:background="#A7C0DC"
             android:layout_width="1dp"
             android:layout_height="match_parent"/>
-        <TextView
+        <EditText
+            android:textColor="@color/color3"
+            android:textSize="15sp"
+            android:background="@null"
             android:id="@+id/dianming"
             android:layout_width="0dp"
             android:layout_weight="3"
@@ -142,7 +145,10 @@
             android:layout_width="1dp"
             android:layout_height="match_parent"/>
 
-        <TextView
+        <EditText
+            android:textColor="@color/color3"
+            android:textSize="15sp"
+            android:background="@null"
             android:id="@+id/sllx"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -181,7 +187,10 @@
             android:layout_width="1dp"
             android:layout_height="match_parent"/>
 
-        <TextView
+        <EditText
+            android:textColor="@color/color3"
+            android:textSize="15sp"
+            android:background="@null"
             android:id="@+id/smkd"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -220,7 +229,10 @@
             android:layout_width="1dp"
             android:layout_height="match_parent"/>
 
-        <TextView
+        <EditText
+            android:textColor="@color/color3"
+            android:textSize="15sp"
+            android:background="@null"
             android:id="@+id/ss"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -259,8 +271,11 @@
             android:layout_width="1dp"
             android:layout_height="match_parent"/>
 
-        <TextView
+        <EditText
             android:id="@+id/ls"
+            android:textColor="@color/color3"
+            android:textSize="15sp"
+            android:background="@null"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
@@ -298,8 +313,11 @@
             android:layout_width="1dp"
             android:layout_height="match_parent"/>
 
-        <TextView
+        <EditText
             android:id="@+id/ll"
+            android:textColor="@color/color3"
+            android:textSize="15sp"
+            android:background="@null"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
@@ -337,8 +355,11 @@
             android:layout_width="1dp"
             android:layout_height="match_parent"/>
 
-        <TextView
+        <EditText
             android:id="@+id/sz"
+            android:textColor="@color/color3"
+            android:textSize="15sp"
+            android:background="@null"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
@@ -374,8 +395,11 @@
             android:background="#A7C0DC"
             android:layout_width="1dp"
             android:layout_height="match_parent"/>
-        <TextView
+        <EditText
             android:id="@+id/miaoshu"
+            android:textColor="@color/color3"
+            android:textSize="15sp"
+            android:background="@null"
             android:layout_width="0dp"
             android:layout_weight="3"
             android:gravity="center"

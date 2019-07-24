@@ -88,6 +88,7 @@ public class GeoCoorTransActivity extends AppCompatActivity {
 
         etsrcX.getEditView(true).setHint("度.分分秒秒");
         etsrcY.getEditView(true).setHint("度.分分秒秒");
+        etsrcZ.getEditView(true).setHint("度.分分秒秒");
 
 
     }
@@ -213,6 +214,14 @@ public class GeoCoorTransActivity extends AppCompatActivity {
                     tvdstY.getEditView(false).setText("");
                     tvdstZ.getEditView(false).setText("");
 
+                    etsrcX.getEditView(true).setHint("度.分分秒秒");
+                    etsrcY.getEditView(true).setHint("度.分分秒秒");
+                    etsrcZ.getEditView(true).setHint("度.分分秒秒");
+
+                    tvdstX.getEditView(false).setHint("米");
+                    tvdstY.getEditView(false).setHint("米");
+                    tvdstZ.getEditView(false).setHint("米");
+
 
                     break;
                 case 1://从地方坐标到WGS84大地坐标
@@ -228,6 +237,14 @@ public class GeoCoorTransActivity extends AppCompatActivity {
                     tvdstX.getEditView(false).setText("");
                     tvdstY.getEditView(false).setText("");
                     tvdstZ.getEditView(false).setText("");
+
+                    tvdstX.getEditView(false).setHint("度.分分秒秒");
+                    tvdstY.getEditView(false).setHint("度.分分秒秒");
+                    tvdstZ.getEditView(false).setHint("度.分分秒秒");
+
+                    etsrcX.getEditView(true).setHint("米");
+                    etsrcY.getEditView(true).setHint("米");
+                    etsrcZ.getEditView(true).setHint("米");
                     break;
                 default:
                     break;

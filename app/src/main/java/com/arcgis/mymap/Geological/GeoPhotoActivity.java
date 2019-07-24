@@ -56,7 +56,8 @@ import java.util.TimeZone;
  */
 
 public class GeoPhotoActivity extends Activity{
-    private TextView tv_table_title_left,str,tv1,tv2;
+    private TextView tv_table_title_left,str,tv1,edit_2;
+    private EditText tv2,tv6;
     private LinearLayout right_title_container;
     private ListView leftlistView,rightlistView;
     private SyncHorizontalScrollView titleHorScv,contentHorScv;
@@ -100,6 +101,8 @@ public class GeoPhotoActivity extends Activity{
         alert_dialogActivity=new Alert_dialogActivity();
         titles=alert_dialogActivity.getStrings();
         pictrues=alert_dialogActivity.getInteger();
+        leftAdapter.setSelectItem(-1);
+        rightAdapter.setSelectItem(-1);
     }
     //添加监听
     private void listener() {
@@ -320,11 +323,35 @@ public class GeoPhotoActivity extends Activity{
                     break;
                 case R.id.bt1:
                     if (b){
-                        LinearLayout linearLayout2 = (LinearLayout) getLayoutInflater().inflate(R.layout.detaildata_data_dxdm, null);
+                        LinearLayout linearLayout2 = (LinearLayout) getLayoutInflater().inflate(R.layout.detaildata_data_photo, null);
                         AlertDialog dialog1 = new AlertDialog.Builder(GeoPhotoActivity.this)
                                 .setTitle("详细：")
                                 .setView(linearLayout2)
-                                .setNegativeButton("取消", null)
+                                .setNegativeButton("保存", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        String str2 = tv2.getText().toString();
+                                        String str6 = tv6.getText().toString();
+                                        ContentValues values = new ContentValues();
+                                        values.put("name", str2);
+                                        values.put("gdescription", str6);
+                                        db.update("Geophotopoints"+pposition, values, "id=?", new String[]{String.valueOf(id)});
+                                        pointsList.get(p).setName(str2);
+                                        pointsList.get(p).setDescription(str6);
+                                        name = str2;
+                                        des = str6;
+                                        if (imm!=null){
+                                            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                                        }
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                rightAdapter.notifyDataSetChanged();
+                                                ToastNotRepeat.show(GeoPhotoActivity.this,"保存成功");
+                                            }
+                                        }, 400);
+                                    }
+                                })
                                 .setPositiveButton("查看", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -343,19 +370,17 @@ public class GeoPhotoActivity extends Activity{
                                 })
                                 .show();
                         TextView tv1 = (TextView) dialog1.findViewById(R.id.xuhao);
-                        TextView tv2 = (TextView) dialog1.findViewById(R.id.dianming);
+                        tv2 = (EditText) dialog1.findViewById(R.id.dianming);
                         TextView tv3 = (TextView) dialog1.findViewById(R.id.jingdu);
                         TextView tv4 = (TextView) dialog1.findViewById(R.id.weidu);
                         TextView tv5 = (TextView) dialog1.findViewById(R.id.gaocheng);
-                        TextView tv6 = (TextView) dialog1.findViewById(R.id.leibie);
-                        TextView tv7 = (TextView) dialog1.findViewById(R.id.miaoshu);
+                        tv6 = (EditText) dialog1.findViewById(R.id.miaoshu);
                         tv1.setText(String.valueOf(id));
                         tv2.setText(name);
                         tv3.setText(la);
                         tv4.setText(ln);
                         tv5.setText(high);
-                        tv6.setText(classification);
-                        tv7.setText(des);
+                        tv6.setText(des);
                         Button btnpositive=dialog1.getButton(AlertDialog.BUTTON_POSITIVE);
                         Button btnnegative=dialog1.getButton(AlertDialog.BUTTON_NEGATIVE);
                         btnpositive.setTextColor(getResources().getColor(R.color.color29));
@@ -395,8 +420,8 @@ public class GeoPhotoActivity extends Activity{
                                 .show();
                         tv1 = (TextView) dialog.findViewById(R.id.tv1);
                         tv1.setText(name);
-                        tv2 = (TextView) dialog.findViewById(R.id.tv2);
-                        tv2.setText(classification);
+                        edit_2 = (TextView) dialog.findViewById(R.id.tv2);
+                        edit_2.setText(classification);
                         eText3= (EditText) dialog.findViewById(R.id.etext2);
                         eText3.setText(des);
                         Button btnpositive=dialog.getButton(AlertDialog.BUTTON_POSITIVE);

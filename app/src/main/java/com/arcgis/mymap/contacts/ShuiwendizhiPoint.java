@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class ShuiwendizhiPoint implements Serializable{
     private int id;
     private String name;
+    private String time;
     private String la;
     private String ln;
     private String high;
@@ -34,6 +35,14 @@ public class ShuiwendizhiPoint implements Serializable{
         this.sz = sz;
         this.des = des;
         this.code = code;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public int getId() {

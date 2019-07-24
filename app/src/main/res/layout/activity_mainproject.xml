@@ -45,12 +45,13 @@
                 android:layout_width="195dp"
                 android:layout_height="90dp" />
             <TextView
+                android:id="@+id/text"
                 android:textColor="@color/color22"
                 android:layout_marginBottom="25dp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:text="中国公路咨询集团(武汉)勘察分公司"
-                android:textSize="15sp"
+                android:text="中国公路工程咨询集团有限公司（武汉）勘察分公司"
+                android:textSize="12sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </RelativeLayout>

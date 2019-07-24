@@ -92,6 +92,7 @@ public class GeoDataLineActivity extends Activity{
     private List<String> listLa=new ArrayList<>();
     private List<String> gla = new ArrayList<>();
     private List<String> gln = new ArrayList<>();
+    private EditText tv2,tv7;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,6 +140,9 @@ public class GeoDataLineActivity extends Activity{
 
     private void intview() throws ParseException {
         findbyid();
+        leftlineAdapter.setSelectItem(-1);
+        rightLineAdapter.setSelectItem(-1);
+        comBoxLineAdapter.setSelectItem(-1);
     }
     //初始化控件
     private void findbyid() throws ParseException {
@@ -255,6 +259,7 @@ public class GeoDataLineActivity extends Activity{
                 String name = cursor.getString(cursor.getColumnIndex("name"));
                 String gla = cursor.getString(cursor.getColumnIndex("gla"));
                 String gln = cursor.getString(cursor.getColumnIndex("gln"));
+                String linetime = cursor.getString(cursor.getColumnIndex("linetime"));
                 String datetime=cursor.getString(cursor.getColumnIndex("time"));
                 String code=cursor.getString(cursor.getColumnIndex("gcode"));
                 //String formatType="yyyy-MM-dd HH:mm:ss";
@@ -265,6 +270,7 @@ public class GeoDataLineActivity extends Activity{
                 lines.setClassification(classification);
                 lines.setListla(Arrays.asList(gla.split(",")));
                 lines.setListln(Arrays.asList(gln.split(",")));
+                lines.setLinetime(Arrays.asList(linetime.split(",")));
                 lines.setDatatime(datetime);
                 lines.setName(name);
                 lines.setDescription(description);
@@ -305,15 +311,16 @@ public class GeoDataLineActivity extends Activity{
                             for (int i=0;i<listLa.size();i++){
                                 db.delete("Geomorelines"+pposition, "gla=?", new String[]{listLa.get(i)});
                             }
+                            linesList.clear();
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     leftlineAdapter.notifyDataSetChanged();
                                     rightLineAdapter.notifyDataSetChanged();
                                     comBoxLineAdapter.notifyDataSetChanged();
-                                    ToastNotRepeat.show(GeoDataLineActivity.this,"删除成功");
                                 }
                             },400);
+                            ToastNotRepeat.show(GeoDataLineActivity.this,"删除成功");
                             Intent a=new Intent();
                             a.setAction("com.delatedatas.broadcast");
                             sendBroadcast(a);
@@ -478,7 +485,31 @@ public class GeoDataLineActivity extends Activity{
                         AlertDialog dialog1 = new AlertDialog.Builder(GeoDataLineActivity.this)
                                 .setTitle("详细：")
                                 .setView(linearLayout2)
-                                .setNegativeButton("取消", null)
+                                .setNegativeButton("保存", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        String str2 = tv2.getText().toString();
+                                        String str7 = tv7.getText().toString();
+                                        ContentValues values = new ContentValues();
+                                        values.put("gclassification", str2);
+                                        values.put("gdescription", str7);
+                                        db.update("Geomorelines"+pposition, values, "id=?", new String[]{String.valueOf(id)});
+                                        linesList.get(p).setClassification(str2);
+                                        linesList.get(p).setDescription(str7);
+                                        classification=str2;
+                                        des=str7;
+                                        if (imm!=null){
+                                            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                                        }
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                rightLineAdapter.notifyDataSetChanged();
+                                                ToastNotRepeat.show(GeoDataLineActivity.this,"保存成功");
+                                            }
+                                        }, 400);
+                                    }
+                                })
                                 .setPositiveButton("查看", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -497,10 +528,10 @@ public class GeoDataLineActivity extends Activity{
                                 })
                                 .show();
                         TextView tv1= (TextView) dialog1.findViewById(R.id.xuhao);
-                        TextView tv2= (TextView) dialog1.findViewById(R.id.leibie);
+                        tv2= (EditText) dialog1.findViewById(R.id.leibie);
                         TextView tv3= (TextView) dialog1.findViewById(R.id.xjingdu);
                         TextView tv4= (TextView) dialog1.findViewById(R.id.xweidu);
-                        TextView tv7= (TextView) dialog1.findViewById(R.id.miaoshu);
+                        tv7= (EditText) dialog1.findViewById(R.id.miaoshu);
                         tv1.setText(String.valueOf(id));
                         tv2.setText(classification);
                         tv3.setText(StringUtils.join(gla,","));

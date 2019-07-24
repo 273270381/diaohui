@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.arcgis.mymap.MainActivity;
 import com.arcgis.mymap.NewDataActivity;
@@ -170,6 +171,7 @@ public class ShowPointUtils {
                             List<String> xla = (List<String>) msg.getData().get("xla");
                             List<String> xln = (List<String>) msg.getData().get("xln");
                             List<String> linetime = (List<String>) msg.getData().get("linetime");
+                            Log.i("TAG","linetime="+linetime);
                             String clas=msg.getData().getString("clas");
                             String time2 = msg.getData().getString("time");
                             BitmapDrawable bitmapDrawable = (BitmapDrawable) context.getResources().getDrawable(R.mipmap.point1);

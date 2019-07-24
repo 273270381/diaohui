@@ -90,6 +90,8 @@ public class GeodataDXDMPointActivity extends Activity{
     public Alert_dialogActivity alert_dialogActivity;
     public NewDataActivity.PictureAdapter adapter;
     private List<String> listLa=new ArrayList<>();
+    private TextView tv1,tv3,tv4,tv5;
+    private EditText tv2,tv6,tv7,tv8;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +127,9 @@ public class GeodataDXDMPointActivity extends Activity{
                 sendBroadcast(i);
             }
         });
+        leftAdapter.setSelectItem(-1);
+        rightAdapter.setSelectItem(-1);
+        comBoxAdapter.setSelectItem(-1);
     }
     //为控件添加监听
     private void listener() {
@@ -274,6 +279,7 @@ public class GeodataDXDMPointActivity extends Activity{
                         String zhibei = cursor.getString(cursor.getColumnIndex("zhibeifayu"));
                         String code=cursor.getString(cursor.getColumnIndex("gcode"));
                         String description = cursor.getString(cursor.getColumnIndex("gdescription"));
+                        String time = cursor.getString(cursor.getColumnIndex("time"));
                         dixingdimaoPoint.setId(id);
                         dixingdimaoPoint.setName(name);
                         dixingdimaoPoint.setLa(la);
@@ -283,6 +289,7 @@ public class GeodataDXDMPointActivity extends Activity{
                         dixingdimaoPoint.setZhibeifayu(zhibei);
                         dixingdimaoPoint.setCode(code);
                         dixingdimaoPoint.setDescription(description);
+                        dixingdimaoPoint.setTime(time);
                         list.add(dixingdimaoPoint);
                     } while (cursor.moveToNext());
                 }
@@ -336,6 +343,7 @@ public class GeodataDXDMPointActivity extends Activity{
                                     leftAdapter.notifyDataSetChanged();
                                     rightAdapter.notifyDataSetChanged();
                                     comBoxAdapter.notifyDataSetChanged();
+                                    ToastNotRepeat.show(GeodataDXDMPointActivity.this,"删除成功");
                                 }
                             }, 400);
                             Intent a=new Intent();
@@ -374,7 +382,39 @@ public class GeodataDXDMPointActivity extends Activity{
                         AlertDialog dialog1 = new AlertDialog.Builder(GeodataDXDMPointActivity.this)
                                 .setTitle("详细：")
                                 .setView(linearLayout2)
-                                .setNegativeButton("取消", null)
+                                .setNegativeButton("保存", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        String str1 = tv2.getText().toString();
+                                        String str6 = tv6.getText().toString();
+                                        String str7 = tv7.getText().toString();
+                                        String str8 = tv8.getText().toString();
+                                        ContentValues values = new ContentValues();
+                                        values.put("name", str1);
+                                        values.put("gclassification", str6);
+                                        values.put("zhibeifayu", str7);
+                                        values.put("gdescription", str8);
+                                        db.update("Geodxdmpoints"+pposition, values, "id=?", new String[]{String.valueOf(id)});
+                                        pointsList.get(p).setName(str1);
+                                        pointsList.get(p).setClassification(str6);
+                                        pointsList.get(p).setZhibeifayu(str7);
+                                        pointsList.get(p).setDescription(str8);
+                                        name = str1;
+                                        classification = str6;
+                                        zhibei = str7;
+                                        des = str8;
+                                        if (imm!=null){
+                                            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                                        }
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                rightAdapter.notifyDataSetChanged();
+                                                ToastNotRepeat.show(GeodataDXDMPointActivity.this,"保存成功");
+                                            }
+                                        }, 400);
+                                    }
+                                })
                                 .setPositiveButton("查看", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -393,14 +433,14 @@ public class GeodataDXDMPointActivity extends Activity{
                                     }
                                 })
                                 .show();
-                        TextView tv1 = (TextView) dialog1.findViewById(R.id.xuhao);
-                        TextView tv2 = (TextView) dialog1.findViewById(R.id.dianming);
-                        TextView tv3 = (TextView) dialog1.findViewById(R.id.jingdu);
-                        TextView tv4 = (TextView) dialog1.findViewById(R.id.weidu);
-                        TextView tv5 = (TextView) dialog1.findViewById(R.id.gaocheng);
-                        TextView tv6 = (TextView) dialog1.findViewById(R.id.leibie);
-                        TextView tv7 = (TextView) dialog1.findViewById(R.id.zhibei);
-                        TextView tv8 = (TextView) dialog1.findViewById(R.id.miaoshu);
+                        tv1 = (TextView) dialog1.findViewById(R.id.xuhao);
+                        tv2 = (EditText) dialog1.findViewById(R.id.dianming);
+                        tv3 = (TextView) dialog1.findViewById(R.id.jingdu);
+                        tv4 = (TextView) dialog1.findViewById(R.id.weidu);
+                        tv5 = (TextView) dialog1.findViewById(R.id.gaocheng);
+                        tv6 = (EditText) dialog1.findViewById(R.id.leibie);
+                        tv7 = (EditText) dialog1.findViewById(R.id.zhibei);
+                        tv8 = (EditText) dialog1.findViewById(R.id.miaoshu);
                         tv1.setText(String.valueOf(id));
                         tv2.setText(name);
                         tv3.setText(la);

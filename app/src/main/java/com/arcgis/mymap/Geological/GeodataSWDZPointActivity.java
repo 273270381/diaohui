@@ -96,6 +96,8 @@ public class GeodataSWDZPointActivity extends Activity{
     public Alert_dialogActivity alert_dialogActivity;
     public NewDataActivity.PictureAdapter adapter;
     private List<String> listLa=new ArrayList<>();
+    private TextView tv1;
+    private EditText tv2,tv3,tv4,tv5,tv6,tv7,tv8,tv9;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +133,9 @@ public class GeodataSWDZPointActivity extends Activity{
                 sendBroadcast(i);
             }
         });
+        leftAdapter.setSelectItem(-1);
+        rightAdapter.setSelectItem(-1);
+        comBoxAdapter.setSelectItem(-1);
     }
     //为控件添加监听
     private void listener() {
@@ -289,6 +294,7 @@ public class GeodataSWDZPointActivity extends Activity{
                 String sz=cursor.getString(cursor.getColumnIndex("sz"));
                 String code=cursor.getString(cursor.getColumnIndex("code"));
                 String miaoshu=cursor.getString(cursor.getColumnIndex("gdescription"));
+                String time = cursor.getString(cursor.getColumnIndex("time"));
 
                 shuiwendizhiPoint.setId(id);
                 shuiwendizhiPoint.setName(name);
@@ -303,6 +309,7 @@ public class GeodataSWDZPointActivity extends Activity{
                 shuiwendizhiPoint.setSz(sz);
                 shuiwendizhiPoint.setCode(code);
                 shuiwendizhiPoint.setDes(miaoshu);
+                shuiwendizhiPoint.setTime(time);
 
                 list.add(shuiwendizhiPoint);
             } while (cursor.moveToNext());
@@ -336,12 +343,14 @@ public class GeodataSWDZPointActivity extends Activity{
                             for (int i=0;i<listLa.size();i++){
                                 db.delete("Geoswdzpoints"+pposition, "la=?", new String[]{listLa.get(i)});
                             }
+                            pointsList.clear();
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     leftAdapter.notifyDataSetChanged();
                                     rightAdapter.notifyDataSetChanged();
                                     comBoxAdapter.notifyDataSetChanged();
+                                    ToastNotRepeat.show(GeodataSWDZPointActivity.this,"删除成功");
                                 }
                             }, 400);
                             Intent a=new Intent();
@@ -380,7 +389,58 @@ public class GeodataSWDZPointActivity extends Activity{
                         AlertDialog dialog1 = new AlertDialog.Builder(GeodataSWDZPointActivity.this)
                                 .setTitle("详细：")
                                 .setView(linearLayout2)
-                                .setNegativeButton("取消", null)
+                                .setNegativeButton("保存", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        String str2 = tv2.getText().toString();
+                                        String str3 = tv3.getText().toString();
+                                        String str4 = tv4.getText().toString();
+                                        String str5 = tv5.getText().toString();
+                                        String str6 = tv6.getText().toString();
+                                        String str7 = tv7.getText().toString();
+                                        String str8 = tv8.getText().toString();
+                                        String str9 = tv9.getText().toString();
+
+                                        ContentValues values = new ContentValues();
+                                        values.put("name", str2);
+                                        values.put("sllx", str3);
+                                        values.put("smkd", str4);
+                                        values.put("ss", str5);
+                                        values.put("ls", str6);
+                                        values.put("ll", str7);
+                                        values.put("sz", str8);
+                                        values.put("gdescription", str9);
+                                        db.update("Geoswdzpoints"+pposition, values, "id=?", new String[]{String.valueOf(id)});
+
+                                        pointsList.get(p).setName(str2);
+                                        pointsList.get(p).setSllx(str3);
+                                        pointsList.get(p).setSmkd(str4);
+                                        pointsList.get(p).setSs(str5);
+                                        pointsList.get(p).setLs(str6);
+                                        pointsList.get(p).setLl(str7);
+                                        pointsList.get(p).setSz(str8);
+                                        pointsList.get(p).setDes(str9);
+
+                                        name = str2;
+                                        sllx = str3;
+                                        smkd = str4;
+                                        ss = str5;
+                                        ls = str6;
+                                        ll= str7;
+                                        sz = str8;
+                                        des = str9;
+                                        if (imm!=null){
+                                            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                                        }
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                rightAdapter.notifyDataSetChanged();
+                                                ToastNotRepeat.show(GeodataSWDZPointActivity.this,"保存成功");
+                                            }
+                                        }, 400);
+                                    }
+                                })
                                 .setPositiveButton("查看", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -397,15 +457,15 @@ public class GeodataSWDZPointActivity extends Activity{
                                     }
                                 })
                                 .show();
-                        TextView tv1 = (TextView) dialog1.findViewById(R.id.xuhao);
-                        TextView tv2 = (TextView) dialog1.findViewById(R.id.dianming);
-                        TextView tv3 = (TextView) dialog1.findViewById(R.id.sllx);
-                        TextView tv4 = (TextView) dialog1.findViewById(R.id.smkd);
-                        TextView tv5 = (TextView) dialog1.findViewById(R.id.ss);
-                        TextView tv6 = (TextView) dialog1.findViewById(R.id.ls);
-                        TextView tv7 = (TextView) dialog1.findViewById(R.id.ll);
-                        TextView tv8 = (TextView) dialog1.findViewById(R.id.sz);
-                        TextView tv9 = (TextView) dialog1.findViewById(R.id.miaoshu);
+                         tv1 = (TextView) dialog1.findViewById(R.id.xuhao);
+                         tv2 = (EditText) dialog1.findViewById(R.id.dianming);
+                         tv3 = (EditText) dialog1.findViewById(R.id.sllx);
+                         tv4 = (EditText) dialog1.findViewById(R.id.smkd);
+                         tv5 = (EditText) dialog1.findViewById(R.id.ss);
+                         tv6 = (EditText) dialog1.findViewById(R.id.ls);
+                         tv7 = (EditText) dialog1.findViewById(R.id.ll);
+                         tv8 = (EditText) dialog1.findViewById(R.id.sz);
+                         tv9 = (EditText) dialog1.findViewById(R.id.miaoshu);
                         tv1.setText(String.valueOf(id));
                         tv2.setText(name);
                         tv3.setText(sllx);

@@ -272,7 +272,7 @@ public class GeoDataPointActivity extends Activity {
                         String ln = cursor.getString(cursor.getColumnIndex("ln"));
                         String high = cursor.getString(cursor.getColumnIndex("high"));
                         String classification=cursor.getString(cursor.getColumnIndex("gclassification"));
-                        //String datetime=cursor.getString(cursor.getColumnIndex("time"));
+                        String datetime=cursor.getString(cursor.getColumnIndex("time"));
                         String code=cursor.getString(cursor.getColumnIndex("gcode"));
                         String description = cursor.getString(cursor.getColumnIndex("gdescription"));
                         litepalPoints.setId(id);
@@ -281,7 +281,7 @@ public class GeoDataPointActivity extends Activity {
                         litepalPoints.setLn(ln);
                         litepalPoints.setHigh(high);
                         litepalPoints.setClassification(classification);
-                        //litepalPoints.setDatetime(datetime);
+                        litepalPoints.setDatetime(datetime);
                         litepalPoints.setDescription(description);
                         litepalPoints.setCode(code);
                         list.add(litepalPoints);
